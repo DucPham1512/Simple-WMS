@@ -92,5 +92,6 @@ namespace InternProj.PageModels
                 GhiChuInput = value.Ghi_Chu;
             }
         }
+
     }
 }

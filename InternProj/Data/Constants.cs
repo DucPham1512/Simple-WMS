@@ -6,5 +6,8 @@
 
         public static string DatabasePath =>
             $"Data Source={Path.Combine(FileSystem.AppDataDirectory, DatabaseFilename)}";
+
+        public static string ConnectionString =>
+        $"Data Source={DatabasePath}";
     }
 }
