@@ -4,9 +4,9 @@ using System.Text;
 
 namespace InternProj.Models
 {
-    internal class LoaiSanPham
+    public class LoaiSanPham
     {
-        public string Ma_LSP { get; set; } = string.Empty;
+        public int Ma_LSP { get; set; }
 
         public string Ten_LSP { get; set; } = string.Empty;
 
