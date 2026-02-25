@@ -24,6 +24,9 @@ namespace InternProj
             builder.Services.AddSingleton<DonViTinhRepository>();
             builder.Services.AddTransient<DonViTinhPageModel>();
             builder.Services.AddTransient<DonViTinhPage>();
+            builder.Services.AddSingleton<LoaiSanPhamRepository>();
+            builder.Services.AddTransient<LoaiSanPhamPageModel>();
+            builder.Services.AddTransient<LoaiSanPhamPage>();
 #endif
 
             return builder.Build();

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="InternProj.Pages.LoaiSanPhamPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:models="clr-namespace:InternProj.Models"
+    Title="Loại sản phẩm">
+
+    <VerticalStackLayout Spacing="12" Padding="16">
+
+        <!-- Inputs -->
+        <Label Text="Tên loại sản phẩm" />
+        <Entry Text="{Binding TenLSPInput}" Placeholder="VD: Gà, Trứng,..." />
+
+        <Label Text="Ghi chú" />
+        <Entry Text="{Binding GhiChuInput}" Placeholder="Ghi chú (nếu có)" />
+
+        <!-- Buttons -->
+        <HorizontalStackLayout Spacing="12">
+            <Button Text="Load"
+                    Command="{Binding LoadDataCommand}" />
+
+            <Button Text="Save"
+                    Command="{Binding SaveCommand}" />
+        </HorizontalStackLayout>
+
+        <!-- List -->
+        <Label Text="Danh sách loại sản phẩm" FontAttributes="Bold" />
+
+        <CollectionView ItemsSource="{Binding DanhSachLSP}"
+                        SelectionMode="Single"
+                        SelectedItem="{Binding SelectedItem, Mode=TwoWay}">
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="models:LoaiSanPham">
+                    <Grid ColumnDefinitions="*,Auto" Padding="8">
+						<VerticalStackLayout Spacing="2">
+							<HorizontalStackLayout Spacing="8">
+								<Label Text="{Binding Ma_LSP}" FontAttributes="Bold" />
+								<Label Text="{Binding Ten_LSP}" FontAttributes="Bold" />
+							</HorizontalStackLayout>
+
+							<Label Text="{Binding Ghi_Chu}" FontSize="12" Opacity="0.7" />
+						</VerticalStackLayout>
+
+                        <Button Grid.Column="1"
+                                Text="Xóa"
+                                Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.DeleteCommand}"
+                                CommandParameter="{Binding .}" />
+                    </Grid>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+    </VerticalStackLayout>
+</ContentPage>

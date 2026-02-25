@@ -69,12 +69,7 @@ namespace InternProj.Data
             await using var reader = await selectCmd.ExecuteReaderAsync();
             while (await reader.ReadAsync())
             {
-                loaiSanPham.Add(new LoaiSanPham
-                {
-                    Ma_LSP = reader.GetInt32(0),
-                    Ten_LSP = reader.GetString(1),
-                    Ghi_Chu = reader.GetString(2)
-                });
+                loaiSanPham.Add(new LoaiSanPham(reader.GetInt32(0),reader.GetString(1), reader.GetString(2)));
             }
 
             return loaiSanPham;
@@ -83,7 +78,7 @@ namespace InternProj.Data
         /// <summary>
         /// Retrieves a specific DonViTinh by its name.
         /// </summary>
-        /// <param name="Loai_San_Pham">The ID of the DonViTinh.</param>
+        /// <param name="Ma_LSP">The ID of the DonViTinh.</param>
         /// <returns>A <see cref="LoaiSanPham"/> object if found; otherwise, null.</returns>
         public async Task<LoaiSanPham?> GetAsync(int Ma_LSP)
         {
@@ -98,12 +93,7 @@ namespace InternProj.Data
             await using var reader = await selectCmd.ExecuteReaderAsync();
             if (await reader.ReadAsync())
             {
-                return new LoaiSanPham
-                {
-                    Ma_LSP = reader.GetInt32(0),
-                    Ten_LSP = reader.GetString(1),
-                    Ghi_Chu = reader.GetString(2)
-                };
+                return new LoaiSanPham(reader.GetInt32(0),reader.GetString(1), reader.GetString(2));
             }
 
             return null;

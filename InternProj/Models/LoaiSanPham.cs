@@ -13,5 +13,18 @@ namespace InternProj.Models
         public string Ghi_Chu { get; set; } = string.Empty;
 
         public override string ToString() => $"{Ma_LSP}";
+
+        public LoaiSanPham(string tenLSP, string ghiChu)
+        {
+            Ten_LSP = tenLSP;
+            Ghi_Chu = ghiChu;
+        }
+
+        public LoaiSanPham(int maLSP, string tenLSP, string ghiChu)
+        {
+            Ma_LSP = maLSP;
+            Ten_LSP = tenLSP;
+            Ghi_Chu= ghiChu;
+        }
     }
 }

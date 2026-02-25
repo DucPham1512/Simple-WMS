@@ -11,24 +11,24 @@ using InternProj.Data;
 
 namespace InternProj.PageModels
 {
-    public partial class DonViTinhPageModel : ObservableObject
+    public partial class LoaiSanPhamPageModel : ObservableObject
     {
-        private readonly DonViTinhRepository _repository;
+        private readonly LoaiSanPhamRepository _repository;
 
         [ObservableProperty]
-        private ObservableCollection<DonViTinh> _danhSachDonVi = [];
+        private ObservableCollection<LoaiSanPham> _danhSachLSP = [];
 
         [ObservableProperty]
-        private DonViTinh? _selectedItem;
+        private LoaiSanPham? _selectedItem;
 
         // Các trường để binding vào Entry nhập liệu
         [ObservableProperty]
-        private string _tenDonViInput;
+        private string _tenLSPInput;
 
         [ObservableProperty]
         private string _ghiChuInput;
 
-        public DonViTinhPageModel(DonViTinhRepository repository)
+        public LoaiSanPhamPageModel(LoaiSanPhamRepository repository)
         {
             _repository = repository;
         }
@@ -37,7 +37,7 @@ namespace InternProj.PageModels
         private async Task LoadData()
         {
             var data = await _repository.ListAsync();
-            DanhSachDonVi = new ObservableCollection<DonViTinh>(data);
+            DanhSachLSP = new ObservableCollection<LoaiSanPham>(data);
         }
 
         [RelayCommand]
@@ -45,23 +45,18 @@ namespace InternProj.PageModels
         {
             try
             {
-                var donVi = new DonViTinh
-                {
-                    Ten_Don_Vi_Tinh = TenDonViInput,
-                    Ghi_Chu = GhiChuInput
-                };
-
-                // Xác định xem đang Thêm hay Sửa
                 bool isEdit = SelectedItem != null;
-                string oldKey = isEdit ? SelectedItem.Ten_Don_Vi_Tinh : string.Empty;
 
-                // Gọi hàm Save mới
-                await _repository.SaveItemAsync(donVi, isEdit, oldKey);
+                var item = new LoaiSanPham(TenLSPInput, GhiChuInput);
+
+                if (isEdit)
+                    item.Ma_LSP = SelectedItem!.Ma_LSP;
+
+                await _repository.SaveItemAsync(item, isEdit);
 
                 await LoadData();
 
-                // Reset form
-                TenDonViInput = string.Empty;
+                TenLSPInput = string.Empty;
                 GhiChuInput = string.Empty;
                 SelectedItem = null;
 
@@ -74,21 +69,21 @@ namespace InternProj.PageModels
         }
 
         [RelayCommand]
-        private async Task Delete(DonViTinh item)
+        private async Task Delete(LoaiSanPham item)
         {
-            bool answer = await Shell.Current.DisplayAlertAsync("Xác nhận", $"Bạn muốn xóa '{item.Ten_Don_Vi_Tinh}'?", "Có", "Không");
+            bool answer = await Shell.Current.DisplayAlertAsync("Xác nhận", $"Bạn muốn xóa '{item.Ma_LSP}'?", "Có", "Không");
             if (!answer) return;
 
             // Truyền string Key vào hàm xóa
             await _repository.DeleteItemAsync(item);
-            DanhSachDonVi.Remove(item);
+            DanhSachLSP.Remove(item);
         }
         // Hàm helper để điền dữ liệu vào ô input khi chọn một dòng để sửa
-        partial void OnSelectedItemChanged(DonViTinh value)
+        partial void OnSelectedItemChanged(LoaiSanPham value)
         {
             if (value != null)
             {
-                TenDonViInput = value.Ten_Don_Vi_Tinh;
+                TenLSPInput = value.Ten_LSP;
                 GhiChuInput = value.Ghi_Chu;
             }
         }
