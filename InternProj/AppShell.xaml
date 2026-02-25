@@ -16,11 +16,13 @@
         ContentTemplate="{DataTemplate pages:MainPage}"
         Route="mainpage" />
 
+    <ShellContent
         Title="Đơn vị tính"
 
         ContentTemplate="{DataTemplate pages:DonViTinhPage}"
         Route="donvitinh" />
-        
+    
+    <ShellContent    
         Title="Loại Sản Phẩm"
 
         ContentTemplate="{DataTemplate pages:LoaiSanPhamPage}"
