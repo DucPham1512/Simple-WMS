@@ -34,4 +34,9 @@
         ContentTemplate="{DataTemplate pages:SanPhamPage}"
         Route="sanpham" />
 
+    <ShellContent    
+        Title="Nhà cung cấp"
+
+        ContentTemplate="{DataTemplate pages:NhaCungCapPage}"
+        Route="nhacungcap" />
 </Shell>
