@@ -50,13 +50,13 @@ namespace InternProj.PageModels
                     Ten_Don_Vi_Tinh = TenDonViInput,
                     Ghi_Chu = GhiChuInput
                 };
-
                 // Xác định xem đang Thêm hay Sửa
                 bool isEdit = SelectedItem != null;
-                string oldKey = isEdit ? SelectedItem.Ten_Don_Vi_Tinh : string.Empty;
+
+                if (isEdit) donVi.Id = SelectedItem!.Id;
 
                 // Gọi hàm Save mới
-                await _repository.SaveItemAsync(donVi, isEdit, oldKey);
+                await _repository.SaveItemAsync(donVi, isEdit);
 
                 await LoadData();
 
