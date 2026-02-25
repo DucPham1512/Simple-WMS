@@ -11,6 +11,16 @@
 
 
     <ShellContent
+        Title="Màn hình chính"
+
+        ContentTemplate="{DataTemplate pages:MainPage}"
+        Route="mainpage" />
+
+        Title="Đơn vị tính"
+
+        ContentTemplate="{DataTemplate pages:DonViTinhPage}"
+        Route="donvitinh" />
+        
         Title="Loại Sản Phẩm"
 
         ContentTemplate="{DataTemplate pages:LoaiSanPhamPage}"
