@@ -9,6 +9,9 @@
     <VerticalStackLayout Spacing="12" Padding="16">
 
         <!-- Inputs -->
+        <Label Text="Mã loại sản phẩm" />
+        <Entry Text="{Binding MaLSPInput}"/>
+
         <Label Text="Tên loại sản phẩm" />
         <Entry Text="{Binding TenLSPInput}" Placeholder="VD: Gà, Trứng,..." />
 
@@ -33,14 +36,15 @@
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="models:LoaiSanPham">
                     <Grid ColumnDefinitions="*,Auto" Padding="8">
-						<VerticalStackLayout Spacing="2">
-							<HorizontalStackLayout Spacing="8">
-								<Label Text="{Binding Ma_LSP}" FontAttributes="Bold" />
-								<Label Text="{Binding Ten_LSP}" FontAttributes="Bold" />
-							</HorizontalStackLayout>
+                        <VerticalStackLayout Spacing="2">
+                            <HorizontalStackLayout Spacing="8">
+                                <Label Text="{Binding Id}" FontAttributes="Bold"/>
+                                <Label Text="{Binding Ma_LSP}" FontAttributes="Bold" />
+                                <Label Text="{Binding Ten_LSP}" FontAttributes="Bold" />
+                            </HorizontalStackLayout>
 
-							<Label Text="{Binding Ghi_Chu}" FontSize="12" Opacity="0.7" />
-						</VerticalStackLayout>
+                            <Label Text="{Binding Ghi_Chu}" FontSize="12" Opacity="0.7" />
+                        </VerticalStackLayout>
 
                         <Button Grid.Column="1"
                                 Text="Xóa"

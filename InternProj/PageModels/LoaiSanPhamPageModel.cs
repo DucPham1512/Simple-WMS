@@ -22,6 +22,10 @@ namespace InternProj.PageModels
         private LoaiSanPham? _selectedItem;
 
         // Các trường để binding vào Entry nhập liệu
+
+        [ObservableProperty]
+        private string _maLSPInput;
+
         [ObservableProperty]
         private string _tenLSPInput;
 
@@ -47,15 +51,21 @@ namespace InternProj.PageModels
             {
                 bool isEdit = SelectedItem != null;
 
-                var item = new LoaiSanPham(TenLSPInput, GhiChuInput);
+                var item = new LoaiSanPham
+                {
+                    Ma_LSP = MaLSPInput,
+                    Ten_LSP = TenLSPInput,
+                    Ghi_Chu = GhiChuInput
+                };
 
                 if (isEdit)
-                    item.Ma_LSP = SelectedItem!.Ma_LSP;
+                    item.Id = SelectedItem!.Id;
 
                 await _repository.SaveItemAsync(item, isEdit);
 
                 await LoadData();
 
+                MaLSPInput = string.Empty;
                 TenLSPInput = string.Empty;
                 GhiChuInput = string.Empty;
                 SelectedItem = null;
@@ -83,6 +93,7 @@ namespace InternProj.PageModels
         {
             if (value != null)
             {
+                MaLSPInput = value.Ma_LSP;
                 TenLSPInput = value.Ten_LSP;
                 GhiChuInput = value.Ghi_Chu;
             }
