@@ -37,7 +37,8 @@ namespace InternProj.Data
                 var createTableCmd = connection.CreateCommand();
                 createTableCmd.CommandText = @"
             CREATE TABLE IF NOT EXISTS tbl_DM_Loai_San_Pham  (
-                Ma_LSP INTEGER PRIMARY KEY AUTOINCREMENT,
+                ID INTEGER PRIMARY KEY AUTOINCREMENT,
+                Ma_LSP STRING NOT NULL UNIQUE,
                 Ten_LSP TEXT NOT NULL UNIQUE,
                 Ghi_Chu TEXT
             );";
@@ -69,7 +70,14 @@ namespace InternProj.Data
             await using var reader = await selectCmd.ExecuteReaderAsync();
             while (await reader.ReadAsync())
             {
-                loaiSanPham.Add(new LoaiSanPham(reader.GetInt32(0),reader.GetString(1), reader.GetString(2)));
+                loaiSanPham.Add(new LoaiSanPham
+                {
+                    Id = reader.GetInt32(0),
+                    Ma_LSP = reader.GetString(1),
+                    Ten_LSP = reader.GetString(2),
+                    Ghi_Chu = reader.GetString(3)
+                }
+                    );
             }
 
             return loaiSanPham;
@@ -80,20 +88,26 @@ namespace InternProj.Data
         /// </summary>
         /// <param name="Ma_LSP">The ID of the DonViTinh.</param>
         /// <returns>A <see cref="LoaiSanPham"/> object if found; otherwise, null.</returns>
-        public async Task<LoaiSanPham?> GetAsync(int Ma_LSP)
+        public async Task<LoaiSanPham?> GetAsync(int Id)
         {
             await Init();
             await using var connection = new SqliteConnection(Constants.DatabasePath);
             await connection.OpenAsync();
 
             var selectCmd = connection.CreateCommand();
-            selectCmd.CommandText = "SELECT * FROM tbl_DM_Loai_San_Pham WHERE Ma_LSP = @Ma";
-            selectCmd.Parameters.AddWithValue("@Ma", Ma_LSP);
+            selectCmd.CommandText = "SELECT * FROM tbl_DM_Loai_San_Pham WHERE ID = @Id";
+            selectCmd.Parameters.AddWithValue("@Id", Id);
 
             await using var reader = await selectCmd.ExecuteReaderAsync();
             if (await reader.ReadAsync())
             {
-                return new LoaiSanPham(reader.GetInt32(0),reader.GetString(1), reader.GetString(2));
+                return new LoaiSanPham
+                {
+                    Id = reader.GetInt32(0),
+                    Ma_LSP = reader.GetString(1),
+                    Ten_LSP = reader.GetString(2),
+                    Ghi_Chu = reader.GetString(3)
+                };
             }
 
             return null;
@@ -108,8 +122,9 @@ namespace InternProj.Data
         {
             await Init();
 
-            if (string.IsNullOrWhiteSpace(item.Ten_LSP))
-                throw new Exception("Tên loại sản phầm không được để trống!");
+
+            if (string.IsNullOrWhiteSpace(item.Ten_LSP) || string.IsNullOrWhiteSpace(item.Ma_LSP))
+                throw new Exception("Tên và mã loại sản phầm không được để trống!");
 
             await using var connection = new SqliteConnection(Constants.DatabasePath);
             await connection.OpenAsync();
@@ -119,17 +134,18 @@ namespace InternProj.Data
             if (!isEdit)
             {
                 saveCmd.CommandText = @"
-                    INSERT INTO tbl_DM_Loai_San_Pham (Ten_LSP, Ghi_Chu)
-                    VALUES (@Ten, @GhiChu)";
+                    INSERT INTO tbl_DM_Loai_San_Pham (Ma_LSP, Ten_LSP, Ghi_Chu)
+                    VALUES (@Ma, @Ten, @GhiChu)";
             }
             else
             {
                 saveCmd.CommandText = @"
                     UPDATE tbl_DM_Loai_San_Pham 
-                    SET Ten_LSP = @Ten, Ghi_Chu = @GhiChu
-                    WHERE Ma_LSP = @Ma";
-                saveCmd.Parameters.AddWithValue("@Ma", item.Ma_LSP);
+                    SET Ma_LSP = @Ma, Ten_LSP = @Ten, Ghi_Chu = @GhiChu
+                    WHERE @Id = ID";
+                saveCmd.Parameters.AddWithValue("@Id", item.Id);
             }
+            saveCmd.Parameters.AddWithValue("@Ma", item.Ma_LSP);
             saveCmd.Parameters.AddWithValue("@Ten", item.Ten_LSP);
             saveCmd.Parameters.AddWithValue("@GhiChu", item.Ghi_Chu ?? string.Empty);
 
@@ -139,7 +155,7 @@ namespace InternProj.Data
             }
             catch (SqliteException ex) when (ex.SqliteErrorCode == 19) // Constraint Violation
             {
-                throw new Exception($"Measurement unit '{item.Ten_LSP}' already exist.");
+                throw new Exception($"Loại sản phẩm '{item.Ten_LSP}' đã tồn tại.");
             }
         }
 
@@ -155,8 +171,8 @@ namespace InternProj.Data
             await connection.OpenAsync();
 
             var deleteCmd = connection.CreateCommand();
-            deleteCmd.CommandText = "DELETE FROM tbl_DM_Loai_San_Pham WHERE Ma_LSP = @Ma";
-            deleteCmd.Parameters.AddWithValue("@Ma", item.Ma_LSP);
+            deleteCmd.CommandText = "DELETE FROM tbl_DM_Loai_San_Pham WHERE ID = @Id";
+            deleteCmd.Parameters.AddWithValue("@Id", item.Id);
 
             return await deleteCmd.ExecuteNonQueryAsync();
         }
