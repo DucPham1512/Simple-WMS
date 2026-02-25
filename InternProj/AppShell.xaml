@@ -6,15 +6,25 @@
     xmlns:sf="clr-namespace:Syncfusion.Maui.Toolkit.SegmentedControl;assembly=Syncfusion.Maui.Toolkit"
     xmlns:pages="clr-namespace:InternProj.Pages"
     Shell.FlyoutBehavior="Flyout"
-    Title="MauiApp1">
+    Title="InternProj">
 
 
 
     <ShellContent
+        Title="Màn hình chính"
+
+        ContentTemplate="{DataTemplate pages:MainPage}"
+        Route="mainpage" />
+
         Title="Đơn vị tính"
 
         ContentTemplate="{DataTemplate pages:DonViTinhPage}"
         Route="donvitinh" />
+        
+        Title="Loại Sản Phẩm"
+
+        ContentTemplate="{DataTemplate pages:LoaiSanPhamPage}"
+        Route="loaisanpham" />
 
 
 </Shell>
