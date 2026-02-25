@@ -80,7 +80,16 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Compile Update="Pages\SanPhamPage .xaml.cs">
+	    <DependentUpon>SanPhamPage .xaml</DependentUpon>
+	  </Compile>
+	</ItemGroup>
+
+	<ItemGroup>
 	  <MauiXaml Update="Pages\DonViTinhPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Pages\SanPhamPage .xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Pages\LoaiSanPhamPage.xaml">
