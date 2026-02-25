@@ -34,7 +34,10 @@
                 <DataTemplate x:DataType="models:DonViTinh">
                     <Grid ColumnDefinitions="*,Auto" Padding="8">
                         <VerticalStackLayout>
-                            <Label Text="{Binding Ten_Don_Vi_Tinh}" FontAttributes="Bold" />
+                            <HorizontalStackLayout Spacing="8">
+                                <Label Text="{Binding Id}" FontSize="12" Opacity="0.7" />
+                                <Label Text="{Binding Ten_Don_Vi_Tinh}" FontAttributes="Bold" />
+                            </HorizontalStackLayout>
                             <Label Text="{Binding Ghi_Chu}" FontSize="12" Opacity="0.7" />
                         </VerticalStackLayout>
 

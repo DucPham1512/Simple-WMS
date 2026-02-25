@@ -71,6 +71,7 @@
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="10.0.3" />
 		<PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="10.0.0" />
+		<PackageReference Include="Syncfusion.Maui.DataGrid" Version="32.2.7" />
 		<PackageReference Include="Syncfusion.Maui.Toolkit" Version="1.0.9" />
 	</ItemGroup>
 

@@ -30,21 +30,23 @@ namespace InternProj.Data
                 return;
 
             await using var connection = new SqliteConnection(Constants.DatabasePath);
+            System.Diagnostics.Debug.WriteLine(Constants.DatabasePath);
             await connection.OpenAsync();
 
             try
             {
                 var createTableCmd = connection.CreateCommand();
                 createTableCmd.CommandText = @"
-            CREATE TABLE IF NOT EXISTS tbl_DM_DonViTinh  (
-                Ten_Don_Vi_Tinh TEXT PRIMARY KEY,
+            CREATE TABLE IF NOT EXISTS tbl_DM_Don_Vi_Tinh  (
+                ID INTEGER PRIMARY KEY AUTOINCREMENT,
+                Ten_Don_Vi_Tinh TEXT UNIQUE NOT NULL,
                 Ghi_Chu TEXT
             );";
                 await createTableCmd.ExecuteNonQueryAsync();
             }
             catch (Exception e)
             {
-                _logger.LogError(e, "Error creating tbl_DM_DonViTinh table");
+                _logger.LogError(e, "Error creating tbl_DM_Don_Vi_Tinh table");
                 throw;
             }
 
@@ -62,7 +64,7 @@ namespace InternProj.Data
             await connection.OpenAsync();
 
             var selectCmd = connection.CreateCommand();
-            selectCmd.CommandText = "SELECT * FROM tbl_Don_Vi_Tinh";
+            selectCmd.CommandText = "SELECT * FROM tbl_DM_Don_Vi_Tinh";
             var DonViTinh = new List<DonViTinh>();
 
             await using var reader = await selectCmd.ExecuteReaderAsync();
@@ -70,8 +72,9 @@ namespace InternProj.Data
             {
                 DonViTinh.Add(new DonViTinh
                 {
-                    Ten_Don_Vi_Tinh = reader.GetString(255),
-                    Ghi_Chu = reader.GetString(255)
+                    Id = reader.GetInt32(0),
+                    Ten_Don_Vi_Tinh = reader.GetString(1),
+                    Ghi_Chu = reader.GetString(2)
                 });
             }
 
@@ -83,23 +86,24 @@ namespace InternProj.Data
         /// </summary>
         /// <param name="Ten_Don_Vi_Tinh">The ID of the DonViTinh.</param>
         /// <returns>A <see cref="DonViTinh"/> object if found; otherwise, null.</returns>
-        public async Task<DonViTinh?> GetAsync(int Ten_Don_Vi_Tinh)
+        public async Task<DonViTinh?> GetAsync(int ID)
         {
             await Init();
             await using var connection = new SqliteConnection(Constants.DatabasePath);
             await connection.OpenAsync();
 
             var selectCmd = connection.CreateCommand();
-            selectCmd.CommandText = "SELECT * FROM tbl_Don_Vi_Tinh WHERE Ten_Don_Vi_Tinh = @ten_don_vi";
-            selectCmd.Parameters.AddWithValue("@ten_don_vi", Ten_Don_Vi_Tinh);
+            selectCmd.CommandText = "SELECT * FROM tbl_DM_Don_Vi_Tinh WHERE ID = @Id";
+            selectCmd.Parameters.AddWithValue("@Id", ID);
 
             await using var reader = await selectCmd.ExecuteReaderAsync();
             if (await reader.ReadAsync())
             {
                 return new DonViTinh
                 {
-                    Ten_Don_Vi_Tinh = reader.GetString(255),
-                    Ghi_Chu = reader.GetString(255)
+                    Id = reader.GetInt32(0),
+                    Ten_Don_Vi_Tinh = reader.GetString(1),
+                    Ghi_Chu = reader.GetString(2)
                 };
             }
 
@@ -111,7 +115,7 @@ namespace InternProj.Data
         /// </summary>
         /// <param name="item">The DonViTinh to save.</param>
         /// <returns>The ID of the saved DonViTinh.</returns>
-        public async Task SaveItemAsync(DonViTinh item, bool isEdit, string oldKey = "")
+        public async Task SaveItemAsync(DonViTinh item, bool isEdit)
         {
             await Init();
 
@@ -126,18 +130,18 @@ namespace InternProj.Data
             if (!isEdit)
             {
                 saveCmd.CommandText = @"
-                    INSERT INTO tbl_DM_DonViTinh (Ten_Don_Vi_Tinh, Ghi_Chu)
+                    INSERT INTO tbl_DM_Don_Vi_Tinh (Ten_Don_Vi_Tinh, Ghi_Chu)
                     VALUES (@Ten, @GhiChu)";
             }
             else
             {
                 saveCmd.CommandText = @"
-                    UPDATE tbl_DM_DonViTinh 
+                    UPDATE tbl_DM_Don_Vi_Tinh 
                     SET Ten_Don_Vi_Tinh = @Ten, Ghi_Chu = @GhiChu
-                    WHERE Ten_Don_Vi_Tinh = @OldKey";
-                saveCmd.Parameters.AddWithValue("@OldKey", oldKey);
+                    WHERE ID = @Id";
+                saveCmd.Parameters.AddWithValue("@Id", item.Id);
+                System.Diagnostics.Debug.WriteLine($"Updating DonViTinh with ID: {item.Id}");
             }
-
             saveCmd.Parameters.AddWithValue("@Ten", item.Ten_Don_Vi_Tinh);
             saveCmd.Parameters.AddWithValue("@GhiChu", item.Ghi_Chu ?? string.Empty);
 
@@ -163,8 +167,8 @@ namespace InternProj.Data
             await connection.OpenAsync();
 
             var deleteCmd = connection.CreateCommand();
-            deleteCmd.CommandText = "DELETE FROM DonViTinh WHERE Ten_Don_Vi_Tinh = @Ten_Don_Vi_Tinh";
-            deleteCmd.Parameters.AddWithValue("@Ten_Don_Vi_Tinh", item.Ten_Don_Vi_Tinh);
+            deleteCmd.CommandText = "DELETE FROM tbl_DM_Don_Vi_Tinh WHERE ID = @Id";
+            deleteCmd.Parameters.AddWithValue("@Id", item.Id);
 
             return await deleteCmd.ExecuteNonQueryAsync();
         }
@@ -179,7 +183,7 @@ namespace InternProj.Data
             await connection.OpenAsync();
 
             var dropTableCmd = connection.CreateCommand();
-            dropTableCmd.CommandText = "DROP TABLE IF EXISTS DonViTinh";
+            dropTableCmd.CommandText = "DROP TABLE IF EXISTS tbl_DM_Don_Vi_Tinh";
 
             await dropTableCmd.ExecuteNonQueryAsync();
             _hasBeenInitialized = false;
