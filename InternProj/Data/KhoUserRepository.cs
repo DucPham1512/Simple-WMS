@@ -36,14 +36,13 @@ namespace InternProj.Data
             {
                 var createTableCmd = connection.CreateCommand();
                 createTableCmd.CommandText = @"
-            CREATE TABLE IF NOT EXISTS table tbl_DM_Kho_User  (
-                ID INTEGER PRIMARY KEY AUTOINCREMENT,
-                Ma_Dang_Nhap STRING NOT NULL UNIQUE,
-                Kho_ID INTEGER NOT NULL UNIQUE,
-                UNIQUE (Ma_Dang_Nhap, Kho_ID),
-                FOREIGN KEY (Kho_ID),
-                Kho_Id REFERENCES tbl_DM_Kho(ID) ON DELETE CASCADE
-            );";
+                    CREATE TABLE IF NOT EXISTS tbl_DM_Kho_User (
+                        ID INTEGER PRIMARY KEY AUTOINCREMENT,
+                        Ma_Dang_Nhap TEXT NOT NULL,
+                        Kho_ID INTEGER NOT NULL,
+                        UNIQUE (Ma_Dang_Nhap, Kho_ID),
+                        FOREIGN KEY (Kho_ID) REFERENCES tbl_DM_Kho(ID) ON DELETE CASCADE
+                    );";
                 await createTableCmd.ExecuteNonQueryAsync();
             }
             catch (Exception e)
@@ -134,7 +133,7 @@ namespace InternProj.Data
             if (!isEdit)
             {
                 saveCmd.CommandText = @"
-                    INSERT INTO tbl_DM_Kho_User  (Ma_Dang_Nhap, Kho_ID)
+                    INSERT INTO tbl_DM_Kho_User (Ma_Dang_Nhap, Kho_ID)
                     VALUES (@Pass, @Kho)";
             }
             else

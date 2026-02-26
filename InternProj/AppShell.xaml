@@ -28,5 +28,10 @@
         ContentTemplate="{DataTemplate pages:LoaiSanPhamPage}"
         Route="loaisanpham" />
 
+    <ShellContent    
+        Title="Phân quyền kho - user"
+
+        ContentTemplate="{DataTemplate pages:KhoUserPage}"
+        Route="khouser" />
 
 </Shell>

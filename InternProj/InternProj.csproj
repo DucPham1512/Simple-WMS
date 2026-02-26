@@ -83,6 +83,9 @@
 	  <MauiXaml Update="Pages\DonViTinhPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="Pages\KhoUserPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Pages\LoaiSanPhamPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
