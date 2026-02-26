@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace InternProj.Models
+﻿namespace InternProj.Models
 {
     public class DonViTinh
     {

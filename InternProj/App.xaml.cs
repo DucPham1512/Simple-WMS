@@ -1,7 +1,4 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using InternProj.Data;
-
-namespace InternProj
+﻿namespace InternProj
 {
     public partial class App : Application
     {

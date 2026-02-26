@@ -1,8 +1,7 @@
-﻿using Microsoft.Extensions.Logging;
-
-using InternProj.Data;
+﻿using InternProj.Data;
 using InternProj.PageModels;
 using InternProj.Pages;
+using Microsoft.Extensions.Logging;
 
 namespace InternProj
 {
@@ -20,7 +19,7 @@ namespace InternProj
                 });
 
 #if DEBUG
-    		builder.Logging.AddDebug();
+            builder.Logging.AddDebug();
             builder.Services.AddSingleton<DonViTinhRepository>();
             builder.Services.AddTransient<DonViTinhPageModel>();
             builder.Services.AddTransient<DonViTinhPage>();

@@ -1,7 +1,4 @@
-﻿
-using Syncfusion.Maui.Toolkit.SegmentedControl;
-
-namespace InternProj
+﻿namespace InternProj
 {
     public partial class AppShell : Shell
     {
