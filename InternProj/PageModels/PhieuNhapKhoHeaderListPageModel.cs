@@ -11,17 +11,23 @@ namespace InternProj.PageModels
 {
     public partial class PhieuNhapKhoHeaderListPageModel : ObservableObject
     {
-        private readonly PhieuNhapKhoRepository _repository;
+        private readonly PhieuNhapKhoRepository _pnkRepository;
+
+        private readonly KhoRepository _khoRepository;
 
         [ObservableProperty]
         private ObservableCollection<PhieuNhapKhoHeader> _danhSachPhieu = new();
 
         [ObservableProperty]
+        private ObservableCollection<Kho> _danhSachKho = new();
+
+        [ObservableProperty]
         private PhieuNhapKhoHeader? _selectedItem;
 
-        public PhieuNhapKhoHeaderListPageModel(PhieuNhapKhoRepository repository)
+        public PhieuNhapKhoHeaderListPageModel(PhieuNhapKhoRepository pnkRepository, KhoRepository khoRepository)
         {
-            _repository = repository;
+            _pnkRepository = pnkRepository;
+            _khoRepository = khoRepository;
         }
 
         // This is called automatically when SelectedItem changes
@@ -37,8 +43,10 @@ namespace InternProj.PageModels
         [RelayCommand]
         private async Task LoadData()
         {
-            var data = await _repository.ListAsync();
+            var data = await _pnkRepository.ListAsync();
             DanhSachPhieu = new ObservableCollection<PhieuNhapKhoHeader>(data);
+            var khoList = await _khoRepository.ListAsync();
+            DanhSachKho = new ObservableCollection<Kho>(khoList);
         }
 
         [RelayCommand]
@@ -50,14 +58,14 @@ namespace InternProj.PageModels
         [RelayCommand]
         private async Task Save(PhieuNhapKhoHeader item)
         {
-            await _repository.EditHeaderAsync(item);
+            await _pnkRepository.EditHeaderAsync(item);
             await LoadData();
         }
 
         [RelayCommand]
         private async Task Delete(PhieuNhapKhoHeader item)
         {
-            await _repository.DeleteItemAsync(item);
+            await _pnkRepository.DeleteItemAsync(item);
             await LoadData();
         }
 
@@ -76,7 +84,7 @@ namespace InternProj.PageModels
         [RelayCommand]
         private async Task OpenPrintPreview(PhieuNhapKhoHeader? item)
         {
-            var lines = await _repository.GetAsync(item.Id);
+            var lines = await _pnkRepository.GetAsync(item.Id);
 
             var page = App.Current?.Handler?.MauiContext?.Services.GetService<PrintPreviewPage>();
             if (page?.BindingContext is PrintPreviewPageModel vm)
@@ -86,13 +94,19 @@ namespace InternProj.PageModels
             }
         }
 
+        public void SyncTenKhoForRow(PhieuNhapKhoHeader row)
+        {
+            var kho = DanhSachKho.FirstOrDefault(x => x.Id == row.Kho_ID);
+            row.Ten_Kho = kho?.Ten_Kho ?? string.Empty;
+        }
+
         public IReadOnlyList<string> ActionOptions { get; } =
             new[] {"Lưu","Sửa", "Xóa","In" };
 
 
-        // Placeholder, await for get method from Kho repository
-        public IReadOnlyList<string> DanhSachKho { get;  } =
-            new[] {"Kho A", "Kho B", "Kho C" };
+        //// Placeholder, await for get method from Kho repository
+        //public IReadOnlyList<string> DanhSachKho { get;  } =
+        //    (IReadOnlyList<string>)KhoRepository.GetDanhSachKho();
 
     }
 }

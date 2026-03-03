@@ -69,9 +69,9 @@
                                    HeaderText="Số phiếu" />
                 <sfgrid:DataGridDateColumn MappingName="Ngay_Nhap_Kho"
                                    HeaderText="Ngày nhập" />
-                <sfgrid:DataGridTemplateColumn MappingName="Ten_Kho" HeaderText="Kho" Width="180">
+                <sfgrid:DataGridTemplateColumn MappingName="Kho_ID" HeaderText="Kho" Width="180">
                     <!-- Normal display -->
-                    <sfgrid:DataGridTemplateColumn.CellTemplate>
+                    <sfgrid:DataGridTemplateColumn.CellTemplate>    
                         <DataTemplate>
                             <Label Text="{Binding Ten_Kho}"
                                    TextColor="Black"
@@ -85,9 +85,10 @@
                         <DataTemplate>
                             <editors:SfComboBox
                                 ItemsSource="{Binding Source={x:Reference DanhSachPhieuNhapKho}, Path=BindingContext.DanhSachKho}"
-                                DisplayMemberPath="TenKho"
+                                DisplayMemberPath="Ten_Kho"
                                 SelectedValuePath="Id"
                                 SelectedValue="{Binding Kho_ID, Mode=TwoWay}"
+                                SelectionChanged="KhoCombo_SelectionChanged"
                                 IsEditable="True"
                                 IsFilteringEnabled="True"
                                 TextSearchMode="Contains"

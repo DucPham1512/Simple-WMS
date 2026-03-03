@@ -1,5 +1,6 @@
 ﻿using InternProj.Models;
 using InternProj.PageModels;
+using Syncfusion.Maui.Inputs;
 
 namespace InternProj.Pages
 {
@@ -64,6 +65,15 @@ namespace InternProj.Pages
                 // reset so user can pick again later
                 picker.SelectedIndex = -1;
             }
+        }
+
+        private void KhoCombo_SelectionChanged(object sender, EventArgs e)
+        {
+            if (sender is not SfComboBox combo) return;
+            if (combo.BindingContext is not PhieuNhapKhoHeader row) return;
+            if (BindingContext is not PhieuNhapKhoHeaderListPageModel vm) return;
+
+            vm.SyncTenKhoForRow(row);
         }
     }
 }
