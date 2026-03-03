@@ -1,34 +1,44 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using __XamlGeneratedCode__;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using InternProj.Data;
+using InternProj;
 using InternProj.Models;
+
+
 //using Microsoft.UI.Xaml.Controls.Primitives;
 using System.Collections.ObjectModel;
+using InternProj.Data;
 
 namespace InternProj.PageModels
 {
-    public partial class LoaiSanPhamPageModel : ObservableObject
+    public partial class SanPhamPageModel : ObservableObject
     {
-        private readonly LoaiSanPhamRepository _repository;
+        private readonly SanPhamRepository _repository;
 
         [ObservableProperty]
-        private ObservableCollection<LoaiSanPham> _danhSachLSP = [];
+        private ObservableCollection<SanPham> _danhSachSP = [];
 
         [ObservableProperty]
-        private LoaiSanPham? _selectedItem;
+        private SanPham? _selectedItem;
 
         // Các trường để binding vào Entry nhập liệu
 
         [ObservableProperty]
-        private string _maLSPInput;
+        private string _maSPInput;
 
         [ObservableProperty]
-        private string _tenLSPInput;
+        private string _tenSPInput;
+
+        [ObservableProperty]
+        private string _idDVTInput;
+
+        [ObservableProperty]
+        private string _idLSPInput;
 
         [ObservableProperty]
         private string _ghiChuInput;
 
-        public LoaiSanPhamPageModel(LoaiSanPhamRepository repository)
+        public SanPhamPageModel(SanPhamRepository repository)
         {
             _repository = repository;
         }
@@ -37,7 +47,7 @@ namespace InternProj.PageModels
         private async Task LoadData()
         {
             var data = await _repository.ListAsync();
-            DanhSachLSP = new ObservableCollection<LoaiSanPham>(data);
+            DanhSachSP = new ObservableCollection<SanPham>(data);
         }
 
         [RelayCommand]
@@ -47,10 +57,12 @@ namespace InternProj.PageModels
             {
                 bool isEdit = SelectedItem != null;
 
-                var item = new LoaiSanPham
+                var item = new SanPham
                 {
-                    Ma_LSP = MaLSPInput,
-                    Ten_LSP = TenLSPInput,
+                    Ma_SP = MaSPInput,
+                    Ten_SP = TenSPInput,
+                    Id_LSP = int.TryParse(IdLSPInput, out int idLSP) ? idLSP : 0,
+                    Id_DVT = int.TryParse(IdDVTInput, out int idDVT) ? idDVT : 0,
                     Ghi_Chu = GhiChuInput
                 };
 
@@ -61,8 +73,10 @@ namespace InternProj.PageModels
 
                 await LoadData();
 
-                MaLSPInput = string.Empty;
-                TenLSPInput = string.Empty;
+                MaSPInput = string.Empty;
+                TenSPInput = string.Empty;
+                IdLSPInput = string.Empty;
+                IdDVTInput = string.Empty;
                 GhiChuInput = string.Empty;
                 SelectedItem = null;
 
@@ -75,22 +89,24 @@ namespace InternProj.PageModels
         }
 
         [RelayCommand]
-        private async Task Delete(LoaiSanPham item)
+        private async Task Delete(SanPham item)
         {
-            bool answer = await Shell.Current.DisplayAlertAsync("Xác nhận", $"Bạn muốn xóa '{item.Ma_LSP}'?", "Có", "Không");
+            bool answer = await Shell.Current.DisplayAlertAsync("Xác nhận", $"Bạn muốn xóa '{item.Ma_SP}'?", "Có", "Không");
             if (!answer) return;
 
             // Truyền string Key vào hàm xóa
             await _repository.DeleteItemAsync(item);
-            DanhSachLSP.Remove(item);
+            DanhSachSP.Remove(item);
         }
         // Hàm helper để điền dữ liệu vào ô input khi chọn một dòng để sửa
-        partial void OnSelectedItemChanged(LoaiSanPham value)
+        partial void OnSelectedItemChanged(SanPham value)
         {
             if (value != null)
             {
-                MaLSPInput = value.Ma_LSP;
-                TenLSPInput = value.Ten_LSP;
+                MaSPInput = value.Ma_SP;
+                TenSPInput = value.Ten_SP;
+                IdLSPInput = value.Id_LSP.ToString();
+                IdDVTInput = value.Id_DVT.ToString();
                 GhiChuInput = value.Ghi_Chu;
             }
         }

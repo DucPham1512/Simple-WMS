@@ -39,6 +39,18 @@ namespace InternProj
             builder.Services.AddTransient<PrintPreviewPageModel>();
             builder.Services.AddTransient<PrintPreviewPage>();
 
+            builder.Services.AddSingleton<KhoUserRepository>();
+            builder.Services.AddTransient<KhoUserPageModel>();
+            builder.Services.AddTransient<KhoUserPage>();
+            builder.Services.AddSingleton<KhoRepository>();
+            builder.Services.AddTransient<KhoPageModel>();
+            builder.Services.AddTransient<KhoPage>();
+            builder.Services.AddSingleton<SanPhamRepository>();
+            builder.Services.AddTransient<SanPhamPageModel>();
+            builder.Services.AddTransient<SanPhamPage>();
+            builder.Services.AddSingleton<NhaCungCapRepository>();
+            builder.Services.AddTransient<NhaCungCapPageModel>();
+            builder.Services.AddTransient<NhaCungCapPage>();
 #endif
 
             return builder.Build();

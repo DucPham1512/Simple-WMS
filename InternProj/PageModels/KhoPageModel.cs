@@ -1,34 +1,34 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using __XamlGeneratedCode__;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using InternProj.Data;
+using InternProj;
 using InternProj.Models;
+
+
 //using Microsoft.UI.Xaml.Controls.Primitives;
 using System.Collections.ObjectModel;
+using InternProj.Data;
 
 namespace InternProj.PageModels
 {
-    public partial class LoaiSanPhamPageModel : ObservableObject
+    public partial class KhoPageModel : ObservableObject
     {
-        private readonly LoaiSanPhamRepository _repository;
+        private readonly KhoRepository _repository;
 
         [ObservableProperty]
-        private ObservableCollection<LoaiSanPham> _danhSachLSP = [];
+        private ObservableCollection<Kho> _danhSachKho = [];
 
         [ObservableProperty]
-        private LoaiSanPham? _selectedItem;
+        private Kho? _selectedItem;
 
         // Các trường để binding vào Entry nhập liệu
-
         [ObservableProperty]
-        private string _maLSPInput;
-
-        [ObservableProperty]
-        private string _tenLSPInput;
+        private string _tenKhoInput;
 
         [ObservableProperty]
         private string _ghiChuInput;
 
-        public LoaiSanPhamPageModel(LoaiSanPhamRepository repository)
+        public KhoPageModel(KhoRepository repository)
         {
             _repository = repository;
         }
@@ -37,7 +37,7 @@ namespace InternProj.PageModels
         private async Task LoadData()
         {
             var data = await _repository.ListAsync();
-            DanhSachLSP = new ObservableCollection<LoaiSanPham>(data);
+            DanhSachKho = new ObservableCollection<Kho>(data);
         }
 
         [RelayCommand]
@@ -45,24 +45,23 @@ namespace InternProj.PageModels
         {
             try
             {
-                bool isEdit = SelectedItem != null;
-
-                var item = new LoaiSanPham
+                var Kho = new Kho
                 {
-                    Ma_LSP = MaLSPInput,
-                    Ten_LSP = TenLSPInput,
+                    Ten_Kho = TenKhoInput,
                     Ghi_Chu = GhiChuInput
                 };
+                // Xác định xem đang Thêm hay Sửa
+                bool isEdit = SelectedItem != null;
 
-                if (isEdit)
-                    item.Id = SelectedItem!.Id;
+                if (isEdit) Kho.Id = SelectedItem!.Id;
 
-                await _repository.SaveItemAsync(item, isEdit);
+                // Gọi hàm Save mới
+                await _repository.SaveItemAsync(Kho, isEdit);
 
                 await LoadData();
 
-                MaLSPInput = string.Empty;
-                TenLSPInput = string.Empty;
+                // Reset form
+                TenKhoInput = string.Empty;
                 GhiChuInput = string.Empty;
                 SelectedItem = null;
 
@@ -75,24 +74,24 @@ namespace InternProj.PageModels
         }
 
         [RelayCommand]
-        private async Task Delete(LoaiSanPham item)
+        private async Task Delete(Kho item)
         {
-            bool answer = await Shell.Current.DisplayAlertAsync("Xác nhận", $"Bạn muốn xóa '{item.Ma_LSP}'?", "Có", "Không");
+            bool answer = await Shell.Current.DisplayAlertAsync("Xác nhận", $"Bạn muốn xóa '{item.Ten_Kho}'?", "Có", "Không");
             if (!answer) return;
 
             // Truyền string Key vào hàm xóa
             await _repository.DeleteItemAsync(item);
-            DanhSachLSP.Remove(item);
+            DanhSachKho.Remove(item);
         }
         // Hàm helper để điền dữ liệu vào ô input khi chọn một dòng để sửa
-        partial void OnSelectedItemChanged(LoaiSanPham value)
+        partial void OnSelectedItemChanged(Kho value)
         {
             if (value != null)
             {
-                MaLSPInput = value.Ma_LSP;
-                TenLSPInput = value.Ten_LSP;
+                TenKhoInput = value.Ten_Kho;
                 GhiChuInput = value.Ghi_Chu;
             }
         }
+
     }
 }

@@ -1,6 +1,6 @@
-﻿using Microsoft.Data.Sqlite;
+﻿using InternProj.Models;
+using Microsoft.Data.Sqlite;
 using Microsoft.Extensions.Logging;
-using InternProj.Models;
 
 namespace InternProj.Data
 {

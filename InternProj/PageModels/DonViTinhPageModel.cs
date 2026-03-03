@@ -1,13 +1,9 @@
-﻿using __XamlGeneratedCode__;
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using InternProj;
+using InternProj.Data;
 using InternProj.Models;
-
-
 //using Microsoft.UI.Xaml.Controls.Primitives;
 using System.Collections.ObjectModel;
-using InternProj.Data;
 
 namespace InternProj.PageModels
 {

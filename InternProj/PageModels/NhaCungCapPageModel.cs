@@ -1,34 +1,37 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using __XamlGeneratedCode__;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using InternProj.Data;
+using InternProj;
 using InternProj.Models;
+
+
 //using Microsoft.UI.Xaml.Controls.Primitives;
 using System.Collections.ObjectModel;
+using InternProj.Data;
 
 namespace InternProj.PageModels
 {
-    public partial class LoaiSanPhamPageModel : ObservableObject
+    public partial class NhaCungCapPageModel : ObservableObject
     {
-        private readonly LoaiSanPhamRepository _repository;
+        private readonly NhaCungCapRepository _repository;
 
         [ObservableProperty]
-        private ObservableCollection<LoaiSanPham> _danhSachLSP = [];
+        private ObservableCollection<NhaCungCap> _danhSachNcc = [];
 
         [ObservableProperty]
-        private LoaiSanPham? _selectedItem;
+        private NhaCungCap? _selectedItem;
 
         // Các trường để binding vào Entry nhập liệu
+        [ObservableProperty]
+        private string _maNccInput;
 
         [ObservableProperty]
-        private string _maLSPInput;
-
-        [ObservableProperty]
-        private string _tenLSPInput;
+        private string _tenNccInput;
 
         [ObservableProperty]
         private string _ghiChuInput;
 
-        public LoaiSanPhamPageModel(LoaiSanPhamRepository repository)
+        public NhaCungCapPageModel(NhaCungCapRepository repository)
         {
             _repository = repository;
         }
@@ -37,7 +40,7 @@ namespace InternProj.PageModels
         private async Task LoadData()
         {
             var data = await _repository.ListAsync();
-            DanhSachLSP = new ObservableCollection<LoaiSanPham>(data);
+            DanhSachNcc = new ObservableCollection<NhaCungCap>(data);
         }
 
         [RelayCommand]
@@ -45,24 +48,25 @@ namespace InternProj.PageModels
         {
             try
             {
-                bool isEdit = SelectedItem != null;
-
-                var item = new LoaiSanPham
+                var donVi = new NhaCungCap
                 {
-                    Ma_LSP = MaLSPInput,
-                    Ten_LSP = TenLSPInput,
+                    Ma_Ncc = MaNccInput,
+                    Ten_Ncc = TenNccInput,
                     Ghi_Chu = GhiChuInput
                 };
+                // Xác định xem đang Thêm hay Sửa
+                bool isEdit = SelectedItem != null;
 
-                if (isEdit)
-                    item.Id = SelectedItem!.Id;
+                if (isEdit) donVi.Id = SelectedItem!.Id;
 
-                await _repository.SaveItemAsync(item, isEdit);
+                // Gọi hàm Save mới
+                await _repository.SaveItemAsync(donVi, isEdit);
 
                 await LoadData();
 
-                MaLSPInput = string.Empty;
-                TenLSPInput = string.Empty;
+                // Reset form
+                MaNccInput = string.Empty;
+                TenNccInput = string.Empty;
                 GhiChuInput = string.Empty;
                 SelectedItem = null;
 
@@ -75,24 +79,25 @@ namespace InternProj.PageModels
         }
 
         [RelayCommand]
-        private async Task Delete(LoaiSanPham item)
+        private async Task Delete(NhaCungCap item)
         {
-            bool answer = await Shell.Current.DisplayAlertAsync("Xác nhận", $"Bạn muốn xóa '{item.Ma_LSP}'?", "Có", "Không");
+            bool answer = await Shell.Current.DisplayAlertAsync("Xác nhận", $"Bạn muốn xóa '{item.Ten_Ncc}'?", "Có", "Không");
             if (!answer) return;
 
             // Truyền string Key vào hàm xóa
             await _repository.DeleteItemAsync(item);
-            DanhSachLSP.Remove(item);
+            DanhSachNcc.Remove(item);
         }
         // Hàm helper để điền dữ liệu vào ô input khi chọn một dòng để sửa
-        partial void OnSelectedItemChanged(LoaiSanPham value)
+        partial void OnSelectedItemChanged(NhaCungCap value)
         {
             if (value != null)
             {
-                MaLSPInput = value.Ma_LSP;
-                TenLSPInput = value.Ten_LSP;
+                MaNccInput = value.Ma_Ncc;
+                TenNccInput = value.Ten_Ncc;
                 GhiChuInput = value.Ghi_Chu;
             }
         }
+
     }
 }

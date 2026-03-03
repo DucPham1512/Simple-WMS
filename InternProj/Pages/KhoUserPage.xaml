@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="InternProj.Pages.KhoUserPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:models="clr-namespace:InternProj.Models"
+    Title="Phân quyền kho">
+
+    <VerticalStackLayout Spacing="12" Padding="16">
+
+        <ScrollView Orientation="Horizontal">
+            <Grid ColumnSpacing="16" RowSpacing="6"
+          RowDefinitions="Auto,Auto"
+          ColumnDefinitions="Auto,Auto,Auto,Auto,Auto">
+
+                <Label Grid.Row="0" Grid.Column="0"
+               Text="Mã đăng nhập"
+               LineBreakMode="TailTruncation"
+               MaximumWidthRequest="120" />
+                <Entry Grid.Row="1" Grid.Column="0"
+               WidthRequest="200"
+               Text="{Binding MaDangNhapInput}" />
+
+                <!-- Column 1: Tên sản phẩm -->
+                <Label Grid.Row="0" Grid.Column="1"
+               Text="Mã Nhà cung cấp"
+               LineBreakMode="TailTruncation"
+               MaximumWidthRequest="120" />
+                <Entry Grid.Row="1" Grid.Column="1"
+               WidthRequest="260"
+               Text="{Binding KhoIdInput}"
+                />
+
+            </Grid>
+        </ScrollView>
+        <!-- Buttons -->
+        <HorizontalStackLayout Spacing="12">
+            <Button Text="Load"
+                    Command="{Binding LoadDataCommand}" />
+
+            <Button Text="Save"
+                    Command="{Binding SaveCommand}" />
+        </HorizontalStackLayout>
+
+        <!-- List -->
+        <Label Text="Danh sách loại sản phẩm" FontAttributes="Bold" />
+
+        <CollectionView ItemsSource="{Binding DanhSachKhoUser}"
+                        SelectionMode="Single"
+                        SelectedItem="{Binding SelectedItem, Mode=TwoWay}">
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="models:KhoUser">
+                    <Grid ColumnDefinitions="*,Auto" Padding="8">
+                        <HorizontalStackLayout Spacing="8">
+                                <Label Text="{Binding Id}" FontAttributes="Bold"/>
+                                <Label Text="{Binding MaDangNhap}" FontAttributes="Bold" />
+                                <Label Text="{Binding KhoId}" FontAttributes="Bold" />
+                            </HorizontalStackLayout>
+
+                            <Button Grid.Column="1"
+                                Text="Xóa"
+                                Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.DeleteCommand}"
+                                CommandParameter="{Binding .}" />
+                    </Grid>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+    </VerticalStackLayout>
+</ContentPage>

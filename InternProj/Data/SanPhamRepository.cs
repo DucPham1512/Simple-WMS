@@ -1,13 +1,13 @@
-﻿using InternProj.Models;
-using Microsoft.Data.Sqlite;
+﻿using Microsoft.Data.Sqlite;
 using Microsoft.Extensions.Logging;
+using InternProj.Models;
 
 namespace InternProj.Data
 {
     /// <summary>
     /// Repository class for managing measure units in the database.
     /// </summary>
-    public class DonViTinhRepository
+    public class SanPhamRepository
     {
         private bool _hasBeenInitialized = false;
         private readonly ILogger _logger;
@@ -16,7 +16,7 @@ namespace InternProj.Data
         /// Initializes a new instance of the <see cref="DonViTinhRepository"/> class.
         /// </summary>
         /// <param name="logger">The logger instance.</param>
-        public DonViTinhRepository(ILogger<DonViTinhRepository> logger)
+        public SanPhamRepository(ILogger<SanPhamRepository> logger)
         {
             _logger = logger;
         }
@@ -30,23 +30,27 @@ namespace InternProj.Data
                 return;
 
             await using var connection = new SqliteConnection(Constants.DatabasePath);
-            System.Diagnostics.Debug.WriteLine(Constants.DatabasePath);
             await connection.OpenAsync();
 
             try
             {
                 var createTableCmd = connection.CreateCommand();
                 createTableCmd.CommandText = @"
-            CREATE TABLE IF NOT EXISTS tbl_DM_Don_Vi_Tinh  (
+            CREATE TABLE IF NOT EXISTS tbl_DM_San_Pham  (
                 ID INTEGER PRIMARY KEY AUTOINCREMENT,
-                Ten_Don_Vi_Tinh TEXT UNIQUE NOT NULL,
-                Ghi_Chu TEXT
+                Ma_SP STRING NOT NULL UNIQUE,
+                Ten_SP TEXT NOT NULL,
+                Loai_San_Pham_ID INTEGER NOT NULL,
+                Don_Vi_Tinh_ID INTEGER NOT NULL,
+                Ghi_Chu TEXT,
+                FOREIGN KEY (Loai_San_Pham_ID) REFERENCES tbl_DM_Loai_San_Pham(ID) ON DELETE CASCADE,
+                FOREIGN KEY (Don_Vi_Tinh_ID) REFERENCES tbl_DM_Don_Vi_Tinh(ID) ON DELETE RESTRICT
             );";
                 await createTableCmd.ExecuteNonQueryAsync();
             }
             catch (Exception e)
             {
-                _logger.LogError(e, "Error creating tbl_DM_Don_Vi_Tinh table");
+                _logger.LogError(e, "Error creating tbl_DM_San_Pham table");
                 throw;
             }
 
@@ -56,54 +60,61 @@ namespace InternProj.Data
         /// <summary>
         /// Retrieves a list of all categories from the database.
         /// </summary>
-        /// <returns>A list of <see cref="DonViTinh"/> objects.</returns>
-        public async Task<List<DonViTinh>> ListAsync()
+        /// <returns>A list of <see cref="SanPham"/> objects.</returns>
+        public async Task<List<SanPham>> ListAsync()
         {
             await Init();
             await using var connection = new SqliteConnection(Constants.DatabasePath);
             await connection.OpenAsync();
 
             var selectCmd = connection.CreateCommand();
-            selectCmd.CommandText = "SELECT * FROM tbl_DM_Don_Vi_Tinh";
-            var DonViTinh = new List<DonViTinh>();
+            selectCmd.CommandText = "SELECT * FROM tbl_DM_San_Pham";
+            var sanPham = new List<SanPham>();
 
             await using var reader = await selectCmd.ExecuteReaderAsync();
             while (await reader.ReadAsync())
             {
-                DonViTinh.Add(new DonViTinh
-                {
-                    Id = reader.GetInt32(0),
-                    Ten_Don_Vi_Tinh = reader.GetString(1),
-                    Ghi_Chu = reader.GetString(2)
-                });
+                sanPham.Add(new SanPham
+                    {
+                        Id = reader.GetInt32(0),
+                        Ma_SP = reader.GetString(1),
+                        Ten_SP = reader.GetString(2),
+                        Id_LSP = reader.GetInt32(3),
+                        Id_DVT = reader.GetInt32(4),
+                        Ghi_Chu = reader.GetString(5)
+                    }
+                );
             }
 
-            return DonViTinh;
+            return sanPham;
         }
 
         /// <summary>
         /// Retrieves a specific DonViTinh by its name.
         /// </summary>
-        /// <param name="Ten_Don_Vi_Tinh">The ID of the DonViTinh.</param>
-        /// <returns>A <see cref="DonViTinh"/> object if found; otherwise, null.</returns>
-        public async Task<DonViTinh?> GetAsync(int ID)
+        /// <param name="Id">The ID of the DonViTinh.</param>
+        /// <returns>A <see cref="SanPham"/> object if found; otherwise, null.</returns>
+        public async Task<SanPham?> GetAsync(int Id)
         {
             await Init();
             await using var connection = new SqliteConnection(Constants.DatabasePath);
             await connection.OpenAsync();
 
             var selectCmd = connection.CreateCommand();
-            selectCmd.CommandText = "SELECT * FROM tbl_DM_Don_Vi_Tinh WHERE ID = @Id";
-            selectCmd.Parameters.AddWithValue("@Id", ID);
+            selectCmd.CommandText = "SELECT * FROM tbl_DM_San_Pham WHERE ID = @Id";
+            selectCmd.Parameters.AddWithValue("@Id", Id);
 
             await using var reader = await selectCmd.ExecuteReaderAsync();
             if (await reader.ReadAsync())
             {
-                return new DonViTinh
+                return new SanPham
                 {
                     Id = reader.GetInt32(0),
-                    Ten_Don_Vi_Tinh = reader.GetString(1),
-                    Ghi_Chu = reader.GetString(2)
+                    Ma_SP = reader.GetString(1),
+                    Ten_SP = reader.GetString(2),
+                    Id_LSP = reader.GetInt32(3),
+                    Id_DVT = reader.GetInt32(4),
+                    Ghi_Chu = reader.GetString(5)
                 };
             }
 
@@ -115,12 +126,31 @@ namespace InternProj.Data
         /// </summary>
         /// <param name="item">The DonViTinh to save.</param>
         /// <returns>The ID of the saved DonViTinh.</returns>
-        public async Task SaveItemAsync(DonViTinh item, bool isEdit)
+        public async Task SaveItemAsync(SanPham item, bool isEdit)
         {
             await Init();
 
-            if (string.IsNullOrWhiteSpace(item.Ten_Don_Vi_Tinh))
-                throw new Exception("Measurement name cannot be left blank!");
+            string? error = item switch
+            {
+                null => "Dữ liệu sản phẩm không hợp lệ.",
+
+                _ when string.IsNullOrWhiteSpace(item.Ten_SP)
+                    => "Tên sản phẩm không được để trống.",
+
+                _ when string.IsNullOrWhiteSpace(item.Ma_SP)
+                    => "Mã sản phẩm không được để trống.",
+
+                _ when item.Id_LSP <= 0
+                    => "Vui lòng chọn loại sản phẩm.",
+
+                _ when item.Id_DVT <= 0
+                    => "Vui lòng chọn đơn vị tính.",
+
+                _ => null
+            };
+
+            if (error is not null)
+                throw new Exception(error);
 
             await using var connection = new SqliteConnection(Constants.DatabasePath);
             await connection.OpenAsync();
@@ -130,28 +160,34 @@ namespace InternProj.Data
             if (!isEdit)
             {
                 saveCmd.CommandText = @"
-                    INSERT INTO tbl_DM_Don_Vi_Tinh (Ten_Don_Vi_Tinh, Ghi_Chu)
-                    VALUES (@Ten, @GhiChu)";
+                    INSERT INTO tbl_DM_San_Pham (Ma_SP, Ten_SP, Loai_San_Pham_Id, Don_Vi_Tinh_ID, Ghi_Chu)
+                    VALUES (@Ma, @Ten, @Lsp, @Dvt, @GhiChu)";
             }
             else
             {
                 saveCmd.CommandText = @"
-                    UPDATE tbl_DM_Don_Vi_Tinh 
-                    SET Ten_Don_Vi_Tinh = @Ten, Ghi_Chu = @GhiChu
-                    WHERE ID = @Id";
+                    UPDATE tbl_DM_San_Pham 
+                    SET Ma_LSP = @Ma, Ten_LSP = @Ten, Loai_San_Pham_Id = @Lsp, Don_Vi_Tinh_ID = @Dvt, Ghi_Chu = @GhiChu
+                    WHERE @Id = ID";
                 saveCmd.Parameters.AddWithValue("@Id", item.Id);
-                System.Diagnostics.Debug.WriteLine($"Updating DonViTinh with ID: {item.Id}");
             }
-            saveCmd.Parameters.AddWithValue("@Ten", item.Ten_Don_Vi_Tinh);
+            saveCmd.Parameters.AddWithValue("@Ma", item.Ma_SP);
+            saveCmd.Parameters.AddWithValue("@Ten", item.Ten_SP);
+            saveCmd.Parameters.AddWithValue("@Lsp", item.Id_LSP);
+            saveCmd.Parameters.AddWithValue("@Dvt", item.Id_DVT);
             saveCmd.Parameters.AddWithValue("@GhiChu", item.Ghi_Chu ?? string.Empty);
 
             try
             {
                 await saveCmd.ExecuteNonQueryAsync();
             }
-            catch (SqliteException ex) when (ex.SqliteErrorCode == 19) // Constraint Violation
+            catch (SqliteException ex) when (ex.SqliteExtendedErrorCode == 787) // SQLITE_CONSTRAINT_FOREIGNKEY
             {
-                throw new Exception($"Measurement unit '{item.Ten_Don_Vi_Tinh}' already exist.");
+                throw new Exception("Không tồn tại Loại sản phẩm hoặc Đơn vị tính không hợp lệ.");
+            }
+            catch (SqliteException ex) when (ex.SqliteExtendedErrorCode == 2067) // SQLITE_CONSTRAINT_UNIQUE
+            {
+                throw new Exception($"Loại sản phẩm '{item.Ma_SP}' đã tồn tại.");
             }
         }
 
@@ -160,14 +196,14 @@ namespace InternProj.Data
         /// </summary>
         /// <param name="item">The DonViTinh to delete.</param>
         /// <returns>The number of rows affected.</returns>
-        public async Task<int> DeleteItemAsync(DonViTinh item)
+        public async Task<int> DeleteItemAsync(SanPham item)
         {
             await Init();
             await using var connection = new SqliteConnection(Constants.DatabasePath);
             await connection.OpenAsync();
 
             var deleteCmd = connection.CreateCommand();
-            deleteCmd.CommandText = "DELETE FROM tbl_DM_Don_Vi_Tinh WHERE ID = @Id";
+            deleteCmd.CommandText = "DELETE FROM tbl_DM_San_Pham WHERE ID = @Id";
             deleteCmd.Parameters.AddWithValue("@Id", item.Id);
 
             return await deleteCmd.ExecuteNonQueryAsync();
@@ -183,7 +219,7 @@ namespace InternProj.Data
             await connection.OpenAsync();
 
             var dropTableCmd = connection.CreateCommand();
-            dropTableCmd.CommandText = "DROP TABLE IF EXISTS tbl_DM_Don_Vi_Tinh";
+            dropTableCmd.CommandText = "DROP TABLE IF EXISTS tbl_DM_San_Pham";
 
             await dropTableCmd.ExecuteNonQueryAsync();
             _hasBeenInitialized = false;

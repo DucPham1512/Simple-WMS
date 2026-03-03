@@ -27,11 +27,36 @@
 
         ContentTemplate="{DataTemplate pages:LoaiSanPhamPage}"
         Route="loaisanpham" />
+  
+    <ShellContent
+        Title="Sản Phẩm"
 
+        ContentTemplate="{DataTemplate pages:SanPhamPage}"
+        Route="sanpham" />
+
+    <ShellContent    
+        Title="Phân quyền kho - user"
+
+<<<<<<< feat_quan_ly_phieu_nhap
     <ShellContent    
         Title="Phiếu nhập kho"
 
         ContentTemplate="{DataTemplate pages:PhieuNhapKhoHeaderListPage}"
         Route="phieunhapkho" />
+=======
+        ContentTemplate="{DataTemplate pages:KhoUserPage}"
+        Route="khouser" />
+  
+    <ShellContent
+        Title="Nhà cung cấp"
 
+        ContentTemplate="{DataTemplate pages:NhaCungCapPage}"
+        Route="nhacungcap" />
+  
+    <ShellContent
+        Title="Kho"
+>>>>>>> dev
+
+        ContentTemplate="{DataTemplate pages:KhoPage}"
+        Route="kho" />
 </Shell>
