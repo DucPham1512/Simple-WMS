@@ -30,6 +30,9 @@ namespace InternProj
             builder.Services.AddSingleton<KhoRepository>();
             builder.Services.AddTransient<KhoPageModel>();
             builder.Services.AddTransient<KhoPage>();
+            builder.Services.AddSingleton<SanPhamRepository>();
+            builder.Services.AddTransient<SanPhamPageModel>();
+            builder.Services.AddTransient<SanPhamPage>();
 #endif
 
             return builder.Build();

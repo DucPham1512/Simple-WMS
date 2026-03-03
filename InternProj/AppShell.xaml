@@ -27,11 +27,16 @@
 
         ContentTemplate="{DataTemplate pages:LoaiSanPhamPage}"
         Route="loaisanpham" />
+  
+    <ShellContent
+        Title="Sản Phẩm"
+
+        ContentTemplate="{DataTemplate pages:SanPhamPage}"
+        Route="sanpham" />
 
     <ShellContent    
         Title="Kho"
 
         ContentTemplate="{DataTemplate pages:KhoPage}"
         Route="kho" />
-
 </Shell>
