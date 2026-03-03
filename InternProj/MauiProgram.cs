@@ -1,8 +1,7 @@
-﻿using Microsoft.Extensions.Logging;
-
-using InternProj.Data;
+﻿using InternProj.Data;
 using InternProj.PageModels;
 using InternProj.Pages;
+using Microsoft.Extensions.Logging;
 
 namespace InternProj
 {
@@ -20,13 +19,16 @@ namespace InternProj
                 });
 
 #if DEBUG
-    		builder.Logging.AddDebug();
+            builder.Logging.AddDebug();
             builder.Services.AddSingleton<DonViTinhRepository>();
             builder.Services.AddTransient<DonViTinhPageModel>();
             builder.Services.AddTransient<DonViTinhPage>();
             builder.Services.AddSingleton<LoaiSanPhamRepository>();
             builder.Services.AddTransient<LoaiSanPhamPageModel>();
             builder.Services.AddTransient<LoaiSanPhamPage>();
+            builder.Services.AddSingleton<KhoUserRepository>();
+            builder.Services.AddTransient<KhoUserPageModel>();
+            builder.Services.AddTransient<KhoUserPage>();
             builder.Services.AddSingleton<KhoRepository>();
             builder.Services.AddTransient<KhoPageModel>();
             builder.Services.AddTransient<KhoPage>();

@@ -35,6 +35,12 @@
         Route="sanpham" />
 
     <ShellContent    
+        Title="Phân quyền kho - user"
+
+        ContentTemplate="{DataTemplate pages:KhoUserPage}"
+        Route="khouser" />
+  
+    <ShellContent
         Title="Nhà cung cấp"
 
         ContentTemplate="{DataTemplate pages:NhaCungCapPage}"
