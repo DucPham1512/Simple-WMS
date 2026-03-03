@@ -88,7 +88,7 @@ namespace InternProj.Data
         /// </summary>
         /// <param name="Ma_LSP">The ID of the DonViTinh.</param>
         /// <returns>A <see cref="LoaiSanPham"/> object if found; otherwise, null.</returns>
-        public async Task<LoaiSanPham?> GetAsync(int Id)
+        public async Task<LoaiSanPham?> GetAsync(string tenSp)
         {
             await Init();
             await using var connection = new SqliteConnection(Constants.DatabasePath);
@@ -96,7 +96,7 @@ namespace InternProj.Data
 
             var selectCmd = connection.CreateCommand();
             selectCmd.CommandText = "SELECT * FROM tbl_DM_Loai_San_Pham WHERE ID = @Id";
-            selectCmd.Parameters.AddWithValue("@Id", Id);
+            selectCmd.Parameters.AddWithValue("@Ten_SP", tenSp);
 
             await using var reader = await selectCmd.ExecuteReaderAsync();
             if (await reader.ReadAsync())
