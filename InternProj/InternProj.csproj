@@ -98,6 +98,10 @@
 	  <MauiXaml Update="Pages\SanPhamPage .xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+      
+	  <MauiXaml Update="Pages\KhoPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Pages\LoaiSanPhamPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
