@@ -168,7 +168,11 @@ namespace InternProj.Data
             }
             catch (SqliteException ex) when (ex.SqliteErrorCode == 19) // Constraint Violation
             {
-                throw new Exception($"Nhà cung cấp {item.Ten_Ncc} đã tồn tại.");
+                // Log the full unexpected error
+                _logger.LogError(ex, "Unexpected error saving NhaCungCap");
+
+                // Pass the exact message up to the UI so you can read it immediately
+                throw new Exception($"Lỗi hệ thống: {ex.Message}", ex);
             }
         }
 
