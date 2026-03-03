@@ -75,5 +75,13 @@ namespace InternProj.Pages
 
             vm.SyncTenKhoForRow(row);
         }
+
+        private void NccCombo_SelectionChanged(object sender, EventArgs e)
+        {
+            if (sender is not SfComboBox combo) return;
+            if (combo.BindingContext is not PhieuNhapKhoHeader row) return;
+            if (BindingContext is not PhieuNhapKhoHeaderListPageModel vm) return;
+            vm.SyncTenNCCForRow(row);
+        }
     }
 }

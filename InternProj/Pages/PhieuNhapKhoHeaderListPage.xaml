@@ -71,7 +71,7 @@
                                    HeaderText="Ngày nhập" />
                 <sfgrid:DataGridTemplateColumn MappingName="Kho_ID" HeaderText="Kho" Width="180">
                     <!-- Normal display -->
-                    <sfgrid:DataGridTemplateColumn.CellTemplate>    
+                    <sfgrid:DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <Label Text="{Binding Ten_Kho}"
                                    TextColor="Black"
@@ -97,8 +97,34 @@
                         </DataTemplate>
                     </sfgrid:DataGridTemplateColumn.EditTemplate>
                 </sfgrid:DataGridTemplateColumn>
-                <sfgrid:DataGridNumericColumn MappingName="NCC_ID"
-                                      HeaderText="NCC" />
+                <sfgrid:DataGridTemplateColumn MappingName="NCC_ID" HeaderText="NCC" Width="180">
+                    <!-- Normal display -->
+                    <sfgrid:DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Label Text="{Binding Ten_NCC}"
+                                   TextColor="Black"
+                                   VerticalTextAlignment="Center"
+                                   Padding="8,0" />
+                        </DataTemplate>
+                    </sfgrid:DataGridTemplateColumn.CellTemplate>
+
+                    <!-- Edit mode -->
+                    <sfgrid:DataGridTemplateColumn.EditTemplate>
+                        <DataTemplate>
+                            <editors:SfComboBox
+                                ItemsSource="{Binding Source={x:Reference DanhSachPhieuNhapKho}, Path=BindingContext.DanhSachNCC}"
+                                DisplayMemberPath="Ten_Ncc"
+                                SelectedValuePath="Id"
+                                SelectedValue="{Binding NCC_ID, Mode=TwoWay}"
+                                SelectionChanged="NccCombo_SelectionChanged"
+                                IsEditable="True"
+                                IsFilteringEnabled="True"
+                                TextSearchMode="Contains"
+                                ShowSuggestionsOnFocus="True"
+                                Placeholder="Chọn Ncc" />
+                        </DataTemplate>
+                    </sfgrid:DataGridTemplateColumn.EditTemplate>
+                </sfgrid:DataGridTemplateColumn>
                 <sfgrid:DataGridTextColumn MappingName="Ghi_Chu"
                                    HeaderText="Ghi chú" />
                 <sfgrid:DataGridTemplateColumn HeaderText="Thao tác" Width="170">

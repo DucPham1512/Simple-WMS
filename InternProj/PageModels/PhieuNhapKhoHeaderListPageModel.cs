@@ -15,6 +15,8 @@ namespace InternProj.PageModels
 
         private readonly KhoRepository _khoRepository;
 
+        private readonly NhaCungCapRepository _nccRepository;
+
         [ObservableProperty]
         private ObservableCollection<PhieuNhapKhoHeader> _danhSachPhieu = new();
 
@@ -22,12 +24,16 @@ namespace InternProj.PageModels
         private ObservableCollection<Kho> _danhSachKho = new();
 
         [ObservableProperty]
+        private ObservableCollection<NhaCungCap> _danhSachNCC = new();
+
+        [ObservableProperty]
         private PhieuNhapKhoHeader? _selectedItem;
 
-        public PhieuNhapKhoHeaderListPageModel(PhieuNhapKhoRepository pnkRepository, KhoRepository khoRepository)
+        public PhieuNhapKhoHeaderListPageModel(PhieuNhapKhoRepository pnkRepository, KhoRepository khoRepository, NhaCungCapRepository nccRepository)
         {
             _pnkRepository = pnkRepository;
             _khoRepository = khoRepository;
+            _nccRepository = nccRepository;
         }
 
         // This is called automatically when SelectedItem changes
@@ -47,6 +53,8 @@ namespace InternProj.PageModels
             DanhSachPhieu = new ObservableCollection<PhieuNhapKhoHeader>(data);
             var khoList = await _khoRepository.ListAsync();
             DanhSachKho = new ObservableCollection<Kho>(khoList);
+            var nccList = await _nccRepository.ListAsync();
+            DanhSachNCC = new ObservableCollection<NhaCungCap>(nccList);
         }
 
         [RelayCommand]
@@ -100,6 +108,11 @@ namespace InternProj.PageModels
             row.Ten_Kho = kho?.Ten_Kho ?? string.Empty;
         }
 
+        public void SyncTenNCCForRow(PhieuNhapKhoHeader row)
+        {
+            var ncc = DanhSachNCC.FirstOrDefault(x => x.Id == row.NCC_ID);
+            row.Ten_NCC = ncc?.Ten_Ncc ?? string.Empty;
+        }
         public IReadOnlyList<string> ActionOptions { get; } =
             new[] {"Lưu","Sửa", "Xóa","In" };
 
