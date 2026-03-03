@@ -28,5 +28,10 @@
         ContentTemplate="{DataTemplate pages:LoaiSanPhamPage}"
         Route="loaisanpham" />
 
+    <ShellContent    
+        Title="Phiếu nhập kho"
+
+        ContentTemplate="{DataTemplate pages:PhieuNhapKhoHeaderListPage}"
+        Route="phieunhapkho" />
 
 </Shell>
