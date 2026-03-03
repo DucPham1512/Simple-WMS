@@ -88,8 +88,32 @@ namespace InternProj.PageModels
             await _repository.DeleteItemAsync(item);
             DanhSachNcc.Remove(item);
         }
+
+        [RelayCommand]
+        private async Task Edit(NhaCungCap item)
+        {
+            try
+            {
+                var donVi = new NhaCungCap
+                {
+                    Id = item.Id,
+                    Ma_Ncc = item.Ma_Ncc,
+                    Ten_Ncc = item.Ten_Ncc,
+                    Ghi_Chu = item.Ghi_Chu
+                };
+
+                // Gọi hàm Save mới
+                await _repository.SaveItemAsync(donVi, true);
+
+                await LoadData();
+            }
+            catch (Exception ex)
+            {
+                await Shell.Current.DisplayAlertAsync("Lỗi", ex.Message, "OK");
+            }
+        }
         // Hàm helper để điền dữ liệu vào ô input khi chọn một dòng để sửa
-        partial void OnSelectedItemChanged(NhaCungCap value)
+        partial void OnSelectedItemChanged(NhaCungCap? value)
         {
             if (value != null)
             {
