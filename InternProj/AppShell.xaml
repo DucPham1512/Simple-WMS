@@ -37,6 +37,13 @@
     <ShellContent    
         Title="Phân quyền kho - user"
 
+<<<<<<< feat_quan_ly_phieu_nhap
+    <ShellContent    
+        Title="Phiếu nhập kho"
+
+        ContentTemplate="{DataTemplate pages:PhieuNhapKhoHeaderListPage}"
+        Route="phieunhapkho" />
+=======
         ContentTemplate="{DataTemplate pages:KhoUserPage}"
         Route="khouser" />
   
@@ -48,6 +55,7 @@
   
     <ShellContent
         Title="Kho"
+>>>>>>> dev
 
         ContentTemplate="{DataTemplate pages:KhoPage}"
         Route="kho" />

@@ -1,0 +1,14 @@
+<ContentPage
+    x:Class="InternProj.Pages.PrintPreviewPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    Title="Xem trước in">
+
+    <VerticalStackLayout Padding="12" Spacing="12">
+        <Button Text="In"
+                Command="{Binding PrintCommand}" />
+
+        <WebView Source="{Binding PrintSource}"
+                 HeightRequest="900" />
+    </VerticalStackLayout>
+</ContentPage>
