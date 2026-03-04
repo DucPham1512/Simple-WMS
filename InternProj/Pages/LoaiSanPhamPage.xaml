@@ -1,23 +1,55 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage
     x:Class="InternProj.Pages.LoaiSanPhamPage"
+    x:Name="LoaiSanPham"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:models="clr-namespace:InternProj.Models"
-    Title="Loại sản phẩm">
+    xmlns:sfgrid="http://schemas.syncfusion.com/maui"
+    xmlns:editors="clr-namespace:Syncfusion.Maui.Inputs;assembly=Syncfusion.Maui.Inputs"
+    Title="Danh mục loại sản phẩm">
 
     <VerticalStackLayout Spacing="12" Padding="16">
+        <ContentPage.Resources>
+            <!-- Header style -->
+            <Style TargetType="sfgrid:DataGridHeaderCell">
+                <Setter Property="Background" Value="#F2F2F2" />
+                <Setter Property="TextColor" Value="#222222" />
+                <Setter Property="FontAttributes" Value="Bold" />
+            </Style>
 
+            <Style TargetType="sfgrid:DataGridCell">
+                <Setter Property="FontSize" Value="15" />
+                <Setter Property="FontFamily" Value="Tahoma" />
+                <Setter Property="TextColor" Value="#222222" />
+            </Style>
+
+
+            <!-- Row style -->
+            <Style TargetType="sfgrid:DataGridRow">
+                <Setter Property="Background" Value="#F2F2F2" />
+            </Style>
+        </ContentPage.Resources>
+        <Label Text="Danh mục loại sản phẩm"
+               FontAttributes="Bold"
+               TextColor="White" />
         <!-- Inputs -->
-        <Label Text="Mã loại sản phẩm" />
-        <Entry Text="{Binding MaLSPInput}"/>
+        <HorizontalStackLayout Spacing="12">
+            <VerticalStackLayout Spacing="8">
+                <!-- Inputs -->
+                <Label Text="Mã loại sản phẩm" />
+                <Entry Text="{Binding MaLSPInput}"/>
+            </VerticalStackLayout>                
+            <VerticalStackLayout Spacing="8">
+                <Label Text="Tên loại sản phẩm" />
+                <Entry Text="{Binding TenLSPInput}" Placeholder="VD: Kg, Thùng, Cái..." />
+            </VerticalStackLayout>
 
-        <Label Text="Tên loại sản phẩm" />
-        <Entry Text="{Binding TenLSPInput}" Placeholder="VD: Gà, Trứng,..." />
-
-        <Label Text="Ghi chú" />
-        <Entry Text="{Binding GhiChuInput}" Placeholder="Ghi chú (nếu có)" />
-
+            <VerticalStackLayout Spacing="8">
+                <Label Text="Ghi chú" />
+                <Entry Text="{Binding GhiChuInput}" Placeholder="Ghi chú (nếu có)" />
+            </VerticalStackLayout>
+        </HorizontalStackLayout>
         <!-- Buttons -->
         <HorizontalStackLayout Spacing="12">
             <Button Text="Load"
@@ -26,34 +58,57 @@
             <Button Text="Save"
                     Command="{Binding SaveCommand}" />
         </HorizontalStackLayout>
+        <sfgrid:SfDataGrid
+            AllowEditing="true"
+            ItemsSource="{Binding DanhSachLSP}"
+            AutoGenerateColumnsMode="None"
+            SelectionMode="Single"
+            CurrentCellEndEdit="LSP_CurrentCellEndEdit"
+            GridLinesVisibility="Both"
+            HeaderGridLinesVisibility="Both"
+            ColumnWidthMode="Fill"
+            HeaderRowHeight="44"
+            RowHeight="52">
 
-        <!-- List -->
-        <Label Text="Danh sách loại sản phẩm" FontAttributes="Bold" />
+            <sfgrid:SfDataGrid.DefaultStyle>
+                <sfgrid:DataGridStyle
+            HeaderRowBackground="#F2F2F2"
+            HeaderRowTextColor="#222222"
+            HeaderGridLineColor="#BDBDBD"
+            HeaderGridLineStrokeThickness="1"
+            GridLineColor="#BDBDBD"
+            GridLineStrokeThickness="1" />
+            </sfgrid:SfDataGrid.DefaultStyle>
 
-        <CollectionView ItemsSource="{Binding DanhSachLSP}"
-                        SelectionMode="Single"
-                        SelectedItem="{Binding SelectedItem, Mode=TwoWay}">
-            <CollectionView.ItemTemplate>
-                <DataTemplate x:DataType="models:LoaiSanPham">
-                    <Grid ColumnDefinitions="*,Auto" Padding="8">
-                        <VerticalStackLayout Spacing="2">
-                            <HorizontalStackLayout Spacing="8">
-                                <Label Text="{Binding Id}" FontAttributes="Bold"/>
-                                <Label Text="{Binding Ma_LSP}" FontAttributes="Bold" />
-                                <Label Text="{Binding Ten_LSP}" FontAttributes="Bold" />
-                            </HorizontalStackLayout>
+            <sfgrid:SfDataGrid.Columns >
 
-                            <Label Text="{Binding Ghi_Chu}" FontSize="12" Opacity="0.7" />
-                        </VerticalStackLayout>
+                <sfgrid:DataGridTextColumn MappingName="Ma_LSP"
+                                   HeaderText="Mã loại sản phẩm" />
 
-                        <Button Grid.Column="1"
-                                Text="Xóa"
-                                Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.DeleteCommand}"
-                                CommandParameter="{Binding .}" />
-                    </Grid>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
+                <sfgrid:DataGridTextColumn MappingName="Ten_LSP"
+                                   HeaderText="Tên loại sản phẩm" />
 
+                <sfgrid:DataGridTextColumn MappingName="Ghi_Chu"
+                                   HeaderText="Ghi chú" />
+
+                <sfgrid:DataGridTemplateColumn HeaderText="Xóa" Width="100" CellPadding="3">
+                    <sfgrid:DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Button
+                                    Text="Xóa"
+                                    Command="{Binding Source={x:Reference LoaiSanPham}, Path=BindingContext.DeleteCommand}"
+                                    CommandParameter="{Binding .}"
+                                    WidthRequest="60"
+                                    HeightRequest="32"
+                                    HorizontalOptions="Center"
+                                    VerticalOptions="Center"
+                                    Padding="6,2" />
+                            </Grid>
+                        </DataTemplate>
+                    </sfgrid:DataGridTemplateColumn.CellTemplate>
+                </sfgrid:DataGridTemplateColumn>
+            </sfgrid:SfDataGrid.Columns>
+        </sfgrid:SfDataGrid>
     </VerticalStackLayout>
-</ContentPage>
+</ContentPage>   

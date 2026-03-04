@@ -170,7 +170,15 @@ namespace InternProj.Data
             deleteCmd.CommandText = "DELETE FROM tbl_DM_Kho WHERE ID = @Id";
             deleteCmd.Parameters.AddWithValue("@Id", item.Id);
 
-            return await deleteCmd.ExecuteNonQueryAsync();
+            try
+            {
+                return await deleteCmd.ExecuteNonQueryAsync();
+            }
+            catch (SqliteException ex) when (ex.SqliteErrorCode == 19) // Constraint Violation
+            {
+                await Shell.Current.DisplayAlertAsync("Error", $"Cannot delete '{item.Ten_Kho}' because it is being referenced by other records.", "OK");
+                return -1;
+            }
         }
 
         /// <summary>

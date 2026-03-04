@@ -34,6 +34,17 @@
         ContentTemplate="{DataTemplate pages:SanPhamPage}"
         Route="sanpham" />
 
+    <ShellContent
+        Title="Nhà cung cấp"
+
+        ContentTemplate="{DataTemplate pages:NhaCungCapPage}"
+        Route="nhacungcap" />
+
+    <ShellContent
+        Title="Kho"
+        ContentTemplate="{DataTemplate pages:KhoPage}"
+        Route="kho" />
+    
     <ShellContent    
         Title="Phân quyền kho - user"
         ContentTemplate="{DataTemplate pages:KhoUserPage}"
@@ -45,14 +56,5 @@
         ContentTemplate="{DataTemplate pages:PhieuNhapKhoHeaderListPage}"
         Route="phieunhapkho" />
 
-    <ShellContent
-        Title="Nhà cung cấp"
 
-        ContentTemplate="{DataTemplate pages:NhaCungCapPage}"
-        Route="nhacungcap" />
-  
-    <ShellContent
-        Title="Kho"
-        ContentTemplate="{DataTemplate pages:KhoPage}"
-        Route="kho" />
 </Shell>

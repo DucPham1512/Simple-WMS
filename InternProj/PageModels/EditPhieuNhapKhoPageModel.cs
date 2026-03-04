@@ -219,7 +219,7 @@ namespace InternProj.PageModels
                 // Clear current line inputs after adding
                 SoLuongInput = string.Empty;
                 DonGiaInput = string.Empty;
-                LoadData();
+                await LoadData();
             }
             catch (Exception ex)
             {

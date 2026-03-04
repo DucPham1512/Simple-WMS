@@ -81,10 +81,36 @@ namespace InternProj.PageModels
 
             // Truyền string Key vào hàm xóa
             await _repository.DeleteItemAsync(item);
-            DanhSachKho.Remove(item);
+            
+            await LoadData();
         }
+
+        [RelayCommand]
+        private async Task Edit(Kho item)
+        {
+            try
+            {
+                var donVi = new Kho
+                {
+                    Id = item.Id,
+                    Ten_Kho = item.Ten_Kho,
+                    Ghi_Chu = item.Ghi_Chu
+                };
+
+
+                // Gọi hàm Save mới
+                await _repository.SaveItemAsync(donVi, true);
+
+                await LoadData();
+            }
+            catch (Exception ex)
+            {
+                await Shell.Current.DisplayAlertAsync("Lỗi", ex.Message, "OK");
+            }
+        }
+
         // Hàm helper để điền dữ liệu vào ô input khi chọn một dòng để sửa
-        partial void OnSelectedItemChanged(Kho value)
+        partial void OnSelectedItemChanged(Kho? value)
         {
             if (value != null)
             {

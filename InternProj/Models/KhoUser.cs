@@ -7,6 +7,8 @@
 
         public int KhoId { get; set; }
 
+        public string Ten_Kho { get; set; } = string.Empty;
+
         public override string ToString() => $"{Id}";
     }
 }

@@ -2,6 +2,7 @@
 using CommunityToolkit.Mvvm.Input;
 using InternProj.Data;
 using InternProj.Models;
+
 //using Microsoft.UI.Xaml.Controls.Primitives;
 using System.Collections.ObjectModel;
 
@@ -28,6 +29,8 @@ namespace InternProj.PageModels
         {
             _repository = repository;
         }
+
+
 
         [RelayCommand]
         private async Task LoadData()
@@ -79,8 +82,33 @@ namespace InternProj.PageModels
             await _repository.DeleteItemAsync(item);
             DanhSachDonVi.Remove(item);
         }
+
+        [RelayCommand]
+        private async Task Edit(DonViTinh item)
+        {
+            try
+            {
+                var donVi = new DonViTinh
+                {
+                    Id = item.Id,
+                    Ten_Don_Vi_Tinh = item.Ten_Don_Vi_Tinh,
+                    Ghi_Chu = item.Ghi_Chu
+                };
+
+
+                // Gọi hàm Save mới
+                await _repository.SaveItemAsync(donVi, true);
+
+                await LoadData();
+            }
+            catch (Exception ex)
+            {
+                await Shell.Current.DisplayAlertAsync("Lỗi", ex.Message, "OK");
+            }
+        }
+
         // Hàm helper để điền dữ liệu vào ô input khi chọn một dòng để sửa
-        partial void OnSelectedItemChanged(DonViTinh value)
+        partial void OnSelectedItemChanged(DonViTinh? value)
         {
             if (value != null)
             {

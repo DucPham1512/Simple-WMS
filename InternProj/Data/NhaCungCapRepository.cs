@@ -191,7 +191,16 @@ namespace InternProj.Data
             deleteCmd.CommandText = "DELETE FROM tbl_DM_NCC WHERE ID = @Id";
             deleteCmd.Parameters.AddWithValue("@Id", item.Id);
 
-            return await deleteCmd.ExecuteNonQueryAsync();
+            try
+            {
+                return await deleteCmd.ExecuteNonQueryAsync();
+            }
+            catch (SqliteException ex) when (ex.SqliteErrorCode == 19) // Constraint Violation
+            {
+                // Log the full unexpected error
+                await Shell.Current.DisplayAlertAsync("Lỗi", "Dữ liệu đang được tham chiếu bởi các bản ghi khác.", "OK");
+                return -1;
+            }
         }
 
         /// <summary>

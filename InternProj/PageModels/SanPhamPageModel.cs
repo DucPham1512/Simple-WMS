@@ -13,10 +13,18 @@ namespace InternProj.PageModels
 {
     public partial class SanPhamPageModel : ObservableObject
     {
-        private readonly SanPhamRepository _repository;
+        private readonly SanPhamRepository _spRepository;
+        private readonly LoaiSanPhamRepository _lspRepository;
+        private readonly DonViTinhRepository _dvtRepository;
 
         [ObservableProperty]
         private ObservableCollection<SanPham> _danhSachSP = [];
+
+        [ObservableProperty]
+        private ObservableCollection<LoaiSanPham> _danhSachLSP = [];
+
+        [ObservableProperty]
+        private ObservableCollection<DonViTinh> _danhSachDVT = [];
 
         [ObservableProperty]
         private SanPham? _selectedItem;
@@ -38,16 +46,22 @@ namespace InternProj.PageModels
         [ObservableProperty]
         private string _ghiChuInput;
 
-        public SanPhamPageModel(SanPhamRepository repository)
+        public SanPhamPageModel(SanPhamRepository spRepository, LoaiSanPhamRepository lspRepository, DonViTinhRepository dvtRepository)
         {
-            _repository = repository;
+            _spRepository = spRepository;
+            _lspRepository = lspRepository;
+            _dvtRepository = dvtRepository;
         }
 
         [RelayCommand]
         private async Task LoadData()
         {
-            var data = await _repository.ListAsync();
+            var data = await _spRepository.ListAsync();
             DanhSachSP = new ObservableCollection<SanPham>(data);
+            var lspList = await _lspRepository.ListAsync();
+            DanhSachLSP = new ObservableCollection<LoaiSanPham>(lspList);
+            var dvtList = await _dvtRepository.ListAsync();
+            DanhSachDVT = new ObservableCollection<DonViTinh>(dvtList);
         }
 
         [RelayCommand]
@@ -69,7 +83,7 @@ namespace InternProj.PageModels
                 if (isEdit)
                     item.Id = SelectedItem!.Id;
 
-                await _repository.SaveItemAsync(item, isEdit);
+                await _spRepository.SaveItemAsync(item, isEdit);
 
                 await LoadData();
 
@@ -95,11 +109,28 @@ namespace InternProj.PageModels
             if (!answer) return;
 
             // Truyền string Key vào hàm xóa
-            await _repository.DeleteItemAsync(item);
+            await _spRepository.DeleteItemAsync(item);
             DanhSachSP.Remove(item);
         }
+
+        [RelayCommand]
+        private async Task Edit(SanPham item)
+        {
+            try
+            { 
+
+                await _spRepository.SaveItemAsync(item, true);
+
+                await LoadData();
+
+            }
+            catch (Exception ex)
+            {
+                await Shell.Current.DisplayAlertAsync("Lỗi", ex.Message, "OK");
+            }
+        }
         // Hàm helper để điền dữ liệu vào ô input khi chọn một dòng để sửa
-        partial void OnSelectedItemChanged(SanPham value)
+        partial void OnSelectedItemChanged(SanPham? value)
         {
             if (value != null)
             {
@@ -109,6 +140,17 @@ namespace InternProj.PageModels
                 IdDVTInput = value.Id_DVT.ToString();
                 GhiChuInput = value.Ghi_Chu;
             }
+        }
+
+        public void SyncTenDVTForRow(SanPham row)
+        {
+            var dvt = DanhSachDVT.FirstOrDefault(x => x.Id == row.Id_DVT);
+            row.Ten_DVT = dvt?.Ten_Don_Vi_Tinh ?? string.Empty;
+        }
+        public void SyncTenLSPForRow(SanPham row)
+        {
+            var lsp = DanhSachLSP.FirstOrDefault(x => x.Id == row.Id_LSP);
+            row.Ten_LSP = lsp?.Ten_LSP ?? string.Empty;
         }
     }
 }

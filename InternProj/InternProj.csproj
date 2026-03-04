@@ -85,8 +85,8 @@
 	  <Compile Update="Pages\NhaCungCapPage.xaml.cs">
 	    <DependentUpon>NhaCungCapPage.xaml</DependentUpon>
 	  </Compile>
-	  <Compile Update="Pages\SanPhamPage .xaml.cs">
-	    <DependentUpon>SanPhamPage .xaml</DependentUpon>
+	  <Compile Update="Pages\SanPhamPage.xaml.cs">
+	    <DependentUpon>SanPhamPage.xaml</DependentUpon>
 	  </Compile>
 	</ItemGroup>
 
@@ -100,7 +100,7 @@
 	  <MauiXaml Update="Pages\NhaCungCapPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Pages\SanPhamPage .xaml">
+	  <MauiXaml Update="Pages\SanPhamPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
       

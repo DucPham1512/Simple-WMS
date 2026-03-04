@@ -86,7 +86,8 @@ namespace InternProj.PageModels
 
             // Truyền string Key vào hàm xóa
             await _repository.DeleteItemAsync(item);
-            DanhSachNcc.Remove(item);
+            
+            await LoadData();
         }
 
         [RelayCommand]

@@ -13,7 +13,11 @@ namespace InternProj.Models
 
         public int Id_LSP { get; set; }
 
+        public string Ten_LSP { get; set; } = string.Empty;
+
         public int Id_DVT { get; set; }
+
+        public string Ten_DVT { get; set; } = string.Empty;
         public string Ghi_Chu { get; set; } = string.Empty;
 
         public override string ToString() => $"{Ma_SP}";

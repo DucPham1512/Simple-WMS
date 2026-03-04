@@ -65,7 +65,9 @@ namespace InternProj.Data
             await connection.OpenAsync();
 
             var selectCmd = connection.CreateCommand();
-            selectCmd.CommandText = "SELECT * FROM tbl_DM_Kho_User ";
+            selectCmd.CommandText = @"SELECT ku.ID, ku.Ma_Dang_Nhap, ku.Kho_ID, k.Ten_Kho 
+                                      FROM tbl_DM_Kho_User ku
+                                      JOIN tbl_DM_Kho k ON ku.Kho_ID = k.ID";
             var KhoUser = new List<KhoUser>();
 
             await using var reader = await selectCmd.ExecuteReaderAsync();
@@ -76,6 +78,7 @@ namespace InternProj.Data
                     Id = reader.GetInt32(0),
                     MaDangNhap = reader.GetString(1),
                     KhoId = reader.GetInt32(2),
+                    Ten_Kho = reader.GetString(3)
                 }
                     );
             }

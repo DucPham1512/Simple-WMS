@@ -75,6 +75,32 @@ namespace InternProj.PageModels
         }
 
         [RelayCommand]
+        private async Task Edit(LoaiSanPham item)
+        {
+            try
+            {
+                var donVi = new LoaiSanPham
+                {
+                    Id = item.Id,
+                    Ma_LSP = item.Ma_LSP,
+                    Ten_LSP = item.Ten_LSP,
+                    Ghi_Chu = item.Ghi_Chu
+                };
+
+
+                // Gọi hàm Save mới
+                await _repository.SaveItemAsync(donVi, true);
+
+                await LoadData();
+            }
+            catch (Exception ex)
+            {
+                await Shell.Current.DisplayAlertAsync("Lỗi", ex.Message, "OK");
+            }
+        }
+
+
+        [RelayCommand]
         private async Task Delete(LoaiSanPham item)
         {
             bool answer = await Shell.Current.DisplayAlertAsync("Xác nhận", $"Bạn muốn xóa '{item.Ma_LSP}'?", "Có", "Không");
@@ -85,7 +111,7 @@ namespace InternProj.PageModels
             DanhSachLSP.Remove(item);
         }
         // Hàm helper để điền dữ liệu vào ô input khi chọn một dòng để sửa
-        partial void OnSelectedItemChanged(LoaiSanPham value)
+        partial void OnSelectedItemChanged(LoaiSanPham? value)
         {
             if (value != null)
             {

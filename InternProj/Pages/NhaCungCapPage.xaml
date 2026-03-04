@@ -90,7 +90,23 @@
 
                 <sfgrid:DataGridTextColumn MappingName="Ghi_Chu"
                                    HeaderText="Ghi chú" />
-
+                <sfgrid:DataGridTemplateColumn HeaderText="Xóa" Width="100" CellPadding="3">
+                    <sfgrid:DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Button
+                                    Text="Xóa"
+                                    Command="{Binding Source={x:Reference Ncc}, Path=BindingContext.DeleteCommand}"
+                                    CommandParameter="{Binding .}"
+                                    WidthRequest="60"
+                                    HeightRequest="32"
+                                    HorizontalOptions="Center"
+                                    VerticalOptions="Center"
+                                    Padding="6,2" />
+                            </Grid>
+                        </DataTemplate>
+                    </sfgrid:DataGridTemplateColumn.CellTemplate>
+                </sfgrid:DataGridTemplateColumn>
             </sfgrid:SfDataGrid.Columns>
         </sfgrid:SfDataGrid>
     </VerticalStackLayout>

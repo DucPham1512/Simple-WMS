@@ -68,7 +68,11 @@ namespace InternProj.Data
             await connection.OpenAsync();
 
             var selectCmd = connection.CreateCommand();
-            selectCmd.CommandText = "SELECT * FROM tbl_DM_San_Pham";
+            selectCmd.CommandText = @"SELECT
+                                    sp.ID, sp.Ma_SP, sp.Ten_SP, sp.Loai_San_Pham_ID, sp.Don_Vi_Tinh_ID, sp.Ghi_Chu, lsp.Ten_LSP, dvt.Ten_Don_Vi_Tinh
+                                    FROM tbl_DM_San_Pham sp
+                                    JOIN tbl_DM_Loai_San_Pham lsp ON sp.Loai_San_Pham_ID = lsp.ID
+                                    JOIN tbl_DM_Don_Vi_Tinh dvt ON sp.Don_Vi_Tinh_ID = dvt.ID";
             var sanPham = new List<SanPham>();
 
             await using var reader = await selectCmd.ExecuteReaderAsync();
@@ -81,8 +85,10 @@ namespace InternProj.Data
                         Ten_SP = reader.GetString(2),
                         Id_LSP = reader.GetInt32(3),
                         Id_DVT = reader.GetInt32(4),
-                        Ghi_Chu = reader.GetString(5)
-                    }
+                        Ghi_Chu = reader.GetString(5),
+                        Ten_LSP = reader.GetString(6),
+                        Ten_DVT = reader.GetString(7)
+                }
                 );
             }
 
@@ -167,7 +173,7 @@ namespace InternProj.Data
             {
                 saveCmd.CommandText = @"
                     UPDATE tbl_DM_San_Pham 
-                    SET Ma_LSP = @Ma, Ten_LSP = @Ten, Loai_San_Pham_Id = @Lsp, Don_Vi_Tinh_ID = @Dvt, Ghi_Chu = @GhiChu
+                    SET Ma_SP = @Ma, Ten_SP = @Ten, Loai_San_Pham_Id = @Lsp, Don_Vi_Tinh_ID = @Dvt, Ghi_Chu = @GhiChu
                     WHERE @Id = ID";
                 saveCmd.Parameters.AddWithValue("@Id", item.Id);
             }
