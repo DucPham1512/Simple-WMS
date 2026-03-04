@@ -18,20 +18,20 @@ namespace InternProj.PageModels
         private PhieuNhapKhoData? _selectedLine;
         [ObservableProperty]
         private string _sanPhamIdInput;
-        [ObservableProperty] 
+        [ObservableProperty]
         private string _soPhieuNhapKhoInput;
-        [ObservableProperty] 
+        [ObservableProperty]
         private string _ngayNhapKhoInput;
-        [ObservableProperty] 
+        [ObservableProperty]
         private string _khoIdInput;
-        [ObservableProperty] 
+        [ObservableProperty]
         private string _nccInput;
-        [ObservableProperty] 
+        [ObservableProperty]
         private string _ghiChuInput;
 
-        [ObservableProperty] 
+        [ObservableProperty]
         private string _soLuongInput;
-        [ObservableProperty] 
+        [ObservableProperty]
         private string _donGiaInput;
 
         // Temporary lines shown on screen before saving
@@ -41,6 +41,7 @@ namespace InternProj.PageModels
         public EditPhieuNhapKhoPageModel(PhieuNhapKhoRepository repository)
         {
             _repository = repository;
+
         }
 
         partial void OnHeaderChanged(PhieuNhapKhoHeader value)
@@ -61,6 +62,7 @@ namespace InternProj.PageModels
 
             var data = await _repository.GetAsync(header.Id);
             DanhSachDong = new ObservableCollection<PhieuNhapKhoRawData>(data);
+
         }
 
         [RelayCommand]
@@ -96,7 +98,8 @@ namespace InternProj.PageModels
 
                 await _repository.EditDataAsync(newLine);
                 DanhSachDong.Add(newLine);
-                
+
+                await LoadData();
 
                 // Clear current line inputs after adding
                 SanPhamIdInput = string.Empty;
@@ -146,10 +149,10 @@ namespace InternProj.PageModels
                 {
                     ngayNhap = DateTime.Now;
                 }
-                else if (!DateTime.TryParseExact(NgayNhapKhoInput, 
-                                                 "dd/MM/yyyy", 
-                                                  CultureInfo.InvariantCulture, 
-                                                  DateTimeStyles.None, 
+                else if (!DateTime.TryParseExact(NgayNhapKhoInput,
+                                                 "dd/MM/yyyy",
+                                                  CultureInfo.InvariantCulture,
+                                                  DateTimeStyles.None,
                                                   out ngayNhap))
                 {
                     await Shell.Current.DisplayAlertAsync("Lỗi", "Ngày nhập kho không hợp lệ.", "OK");
@@ -207,7 +210,7 @@ namespace InternProj.PageModels
                     return;
                 }
 
-                var line =(new PhieuNhapKhoRawData
+                var line = (new PhieuNhapKhoRawData
                 {
                     Id = _selectedLine.Id,
                     SoLuong = soLuong,
@@ -244,5 +247,22 @@ namespace InternProj.PageModels
             SanPhamIdInput = value.SanPhamId.ToString();
 
         }
+
+    [RelayCommand]
+        private async Task Edit(PhieuNhapKhoData item)
+        {
+            try
+            {
+
+                await _repository.EditDataAsync(item);
+
+                await LoadData();
+
+            }
+            catch (Exception ex)
+            {
+                await Shell.Current.DisplayAlertAsync("Lỗi", ex.Message, "OK");
+            }
+        }
     }
-    }
+}
