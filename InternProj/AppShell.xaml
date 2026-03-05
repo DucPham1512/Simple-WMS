@@ -56,5 +56,24 @@
         ContentTemplate="{DataTemplate pages:PhieuNhapKhoHeaderListPage}"
         Route="phieunhapkho" />
 
+    <ShellContent    
+        Title="Phiếu xuất kho"
 
+        ContentTemplate="{DataTemplate pages:PhieuXuatKhoHeaderListPage}"
+        Route="phieuxuatkho" />
+
+    <ShellContent    
+        Title="Báo cáo hàng nhập"
+        ContentTemplate="{DataTemplate pages:HangNhapReportPage}"
+        Route="hangnhapreport" />
+
+    <ShellContent    
+        Title="Báo cáo hàng xuất"
+        ContentTemplate="{DataTemplate pages:HangXuatReportPage}"
+        Route="hangxuatreport" />
+
+    <ShellContent    
+        Title="Báo cáo xuất nhập tồn"
+        ContentTemplate="{DataTemplate pages:XuatNhapTonDataPage}"
+        Route="xuatnhaptonreport" />
 </Shell>

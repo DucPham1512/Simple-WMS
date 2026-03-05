@@ -7,18 +7,16 @@ using System.Globalization;
 
 namespace InternProj.PageModels
 {
-    public partial class TaoPhieuNhapKhoPageModel : ObservableObject
+    public partial class TaoPhieuXuatKhoPageModel : ObservableObject
     {
-        private readonly PhieuNhapKhoRepository _repository;
+        private readonly PhieuXuatKhoRepository _repository;
 
         [ObservableProperty] 
-        private string _soPhieuNhapKhoInput;
+        private string _soPhieuXuatKhoInput;
         [ObservableProperty] 
-        private DateTime _ngayNhapKhoInput = DateTime.Today;
+        private DateTime _ngayXuatKhoInput = DateTime.Today;
         [ObservableProperty] 
         private string _khoIdInput;
-        [ObservableProperty] 
-        private string _nccInput;
         [ObservableProperty] 
         private string _ghiChuInput;
 
@@ -32,9 +30,9 @@ namespace InternProj.PageModels
 
         // Temporary lines shown on screen before saving
         [ObservableProperty]
-        private ObservableCollection<PhieuNhapKhoRawData> danhSachDong = new();
+        private ObservableCollection<PhieuXuatKhoRawData> danhSachDong = new();
 
-        public TaoPhieuNhapKhoPageModel(PhieuNhapKhoRepository repository)
+        public TaoPhieuXuatKhoPageModel(PhieuXuatKhoRepository repository)
         {
             _repository = repository;
         }
@@ -62,7 +60,7 @@ namespace InternProj.PageModels
                     return;
                 }
 
-                DanhSachDong.Add(new PhieuNhapKhoRawData
+                DanhSachDong.Add(new PhieuXuatKhoRawData
                 {
                     SanPhamId = sanPhamId,
                     SoLuong = soLuong,
@@ -81,7 +79,7 @@ namespace InternProj.PageModels
         }
 
         [RelayCommand]
-        private void RemoveLine(PhieuNhapKhoRawData? item)
+        private void RemoveLine(PhieuXuatKhoRawData? item)
         {
             if (item == null) return;
             DanhSachDong.Remove(item);
@@ -92,7 +90,7 @@ namespace InternProj.PageModels
         {
             try
             {
-                if (string.IsNullOrWhiteSpace(SoPhieuNhapKhoInput))
+                if (string.IsNullOrWhiteSpace(SoPhieuXuatKhoInput))
                 {
                     await Shell.Current.DisplayAlertAsync("Lỗi", "Số phiếu nhập không được rỗng.", "OK");
                     return;
@@ -104,23 +102,16 @@ namespace InternProj.PageModels
                     return;
                 }
 
-                if (!int.TryParse(NccInput, out var nccId) || nccId <= 0)
-                {
-                    await Shell.Current.DisplayAlertAsync("Lỗi", "NCC không hợp lệ.", "OK");
-                    return;
-                }
-
                 if (DanhSachDong.Count == 0)
                 {
                     await Shell.Current.DisplayAlertAsync("Lỗi", "Phiếu nhập phải có ít nhất 1 dòng hàng.", "OK");
                     return;
                 }
 
-                var header = new PhieuNhapKhoHeader
+                var header = new PhieuXuatKhoHeader
                 {
-                    So_Phieu_Nhap_Kho = SoPhieuNhapKhoInput.Trim(),
-                    Ngay_Nhap_Kho = NgayNhapKhoInput,
-                    NCC_ID = nccId,
+                    So_Phieu_Xuat_Kho = SoPhieuXuatKhoInput.Trim(),
+                    Ngay_Xuat_Kho = NgayXuatKhoInput,
                     Kho_ID = khoId,
                     Ghi_Chu = GhiChuInput
                 };
@@ -130,10 +121,9 @@ namespace InternProj.PageModels
                 await Shell.Current.DisplayAlertAsync("Thành công", "Đã lưu phiếu nhập kho.", "OK");
 
                 // Reset form
-                SoPhieuNhapKhoInput = string.Empty;
-                NgayNhapKhoInput = DateTime.Today;
+                SoPhieuXuatKhoInput = string.Empty;
+                NgayXuatKhoInput = DateTime.Today;
                 KhoIdInput = string.Empty;
-                NccInput = string.Empty;
                 GhiChuInput = string.Empty;
                 DanhSachDong.Clear();
             }

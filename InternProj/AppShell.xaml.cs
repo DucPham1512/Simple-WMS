@@ -13,6 +13,8 @@ namespace InternProj
             InitializeComponent();
             Routing.RegisterRoute(nameof(TaoPhieuNhapKhoPage), typeof(TaoPhieuNhapKhoPage));
             Routing.RegisterRoute(nameof(EditPhieuNhapKhoPage), typeof(EditPhieuNhapKhoPage));
+            Routing.RegisterRoute(nameof(TaoPhieuXuatKhoPage), typeof(TaoPhieuXuatKhoPage));
+            Routing.RegisterRoute(nameof(EditPhieuXuatKhoPage), typeof(EditPhieuXuatKhoPage));
         }
 
 

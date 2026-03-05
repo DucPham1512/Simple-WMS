@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="InternProj.Pages.EditPhieuXuatKhoPage"
+    x:Name="EditPhieuXuatKho"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:models="clr-namespace:InternProj.Models"
+    xmlns:sfgrid="http://schemas.syncfusion.com/maui"
+    xmlns:editors="clr-namespace:Syncfusion.Maui.Inputs;assembly=Syncfusion.Maui.Inputs"
+    Title="Hiệu chỉnh phiếu nhập kho">
+
+    <ScrollView>
+        <VerticalStackLayout Spacing="12" Padding="16">
+
+            <ContentPage.Resources>
+                <!-- Header style -->
+                <Style TargetType="sfgrid:DataGridHeaderCell">
+                    <Setter Property="Background" Value="#F2F2F2" />
+                    <Setter Property="TextColor" Value="#222222" />
+                    <Setter Property="FontAttributes" Value="Bold" />
+                </Style>
+
+                <Style TargetType="sfgrid:DataGridCell">
+                    <Setter Property="FontSize" Value="15" />
+                    <Setter Property="FontFamily" Value="Tahoma" />
+                    <Setter Property="TextColor" Value="#222222" />
+                </Style>
+
+
+                <!-- Row style -->
+                <Style TargetType="sfgrid:DataGridRow">
+                    <Setter Property="Background" Value="#F2F2F2" />
+                </Style>
+            </ContentPage.Resources>
+
+
+
+            <BoxView HeightRequest="1" Opacity="0.2" />
+            <Label Text="Danh mục hàng nhập" FontAttributes="Bold" FontSize="16" />
+            <HorizontalStackLayout Spacing="12">
+
+                <VerticalStackLayout Spacing="8">
+                <Label Text="Sản phẩm ID" />
+                <Entry Text="{Binding SanPhamIdInput}"
+                   Keyboard="Numeric"
+                   Placeholder="VD: 5" />
+            </VerticalStackLayout>
+
+            <VerticalStackLayout Spacing="8">
+                <Label Text="Số lượng" />
+                <Entry Text="{Binding SoLuongInput}"
+                   Keyboard="Numeric"
+                   Placeholder="VD: 10" />
+            </VerticalStackLayout>
+
+
+            <VerticalStackLayout Spacing="8">
+                <Label Text="Đơn giá" />
+            <Entry Text="{Binding DonGiaInput}"
+                   Keyboard="Numeric"
+                   Placeholder="VD: 25000" />
+                </VerticalStackLayout>
+            </HorizontalStackLayout>
+            <HorizontalStackLayout Spacing="12">
+                <Button Text="Thêm dòng"
+                        Command="{Binding AddLineCommand}" />
+
+                <Button Text="Sửa dòng"
+                        Command="{Binding EditLineCommand}" />
+                    
+                <HorizontalStackLayout Spacing="12">
+                    <Button Text="Load"
+                        Command="{Binding LoadDataCommand}" />
+                </HorizontalStackLayout>
+            </HorizontalStackLayout>
+
+            <Label Text="Danh sách dòng hàng" FontAttributes="Bold" FontSize="16" />
+
+                    <sfgrid:SfDataGrid
+                    AllowEditing="true"
+                    ItemsSource="{Binding DanhSachDong}"
+                    AutoGenerateColumnsMode="None"
+                    SelectionMode="Single"
+                    CurrentCellEndEdit="EditPNK_CurrentCellEndEdit"
+                    GridLinesVisibility="Both"
+                    HeaderGridLinesVisibility="Both"
+                    ColumnWidthMode="Fill"
+                    HeaderRowHeight="44"
+                    RowHeight="52">
+
+                <sfgrid:SfDataGrid.DefaultStyle>
+                    <sfgrid:DataGridStyle
+                        HeaderRowBackground="#F2F2F2"
+                        HeaderRowTextColor="#222222"
+                        HeaderGridLineColor="#BDBDBD"
+                        HeaderGridLineStrokeThickness="1"
+                        GridLineColor="#BDBDBD"
+                        GridLineStrokeThickness="1" />
+                </sfgrid:SfDataGrid.DefaultStyle>
+
+                <sfgrid:SfDataGrid.Columns>
+                    <sfgrid:DataGridTextColumn MappingName="MaSP"
+                                               AllowEditing = "False"
+                                   HeaderText="Mã sản phẩm" />
+                    <sfgrid:DataGridTextColumn MappingName="TenSP"
+                                               AllowEditing = "False"
+                                   HeaderText="Tên sản phẩm" />
+                    <sfgrid:DataGridTextColumn MappingName="SoLuong"
+                                   HeaderText="Số lượng" />
+                    <sfgrid:DataGridTextColumn MappingName="DonGia"
+                                   HeaderText="Đơn giá" />
+                    <sfgrid:DataGridTextColumn MappingName="ThanhTien"
+                                               AllowEditing="False"
+                                   HeaderText="Giá Trị" />
+
+                    <sfgrid:DataGridTemplateColumn HeaderText="Xóa" Width="100" CellPadding="3">
+                        <sfgrid:DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <Button
+                                    Text="Xóa"
+                                    Command="{Binding Source={x:Reference EditPhieuXuatKho}, Path=BindingContext.RemoveLineCommand}"
+                                    CommandParameter="{Binding .}"
+                                    WidthRequest="60"
+                                    HeightRequest="32"
+                                    HorizontalOptions="Center"
+                                    VerticalOptions="Center"
+                                    Padding="6,2" />
+                                </Grid>
+                            </DataTemplate>
+                        </sfgrid:DataGridTemplateColumn.CellTemplate>
+                    </sfgrid:DataGridTemplateColumn>
+                </sfgrid:SfDataGrid.Columns>
+            </sfgrid:SfDataGrid>
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>
+
+ 

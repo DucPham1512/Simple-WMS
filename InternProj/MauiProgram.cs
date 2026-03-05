@@ -1,4 +1,5 @@
-﻿using InternProj.Data;
+﻿//using HealthKit;
+using InternProj.Data;
 using InternProj.PageModels;
 using InternProj.Pages;
 using Microsoft.Extensions.Logging;
@@ -26,9 +27,27 @@ namespace InternProj
             builder.Services.AddSingleton<DonViTinhRepository>();
             builder.Services.AddTransient<DonViTinhPageModel>();
             builder.Services.AddTransient<DonViTinhPage>();
+
             builder.Services.AddSingleton<LoaiSanPhamRepository>();
             builder.Services.AddTransient<LoaiSanPhamPageModel>();
             builder.Services.AddTransient<LoaiSanPhamPage>();
+
+            builder.Services.AddSingleton<KhoUserRepository>();
+            builder.Services.AddTransient<KhoUserPageModel>();
+            builder.Services.AddTransient<KhoUserPage>();
+
+            builder.Services.AddSingleton<KhoRepository>();
+            builder.Services.AddTransient<KhoPageModel>();
+            builder.Services.AddTransient<KhoPage>();
+
+            builder.Services.AddSingleton<SanPhamRepository>();
+            builder.Services.AddTransient<SanPhamPageModel>();
+            builder.Services.AddTransient<SanPhamPage>();
+
+            builder.Services.AddSingleton<NhaCungCapRepository>();
+            builder.Services.AddTransient<NhaCungCapPageModel>();
+            builder.Services.AddTransient<NhaCungCapPage>();
+
             builder.Services.AddSingleton<PhieuNhapKhoRepository>();
             builder.Services.AddTransient<PhieuNhapKhoHeaderListPageModel>();
             builder.Services.AddTransient<PhieuNhapKhoHeaderListPage>();
@@ -36,21 +55,32 @@ namespace InternProj
             builder.Services.AddTransient<TaoPhieuNhapKhoPage>();
             builder.Services.AddTransient<EditPhieuNhapKhoPageModel>();
             builder.Services.AddTransient<EditPhieuNhapKhoPage>();
+
             builder.Services.AddTransient<PrintPreviewPageModel>();
             builder.Services.AddTransient<PrintPreviewPage>();
 
-            builder.Services.AddSingleton<KhoUserRepository>();
-            builder.Services.AddTransient<KhoUserPageModel>();
-            builder.Services.AddTransient<KhoUserPage>();
-            builder.Services.AddSingleton<KhoRepository>();
-            builder.Services.AddTransient<KhoPageModel>();
-            builder.Services.AddTransient<KhoPage>();
-            builder.Services.AddSingleton<SanPhamRepository>();
-            builder.Services.AddTransient<SanPhamPageModel>();
-            builder.Services.AddTransient<SanPhamPage>();
-            builder.Services.AddSingleton<NhaCungCapRepository>();
-            builder.Services.AddTransient<NhaCungCapPageModel>();
-            builder.Services.AddTransient<NhaCungCapPage>();
+
+            builder.Services.AddSingleton<PhieuXuatKhoRepository>();
+            builder.Services.AddTransient<PhieuXuatKhoHeaderListPageModel>();
+            builder.Services.AddTransient<PhieuXuatKhoHeaderListPage>();
+            builder.Services.AddTransient<TaoPhieuXuatKhoPageModel>();
+            builder.Services.AddTransient<TaoPhieuXuatKhoPage>();
+            builder.Services.AddTransient<EditPhieuXuatKhoPageModel>();
+            builder.Services.AddTransient<EditPhieuXuatKhoPage>();
+
+            builder.Services.AddTransient<XuatKhoPrintPreviewPageModel>();
+            builder.Services.AddTransient<XuatKhoPrintPreviewPage>();
+
+            builder.Services.AddTransient<HangNhapReportPageModel>();
+            builder.Services.AddTransient<HangNhapReportPage>();
+
+            builder.Services.AddTransient<HangXuatReportPageModel>();
+            builder.Services.AddTransient<HangXuatReportPage>();
+
+            builder.Services.AddTransient<XuatNhapTonDataRepository>();
+            builder.Services.AddTransient<XuatNhapTonDataPageModel>();
+            builder.Services.AddTransient<XuatNhapTonDataPage>();
+
 #endif
 
             return builder.Build();

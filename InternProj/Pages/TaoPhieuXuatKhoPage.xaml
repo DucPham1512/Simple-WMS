@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage
-    x:Class="InternProj.Pages.TaoPhieuNhapKhoPage"
+    x:Class="InternProj.Pages.TaoPhieuXuatKhoPage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:models="clr-namespace:InternProj.Models"
-    Title="Tạo phiếu nhập kho">
+    Title="Tạo phiếu xuất kho">
 
     <ScrollView>
         <VerticalStackLayout Spacing="12" Padding="16">
@@ -13,20 +13,15 @@
             <Label Text="Thông tin phiếu nhập" FontAttributes="Bold" FontSize="16" />
 
             <Label Text="Số phiếu nhập" />
-            <Entry Text="{Binding SoPhieuNhapKhoInput}"
+            <Entry Text="{Binding SoPhieuXuatKhoInput}"
                     />
 
             <Label Text="Ngày nhập kho" />
-			<DatePicker Date="{Binding NgayNhapKhoInput}" 
-						Format ="dd-MM-yyyy"/>
+            <DatePicker Date="{Binding NgayXuatKhoInput}"
+                        Format ="dd-MM-yyyy"/>
 
             <Label Text="Kho ID" />
             <Entry Text="{Binding KhoIdInput}"
-                   Keyboard="Numeric"
-                    />
-
-            <Label Text="NCC ID" />
-            <Entry Text="{Binding NccInput}"
                    Keyboard="Numeric"
                     />
 
@@ -75,7 +70,7 @@
                 </CollectionView.EmptyView>
 
                 <CollectionView.ItemTemplate>
-                    <DataTemplate x:DataType="models:PhieuNhapKhoRawData">
+                    <DataTemplate x:DataType="models:PhieuXuatKhoRawData">
                         <Grid ColumnDefinitions="*,Auto" Padding="8">
 
                             <VerticalStackLayout Spacing="4">

@@ -82,8 +82,29 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Compile Update="Pages\EditPhieuXuatKhoPage.xaml.cs">
+	    <DependentUpon>EditPhieuXuatKhoPage.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="Pages\XuatNhapTonDataPage.xaml.cs">
+	    <DependentUpon>XuatNhapTonDataPage.xaml</DependentUpon>
+	  </Compile>
 	  <Compile Update="Pages\NhaCungCapPage.xaml.cs">
 	    <DependentUpon>NhaCungCapPage.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="Pages\HangNhapReportPage.xaml.cs">
+	    <DependentUpon>HangNhapReportPage.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="Pages\HangXuatReportPage.xaml.cs">
+	    <DependentUpon>HangXuatReportPage.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="Pages\PhieuXuatKhoHeaderListPage.xaml.cs">
+	    <DependentUpon>PhieuXuatKhoHeaderListPage.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="Pages\TaoPhieuXuatKhoPage.xaml.cs">
+	    <DependentUpon>TaoPhieuXuatKhoPage.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="Pages\XuatKhoPrintPreviewPage.xaml.cs">
+	    <DependentUpon>XuatKhoPrintPreviewPage.xaml</DependentUpon>
 	  </Compile>
 	  <Compile Update="Pages\SanPhamPage.xaml.cs">
 	    <DependentUpon>SanPhamPage.xaml</DependentUpon>
@@ -94,10 +115,31 @@
 	  <MauiXaml Update="Pages\DonViTinhPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="Pages\EditPhieuXuatKhoPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Pages\XuatNhapTonDataPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Pages\KhoUserPage.xaml">
       	    <Generator>MSBuild:Compile</Generator>
     </MauiXaml>
 	  <MauiXaml Update="Pages\NhaCungCapPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Pages\HangNhapReportPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Pages\HangXuatReportPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Pages\PhieuXuatKhoHeaderListPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Pages\TaoPhieuXuatKhoPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Pages\XuatKhoPrintPreviewPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Pages\SanPhamPage.xaml">
