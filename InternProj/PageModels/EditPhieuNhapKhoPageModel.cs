@@ -11,6 +11,7 @@ namespace InternProj.PageModels
     public partial class EditPhieuNhapKhoPageModel : ObservableObject
     {
         private readonly PhieuNhapKhoRepository _repository;
+        private readonly SanPhamRepository _spRepository;
         [ObservableProperty]
         private PhieuNhapKhoHeader _header;
 
@@ -30,6 +31,8 @@ namespace InternProj.PageModels
         private string _ghiChuInput;
 
         [ObservableProperty]
+        private SanPham? _selectedSanPham;
+        [ObservableProperty]
         private string _soLuongInput;
         [ObservableProperty]
         private string _donGiaInput;
@@ -38,10 +41,13 @@ namespace InternProj.PageModels
         [ObservableProperty]
         private ObservableCollection<PhieuNhapKhoRawData> _danhSachDong = new();
 
-        public EditPhieuNhapKhoPageModel(PhieuNhapKhoRepository repository)
+        [ObservableProperty]
+        private ObservableCollection<SanPham> _danhSachSP = new();
+
+        public EditPhieuNhapKhoPageModel(PhieuNhapKhoRepository repository, SanPhamRepository spRepository)
         {
             _repository = repository;
-
+            _spRepository = spRepository;
         }
 
         partial void OnHeaderChanged(PhieuNhapKhoHeader value)
@@ -62,7 +68,8 @@ namespace InternProj.PageModels
 
             var data = await _repository.GetAsync(header.Id);
             DanhSachDong = new ObservableCollection<PhieuNhapKhoRawData>(data);
-
+            var listSP = await _spRepository.ListAsync();
+            DanhSachSP = new ObservableCollection<SanPham>(listSP);
         }
 
         [RelayCommand]
@@ -70,11 +77,6 @@ namespace InternProj.PageModels
         {
             try
             {
-                if (!int.TryParse(SanPhamIdInput, out var sanPhamId) || sanPhamId <= 0)
-                {
-                    await Shell.Current.DisplayAlertAsync("Lỗi", "Sản phẩm không hợp lệ.", "OK");
-                    return;
-                }
 
                 if (!int.TryParse(SoLuongInput, out var soLuong) || soLuong <= 0)
                 {
@@ -91,9 +93,12 @@ namespace InternProj.PageModels
                 PhieuNhapKhoData newLine = new PhieuNhapKhoData
                 {
                     NhapKhoId = Header.Id,
-                    SanPhamId = sanPhamId,
+                    SanPhamId = SelectedSanPham.Id,
+                    TenSP = SelectedSanPham.Ten_SP,
+                    MaSP = SelectedSanPham.Ma_SP,
                     SoLuong = soLuong,
-                    DonGia = donGia
+                    DonGia = donGia,
+                    ThanhTien = soLuong * donGia
                 };
 
                 await _repository.EditDataAsync(newLine);
@@ -108,7 +113,7 @@ namespace InternProj.PageModels
             }
             catch (Exception ex)
             {
-                await Shell.Current.DisplayAlertAsync("Lỗi", ex.Message, "OK");
+                await Shell.Current.DisplayAlertAsync("Lỗi", $"Không thể thêm '{SelectedSanPham.Ten_SP}' ", "OK");
             }
         }
 
@@ -122,130 +127,10 @@ namespace InternProj.PageModels
         }
 
         [RelayCommand]
-        private async Task EditHeader()
-        {
-            try
-            {
-                if (string.IsNullOrWhiteSpace(SoPhieuNhapKhoInput))
-                {
-                    await Shell.Current.DisplayAlertAsync("Lỗi", "Số phiếu nhập không được rỗng.", "OK");
-                    return;
-                }
-
-                if (!int.TryParse(KhoIdInput, out var khoId) || khoId <= 0)
-                {
-                    await Shell.Current.DisplayAlertAsync("Lỗi", "Kho không hợp lệ.", "OK");
-                    return;
-                }
-
-                if (!int.TryParse(NccInput, out var nccId) || nccId <= 0)
-                {
-                    await Shell.Current.DisplayAlertAsync("Lỗi", "NCC không hợp lệ.", "OK");
-                    return;
-                }
-
-                DateTime ngayNhap;
-                if (string.IsNullOrWhiteSpace(NgayNhapKhoInput))
-                {
-                    ngayNhap = DateTime.Now;
-                }
-                else if (!DateTime.TryParseExact(NgayNhapKhoInput,
-                                                 "dd/MM/yyyy",
-                                                  CultureInfo.InvariantCulture,
-                                                  DateTimeStyles.None,
-                                                  out ngayNhap))
-                {
-                    await Shell.Current.DisplayAlertAsync("Lỗi", "Ngày nhập kho không hợp lệ.", "OK");
-                    return;
-                }
-
-                var header = new PhieuNhapKhoHeader
-                {
-                    Id = Header.Id,
-                    So_Phieu_Nhap_Kho = SoPhieuNhapKhoInput.Trim(),
-                    Ngay_Nhap_Kho = ngayNhap,
-                    NCC_ID = nccId,
-                    Kho_ID = khoId,
-                    Ghi_Chu = GhiChuInput
-                };
-
-                await _repository.EditHeaderAsync(header);
-
-                await LoadData();
-                await Shell.Current.DisplayAlertAsync("Thành công", "Đã sửa phiếu nhập kho.", "OK");
-
-                // Reset form
-                SoPhieuNhapKhoInput = string.Empty;
-                NgayNhapKhoInput = string.Empty;
-                KhoIdInput = string.Empty;
-                NccInput = string.Empty;
-                GhiChuInput = string.Empty;
-            }
-            catch (Exception ex)
-            {
-                await Shell.Current.DisplayAlertAsync("Lỗi", ex.Message, "OK");
-            }
-        }
-
-        [RelayCommand]
-        private async Task EditLine()
-        {
-            try
-            {
-                if (SelectedLine == null)
-                {
-                    await Shell.Current.DisplayAlertAsync("Lỗi", "Vui lòng chọn dòng cần sửa.", "OK");
-                    return;
-                }
-
-                if (!int.TryParse(SoLuongInput, out var soLuong) || soLuong <= 0)
-                {
-                    await Shell.Current.DisplayAlertAsync("Lỗi", "Số lượng phải lớn hơn 0.", "OK");
-                    return;
-                }
-
-                if (!float.TryParse(DonGiaInput, out var donGia) || donGia < 0)
-                {
-                    await Shell.Current.DisplayAlertAsync("Lỗi", "Đơn giá không hợp lệ.", "OK");
-                    return;
-                }
-
-                var line = (new PhieuNhapKhoRawData
-                {
-                    Id = _selectedLine.Id,
-                    SoLuong = soLuong,
-                    DonGia = donGia
-                });
-
-                await _repository.EditDataAsync(line);
-
-                // Clear current line inputs after adding
-                SoLuongInput = string.Empty;
-                DonGiaInput = string.Empty;
-                await LoadData();
-            }
-            catch (Exception ex)
-            {
-                await Shell.Current.DisplayAlertAsync("Lỗi", ex.Message, "OK");
-            }
-        }
-        [RelayCommand]
         private async Task LoadData()
         {
             var data = await _repository.GetAsync(Header.Id);
             DanhSachDong = new ObservableCollection<PhieuNhapKhoRawData>(data);
-        }
-
-        partial void OnSelectedLineChanged(PhieuNhapKhoData? value)
-        {
-            if (value == null) return;
-
-
-            SoLuongInput = value.SoLuong.ToString();
-            DonGiaInput = value.DonGia.ToString(CultureInfo.InvariantCulture);
-
-            SanPhamIdInput = value.SanPhamId.ToString();
-
         }
 
     [RelayCommand]

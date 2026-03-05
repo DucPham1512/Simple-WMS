@@ -34,22 +34,23 @@
                FontAttributes="Bold"
                TextColor="White" />
         <!-- Inputs -->
-        <HorizontalStackLayout Spacing="12">
-            <VerticalStackLayout Spacing="8">
-                <Label Text="Tên đơn vị" />
-                <Entry Text="{Binding MaNccInput}" Placeholder="VD: Kg, Thùng, Cái..." />
-            </VerticalStackLayout>
-            
-            <VerticalStackLayout Spacing="8">
-                <Label Text="Tên đơn vị" />
-                <Entry Text="{Binding TenNccInput}" Placeholder="VD: Kg, Thùng, Cái..." />
+        <Grid ColumnDefinitions="*,*,*"
+              ColumnSpacing="12" RowSpacing="8">
+            <VerticalStackLayout Spacing="8" Grid.Column="0">
+                <Label Text="Mã nhà cung cấp" />
+                <Entry Text="{Binding MaNccInput}" />
             </VerticalStackLayout>
 
-            <VerticalStackLayout Spacing="8">
+            <VerticalStackLayout Spacing="8" Grid.Column="1">
+                <Label Text="Tên nhà cung cấp" />
+                <Entry Text="{Binding TenNccInput}" />
+            </VerticalStackLayout>
+
+            <VerticalStackLayout Spacing="8" Grid.Column="2">
                 <Label Text="Ghi chú" />
                 <Entry Text="{Binding GhiChuInput}" Placeholder="Ghi chú (nếu có)" />
             </VerticalStackLayout>
-        </HorizontalStackLayout>
+        </Grid>
         <!-- Buttons -->
         <HorizontalStackLayout Spacing="12">
             <Button Text="Load"

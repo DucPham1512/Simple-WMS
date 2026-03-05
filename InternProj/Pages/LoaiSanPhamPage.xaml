@@ -42,7 +42,7 @@
             </VerticalStackLayout>                
             <VerticalStackLayout Spacing="8">
                 <Label Text="Tên loại sản phẩm" />
-                <Entry Text="{Binding TenLSPInput}" Placeholder="VD: Kg, Thùng, Cái..." />
+                <Entry Text="{Binding TenLSPInput}" />
             </VerticalStackLayout>
 
             <VerticalStackLayout Spacing="8">

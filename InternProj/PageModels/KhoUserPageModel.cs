@@ -17,6 +17,10 @@ namespace InternProj.PageModels
 
         [ObservableProperty]
         private ObservableCollection<Kho> _danhSachKho = [];
+
+        [ObservableProperty]
+        private Kho? _selectedKho;
+
         [ObservableProperty]
         private KhoUser? _selectedItem;
 
@@ -64,7 +68,7 @@ namespace InternProj.PageModels
                 await LoadData();
 
                 MaDangNhapInput = string.Empty;
-                KhoIdInput = string.Empty;
+                KhoIdInput = SelectedKho.Id.ToString();
                 SelectedItem = null;
 
                 await Shell.Current.DisplayAlertAsync("Thông báo", "Đã lưu thành công", "OK");

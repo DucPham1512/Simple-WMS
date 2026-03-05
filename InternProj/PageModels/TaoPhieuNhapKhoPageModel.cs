@@ -11,32 +11,61 @@ namespace InternProj.PageModels
     {
         private readonly PhieuNhapKhoRepository _repository;
 
+        private readonly KhoRepository _khoRepository;
+
+        private readonly NhaCungCapRepository _nccRepository;
+
+        private readonly SanPhamRepository _spRepository;
+
         [ObservableProperty] 
         private string _soPhieuNhapKhoInput;
         [ObservableProperty] 
         private DateTime _ngayNhapKhoInput = DateTime.Today;
         [ObservableProperty] 
-        private string _khoIdInput;
-        [ObservableProperty] 
-        private string _nccInput;
-        [ObservableProperty] 
         private string _ghiChuInput;
 
         // Current line inputs
         [ObservableProperty] 
-        private string _sanPhamIdInput;
-        [ObservableProperty] 
         private string _soLuongInput;
         [ObservableProperty] 
         private string _donGiaInput;
+        [ObservableProperty]
+        private Kho? _selectedKho;
+        [ObservableProperty]
+        private NhaCungCap? _selectedNCC;
+        [ObservableProperty]
+        private SanPham? _selectedSP;
 
         // Temporary lines shown on screen before saving
         [ObservableProperty]
-        private ObservableCollection<PhieuNhapKhoRawData> danhSachDong = new();
+        private ObservableCollection<PhieuNhapKhoRawData> _danhSachDong = new();
 
-        public TaoPhieuNhapKhoPageModel(PhieuNhapKhoRepository repository)
+        [ObservableProperty]
+        private ObservableCollection<Kho> _danhSachKho = [];
+
+        [ObservableProperty]
+        private ObservableCollection<NhaCungCap> _danhSachNCC = [];
+
+        [ObservableProperty]
+        private ObservableCollection<SanPham> _danhSachSP = [];
+
+        public TaoPhieuNhapKhoPageModel(PhieuNhapKhoRepository repository, KhoRepository khoRepository, NhaCungCapRepository nccRepository, SanPhamRepository spRepository)
         {
             _repository = repository;
+            _khoRepository = khoRepository;
+            _nccRepository = nccRepository;
+            _spRepository = spRepository;
+        }
+
+        [RelayCommand]
+        private async Task Load()
+        {
+            var listKho = await _khoRepository.ListAsync();
+            DanhSachKho = new ObservableCollection<Kho>(listKho);
+            var listNCC = await _nccRepository.ListAsync();
+            DanhSachNCC = new ObservableCollection<NhaCungCap>(listNCC);
+            var listSP = await _spRepository.ListAsync();
+            DanhSachSP = new ObservableCollection<SanPham>(listSP);
         }
 
         [RelayCommand]
@@ -44,11 +73,6 @@ namespace InternProj.PageModels
         {
             try
             {
-                if (!int.TryParse(SanPhamIdInput, out var sanPhamId) || sanPhamId <= 0)
-                {
-                    await Shell.Current.DisplayAlertAsync("Lỗi", "Sản phẩm không hợp lệ.", "OK");
-                    return;
-                }
 
                 if (!int.TryParse(SoLuongInput, out var soLuong) || soLuong <= 0)
                 {
@@ -62,15 +86,17 @@ namespace InternProj.PageModels
                     return;
                 }
 
-                DanhSachDong.Add(new PhieuNhapKhoRawData
+                DanhSachDong.Add(new PhieuNhapKhoData
                 {
-                    SanPhamId = sanPhamId,
+                    SanPhamId = SelectedSP.Id,
+                    TenSP = SelectedSP.Ten_SP,
+                    MaSP = SelectedSP.Ma_SP,
                     SoLuong = soLuong,
-                    DonGia = donGia
+                    DonGia = donGia,
+                    ThanhTien = soLuong * donGia,
                 });
 
                 // Clear current line inputs after adding
-                SanPhamIdInput = string.Empty;
                 SoLuongInput = string.Empty;
                 DonGiaInput = string.Empty;
             }
@@ -98,18 +124,6 @@ namespace InternProj.PageModels
                     return;
                 }
 
-                if (!int.TryParse(KhoIdInput, out var khoId) || khoId <= 0)
-                {
-                    await Shell.Current.DisplayAlertAsync("Lỗi", "Kho không hợp lệ.", "OK");
-                    return;
-                }
-
-                if (!int.TryParse(NccInput, out var nccId) || nccId <= 0)
-                {
-                    await Shell.Current.DisplayAlertAsync("Lỗi", "NCC không hợp lệ.", "OK");
-                    return;
-                }
-
                 if (DanhSachDong.Count == 0)
                 {
                     await Shell.Current.DisplayAlertAsync("Lỗi", "Phiếu nhập phải có ít nhất 1 dòng hàng.", "OK");
@@ -120,8 +134,8 @@ namespace InternProj.PageModels
                 {
                     So_Phieu_Nhap_Kho = SoPhieuNhapKhoInput.Trim(),
                     Ngay_Nhap_Kho = NgayNhapKhoInput,
-                    NCC_ID = nccId,
-                    Kho_ID = khoId,
+                    NCC_ID = SelectedNCC.Id,
+                    Kho_ID = SelectedKho.Id,
                     Ghi_Chu = GhiChuInput
                 };
 
@@ -132,8 +146,6 @@ namespace InternProj.PageModels
                 // Reset form
                 SoPhieuNhapKhoInput = string.Empty;
                 NgayNhapKhoInput = DateTime.Today;
-                KhoIdInput = string.Empty;
-                NccInput = string.Empty;
                 GhiChuInput = string.Empty;
                 DanhSachDong.Clear();
             }

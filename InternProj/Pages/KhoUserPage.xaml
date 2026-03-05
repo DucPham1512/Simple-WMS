@@ -34,25 +34,23 @@
 
         <Grid ColumnSpacing="16" RowSpacing="6"
           RowDefinitions="Auto,Auto"
-          ColumnDefinitions="Auto,Auto,Auto,Auto,Auto">
+          ColumnDefinitions="*,*">
 
             <Label Grid.Row="0" Grid.Column="0"
                Text="Mã đăng nhập"
                LineBreakMode="TailTruncation"
                MaximumWidthRequest="120" />
-            <Entry Grid.Row="1" Grid.Column="0"
-               WidthRequest="200"
-               Text="{Binding MaDangNhapInput}" />
+                <Entry Grid.Row="1" Grid.Column="0"
+                   Text="{Binding MaDangNhapInput}" />
 
             <!-- Column 1: Tên sản phẩm -->
             <Label Grid.Row="0" Grid.Column="1"
-               Text="Mã Kho"
-               LineBreakMode="TailTruncation"
-               MaximumWidthRequest="120" />
-            <Entry Grid.Row="1" Grid.Column="1"
-               WidthRequest="260"
-               Text="{Binding KhoIdInput}"
-                />
+               Text="Kho"
+               LineBreakMode="TailTruncation" />
+            <Picker Grid.Row="1" Grid.Column="1"
+                ItemsSource="{Binding DanhSachKho}"
+                ItemDisplayBinding="{Binding Ten_Kho}"
+                SelectedItem="{Binding SelectedKho, Mode=TwoWay}" />
 
         </Grid>
         <!-- Buttons -->

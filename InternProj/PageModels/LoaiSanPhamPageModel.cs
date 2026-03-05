@@ -107,7 +107,14 @@ namespace InternProj.PageModels
             if (!answer) return;
 
             // Truyền string Key vào hàm xóa
+            try { 
             await _repository.DeleteItemAsync(item);
+                }
+            catch (Exception ex)
+            {
+                await Shell.Current.DisplayAlertAsync("Lỗi", $"Không thể xóa '{item.Ten_LSP}'", "OK");
+                return;
+            }
             DanhSachLSP.Remove(item);
         }
         // Hàm helper để điền dữ liệu vào ô input khi chọn một dòng để sửa

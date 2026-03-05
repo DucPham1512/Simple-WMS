@@ -6,7 +6,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:sfgrid="http://schemas.syncfusion.com/maui"
     xmlns:editors="clr-namespace:Syncfusion.Maui.Inputs;assembly=Syncfusion.Maui.Inputs"
-    Title="Phiếu nhập kho"
+    Title="Phiếu xuất kho"
 >
 
     <ContentPage.Resources>
@@ -39,7 +39,7 @@
                     Command="{Binding NewCommand}" />
         </HorizontalStackLayout>
 
-        <Label Text="Danh sách phiếu nhập"
+        <Label Text="Danh sách phiếu xuất"
                FontAttributes="Bold"
                TextColor="White" />
 
@@ -68,7 +68,7 @@
                 <sfgrid:DataGridTextColumn MappingName="So_Phieu_Xuat_Kho"
                                    HeaderText="Số phiếu" />
                 <sfgrid:DataGridDateColumn MappingName="Ngay_Xuat_Kho"
-                                   HeaderText="Ngày nhập" />
+                                   HeaderText="Ngày xuất" />
                 <sfgrid:DataGridTemplateColumn MappingName="Kho_ID" HeaderText="Kho" Width="180">
                     <!-- Normal display -->
                     <sfgrid:DataGridTemplateColumn.CellTemplate>

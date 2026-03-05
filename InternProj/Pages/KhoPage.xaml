@@ -35,12 +35,12 @@
                TextColor="White" />
         <!-- Inputs -->
         <HorizontalStackLayout Spacing="12">
-            <VerticalStackLayout Spacing="8">
-                <Label Text="Tên đơn vị" />
-                <Entry Text="{Binding TenKhoInput}" Placeholder="VD: Kg, Thùng, Cái..." />
+            <VerticalStackLayout Spacing="8" WidthRequest="300">
+                <Label Text="Tên kho" />
+                <Entry Text="{Binding TenKhoInput}" Placeholder="" />
             </VerticalStackLayout>
 
-            <VerticalStackLayout Spacing="8">
+            <VerticalStackLayout Spacing="8" WidthRequest="300">
                 <Label Text="Ghi chú" />
                 <Entry Text="{Binding GhiChuInput}" Placeholder="Ghi chú (nếu có)" />
             </VerticalStackLayout>

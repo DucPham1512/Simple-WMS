@@ -38,10 +38,16 @@ namespace InternProj.PageModels
         private string _tenSPInput;
 
         [ObservableProperty]
+        private string _idLSPInput;
+
+        [ObservableProperty]
         private string _idDVTInput;
 
         [ObservableProperty]
-        private string _idLSPInput;
+        private LoaiSanPham? _selectedLSP;
+
+        [ObservableProperty]
+        private DonViTinh? _selectedDVT;
 
         [ObservableProperty]
         private string _ghiChuInput;
@@ -75,8 +81,8 @@ namespace InternProj.PageModels
                 {
                     Ma_SP = MaSPInput,
                     Ten_SP = TenSPInput,
-                    Id_LSP = int.TryParse(IdLSPInput, out int idLSP) ? idLSP : 0,
-                    Id_DVT = int.TryParse(IdDVTInput, out int idDVT) ? idDVT : 0,
+                    Id_LSP = SelectedLSP.Id,
+                    Id_DVT = SelectedLSP.Id,
                     Ghi_Chu = GhiChuInput
                 };
 
@@ -109,7 +115,13 @@ namespace InternProj.PageModels
             if (!answer) return;
 
             // Truyền string Key vào hàm xóa
-            await _spRepository.DeleteItemAsync(item);
+            try
+            {
+                await _spRepository.DeleteItemAsync(item);
+            } catch (Exception ex) {
+                await Shell.Current.DisplayAlertAsync("Lỗi", $"Không thể xóa '{item.Ten_SP}'", "OK");
+                return;
+            }
             DanhSachSP.Remove(item);
         }
 

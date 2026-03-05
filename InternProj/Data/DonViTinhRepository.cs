@@ -151,7 +151,7 @@ namespace InternProj.Data
             }
             catch (SqliteException ex) when (ex.SqliteErrorCode == 19) // Constraint Violation
             {
-                throw new Exception($"Measurement unit '{item.Ten_Don_Vi_Tinh}' already exist.");
+                throw new Exception($"Đơn vị tính '{item.Ten_Don_Vi_Tinh}' đã tồn tại.");
             }
         }
 
@@ -170,7 +170,7 @@ namespace InternProj.Data
             deleteCmd.CommandText = "DELETE FROM tbl_DM_Don_Vi_Tinh WHERE ID = @Id";
             deleteCmd.Parameters.AddWithValue("@Id", item.Id);
 
-            return await deleteCmd.ExecuteNonQueryAsync();
+                return await deleteCmd.ExecuteNonQueryAsync();
         }
 
         /// <summary>

@@ -80,9 +80,14 @@ namespace InternProj.PageModels
             if (!answer) return;
 
             // Truyền string Key vào hàm xóa
-            await _repository.DeleteItemAsync(item);
-            
-            await LoadData();
+            try
+            {
+                await _repository.DeleteItemAsync(item);
+            } catch (Exception ex) {
+                await Shell.Current.DisplayAlertAsync("Lỗi", $"Không thể xóa '{item.Ten_Kho}'", "OK");
+                return;
+            }
+            DanhSachKho.Remove(item);
         }
 
         [RelayCommand]

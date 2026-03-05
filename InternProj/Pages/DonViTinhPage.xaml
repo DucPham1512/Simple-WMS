@@ -37,12 +37,12 @@
         <HorizontalStackLayout Spacing="12">
             <VerticalStackLayout Spacing="8">
                 <Label Text="Tên đơn vị" />
-                <Entry Text="{Binding TenDonViInput}" Placeholder="VD: Kg, Thùng, Cái..." />
+                <Entry Text="{Binding TenDonViInput}" Placeholder="VD: Kg, Thùng, Cái..." WidthRequest="300"/>
             </VerticalStackLayout>
 
             <VerticalStackLayout Spacing="8">
                 <Label Text="Ghi chú" />
-                <Entry Text="{Binding GhiChuInput}" Placeholder="Ghi chú (nếu có)" />
+                <Entry Text="{Binding GhiChuInput}" Placeholder="Ghi chú (nếu có)" WidthRequest="300"/>
             </VerticalStackLayout>
         </HorizontalStackLayout>
         <!-- Buttons -->
