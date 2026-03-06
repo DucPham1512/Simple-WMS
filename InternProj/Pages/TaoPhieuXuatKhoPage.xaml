@@ -55,7 +55,7 @@
 
                 <VerticalStackLayout Grid.Column="3" Spacing="4">
                     <Label Text="Ghi chú" />
-                    <Entry Text="{Binding GhiChuInput}" Placeholder="Ghi chú (nếu có)" />
+                    <Entry Text="{Binding GhiChuInput}" />
                 </VerticalStackLayout>
 
             </Grid>
@@ -76,12 +76,12 @@
 
                 <VerticalStackLayout Grid.Column="1" Spacing="4">
                     <Label Text="Số lượng xuất" />
-                    <Entry Text="{Binding SoLuongInput}" Keyboard="Numeric" Placeholder="VD: 10"/>
+                    <Entry Text="{Binding SoLuongInput}" Keyboard="Numeric"/>
                 </VerticalStackLayout>
 
                 <VerticalStackLayout Grid.Column="2" Spacing="4">
                     <Label Text="Đơn giá xuất" />
-                    <Entry Text="{Binding DonGiaInput}" Keyboard="Numeric" Placeholder="VD: 25000"/>
+                    <Entry Text="{Binding DonGiaInput}" Keyboard="Numeric"/>
                 </VerticalStackLayout>
             </Grid>
 
@@ -133,7 +133,7 @@
                                                AllowEditing="False"
                                                HeaderText="Giá Trị" />
 
-                    <sfgrid:DataGridTemplateColumn HeaderText="Xóa" Width="100" CellPadding="3">
+                    <sfgrid:DataGridTemplateColumn MappingName="Dummy" HeaderText="Xóa" Width="100" CellPadding="3">
                         <sfgrid:DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <Grid>

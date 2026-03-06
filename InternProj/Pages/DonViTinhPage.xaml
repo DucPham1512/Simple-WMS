@@ -11,7 +11,6 @@
 
     <VerticalStackLayout Spacing="12" Padding="16">
         <ContentPage.Resources>
-            <!-- Header style -->
             <Style TargetType="sfgrid:DataGridHeaderCell">
                 <Setter Property="Background" Value="#F2F2F2" />
                 <Setter Property="TextColor" Value="#222222" />
@@ -25,26 +24,21 @@
             </Style>
 
 
-            <!-- Row style -->
             <Style TargetType="sfgrid:DataGridRow">
                 <Setter Property="Background" Value="#F2F2F2" />
             </Style>
         </ContentPage.Resources>
-        <Label Text="Danh mục đơn vị tính"
-               FontAttributes="Bold"
-               TextColor="White" />
-        <!-- Inputs -->
-        <HorizontalStackLayout Spacing="12">
-            <VerticalStackLayout Spacing="8">
+        <Grid ColumnDefinitions="*,*" ColumnSpacing="8">
+            <VerticalStackLayout Spacing="8" Grid.Column="0">
                 <Label Text="Tên đơn vị" />
-                <Entry Text="{Binding TenDonViInput}" Placeholder="VD: Kg, Thùng, Cái..." WidthRequest="300"/>
+                <Entry Text="{Binding TenDonViInput}"/>
             </VerticalStackLayout>
 
-            <VerticalStackLayout Spacing="8">
-                <Label Text="Ghi chú" />
-                <Entry Text="{Binding GhiChuInput}" Placeholder="Ghi chú (nếu có)" WidthRequest="300"/>
-            </VerticalStackLayout>
-        </HorizontalStackLayout>
+                <VerticalStackLayout Spacing="8" Grid.Column="1">
+                    <Label Text="Ghi chú" />
+                    <Entry Text="{Binding GhiChuInput}"/>
+                </VerticalStackLayout>
+        </Grid>
         <!-- Buttons -->
         <HorizontalStackLayout Spacing="12">
             <Button Text="Load"
@@ -64,6 +58,7 @@
             ColumnWidthMode="Fill"
             HeaderRowHeight="44"
             RowHeight="52">
+            
 
             <sfgrid:SfDataGrid.DefaultStyle>
                 <sfgrid:DataGridStyle
@@ -83,7 +78,7 @@
                 <sfgrid:DataGridTextColumn MappingName="Ghi_Chu"
                                    HeaderText="Ghi chú" />
 
-                <sfgrid:DataGridTemplateColumn HeaderText="Xóa" Width="100" CellPadding="3">
+                <sfgrid:DataGridTemplateColumn MappingName="Dummy" HeaderText="Xóa" Width="100" CellPadding="3">
                     <sfgrid:DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <Grid>

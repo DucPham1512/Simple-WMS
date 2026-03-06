@@ -3,7 +3,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using InternProj;
 using InternProj.Models;
-
+using System.Text.RegularExpressions;
 
 //using Microsoft.UI.Xaml.Controls.Primitives;
 using System.Collections.ObjectModel;
@@ -50,8 +50,8 @@ namespace InternProj.PageModels
             {
                 var donVi = new NhaCungCap
                 {
-                    Ma_Ncc = MaNccInput,
-                    Ten_Ncc = TenNccInput,
+                    Ma_Ncc = Regex.Replace(MaNccInput, @"\s+", " ").Trim(),
+                    Ten_Ncc = Regex.Replace(TenNccInput, @"\s+", " ").Trim(),
                     Ghi_Chu = GhiChuInput
                 };
                 // Xác định xem đang Thêm hay Sửa
@@ -62,7 +62,6 @@ namespace InternProj.PageModels
                 // Gọi hàm Save mới
                 await _repository.SaveItemAsync(donVi, isEdit);
 
-                await LoadData();
 
                 // Reset form
                 MaNccInput = string.Empty;
@@ -76,6 +75,7 @@ namespace InternProj.PageModels
             {
                 await Shell.Current.DisplayAlertAsync("Lỗi", ex.Message, "OK");
             }
+            await LoadData();
         }
 
         [RelayCommand]
@@ -88,7 +88,9 @@ namespace InternProj.PageModels
             try
             {
                 await _repository.DeleteItemAsync(item);
-            } catch (Exception ex) {
+            }
+            catch (Exception ex)
+            {
                 await Shell.Current.DisplayAlertAsync("Lỗi", $"Không thể xóa '{item.Ten_Ncc}'", "OK");
                 return;
             }
@@ -103,31 +105,20 @@ namespace InternProj.PageModels
                 var donVi = new NhaCungCap
                 {
                     Id = item.Id,
-                    Ma_Ncc = item.Ma_Ncc,
-                    Ten_Ncc = item.Ten_Ncc,
+                    Ma_Ncc = Regex.Replace(item.Ma_Ncc, @"\s+", " ").Trim(),
+                    Ten_Ncc = Regex.Replace(item.Ten_Ncc, @"\s+", " ").Trim(),
                     Ghi_Chu = item.Ghi_Chu
                 };
 
                 // Gọi hàm Save mới
                 await _repository.SaveItemAsync(donVi, true);
 
-                await LoadData();
             }
             catch (Exception ex)
             {
                 await Shell.Current.DisplayAlertAsync("Lỗi", ex.Message, "OK");
             }
+            await LoadData();
         }
-        // Hàm helper để điền dữ liệu vào ô input khi chọn một dòng để sửa
-        partial void OnSelectedItemChanged(NhaCungCap? value)
-        {
-            if (value != null)
-            {
-                MaNccInput = value.Ma_Ncc;
-                TenNccInput = value.Ten_Ncc;
-                GhiChuInput = value.Ghi_Chu;
-            }
-        }
-
     }
 }

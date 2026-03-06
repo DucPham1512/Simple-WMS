@@ -92,14 +92,13 @@
                                 IsEditable="True"
                                 IsFilteringEnabled="True"
                                 TextSearchMode="Contains"
-                                ShowSuggestionsOnFocus="True"
-                                Placeholder="Chọn kho" />
+                                ShowSuggestionsOnFocus="True"/>
                         </DataTemplate>
                     </sfgrid:DataGridTemplateColumn.EditTemplate>
                 </sfgrid:DataGridTemplateColumn>
                 <sfgrid:DataGridTextColumn MappingName="Ghi_Chu"
                                    HeaderText="Ghi chú" />
-                <sfgrid:DataGridTemplateColumn HeaderText="Thao tác" Width="170">
+                <sfgrid:DataGridTemplateColumn MappingName="Dummy" HeaderText="Thao tác" Width="170">
                     <sfgrid:DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <Picker 

@@ -87,6 +87,12 @@ namespace InternProj.PageModels
                     return;
                 }
 
+                if (SelectedSP is null)
+                {
+                    await Shell.Current.DisplayAlertAsync("Lỗi", "Chưa chọn sản phẩm", "OK");
+                    return;
+                }
+
                 PhieuXuatKhoData newLine = new PhieuXuatKhoData
                 {
                     XuatKhoId = Header.Id,

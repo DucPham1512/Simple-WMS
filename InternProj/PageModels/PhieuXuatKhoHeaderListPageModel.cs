@@ -5,6 +5,7 @@ using InternProj.Models;
 using InternProj.Pages;
 using Microsoft.Maui.Controls;
 using System.Collections.ObjectModel;
+using System.Text.RegularExpressions;
 //using static Android.Preferences.PreferenceActivity;
 
 namespace InternProj.PageModels
@@ -58,7 +59,22 @@ namespace InternProj.PageModels
         [RelayCommand]
         private async Task Save(PhieuXuatKhoHeader item)
         {
-            await _pnkRepository.EditHeaderAsync(item);
+            try
+            {
+                var pxkHeader = new PhieuXuatKhoHeader
+                {
+                    Id = item.Id,
+                    So_Phieu_Xuat_Kho = Regex.Replace(item.So_Phieu_Xuat_Kho, @"\s+", " ").Trim(),
+                    Kho_ID = item.Kho_ID,
+                    Ten_Kho = item.Ten_Kho,
+                };
+
+                await _pnkRepository.EditHeaderAsync(pxkHeader);
+            } catch (Exception ex)
+            {
+                await Shell.Current.DisplayAlertAsync("Error", "Không thể lưu phiếu xuất kho", "OK");
+            }
+
             await LoadData();
         }
 

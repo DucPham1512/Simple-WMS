@@ -57,7 +57,7 @@ namespace InternProj.PageModels
                 var item = new KhoUser
                 {
                     MaDangNhap = MaDangNhapInput,
-                    KhoId = int.TryParse(KhoIdInput,out int khoId) ? khoId : 0
+                    KhoId = SelectedKho.Id
                 };
 
                 if (isEdit)

@@ -51,6 +51,7 @@ public partial class DonViTinhPage : ContentPage
             {
                 Dispatcher.Dispatch(async () =>
                 {
+                    await Task.Delay(50);
                     await vm.EditCommand.ExecuteAsync(row);
                 });
             }
@@ -61,4 +62,4 @@ public partial class DonViTinhPage : ContentPage
             await DisplayAlertAsync("Lỗi", ex.Message, "OK");
         }
     }
-    }
+}

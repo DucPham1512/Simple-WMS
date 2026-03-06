@@ -49,16 +49,14 @@
                     <VerticalStackLayout Spacing="8" Grid.Column="1">
                         <Label Text="Số lượng" />
                         <Entry Text="{Binding SoLuongInput}"
-                   Keyboard="Numeric"
-                   Placeholder="VD: 10" />
+                   Keyboard="Numeric"/>
                     </VerticalStackLayout>
 
 
                     <VerticalStackLayout Spacing="8" Grid.Column="2">
                         <Label Text="Đơn giá" />
                         <Entry Text="{Binding DonGiaInput}"
-                   Keyboard="Numeric"
-                   Placeholder="VD: 25000" />
+                   Keyboard="Numeric"/>
                     </VerticalStackLayout>
                 </Grid>
                 <HorizontalStackLayout Spacing="12">
@@ -110,7 +108,7 @@
                                                AllowEditing="False"
                                    HeaderText="Giá Trị" />
 
-                    <sfgrid:DataGridTemplateColumn HeaderText="Xóa" Width="100" CellPadding="3">
+                    <sfgrid:DataGridTemplateColumn MappingName="Dummy" HeaderText="Xóa" Width="100" CellPadding="3">
                         <sfgrid:DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <Grid>

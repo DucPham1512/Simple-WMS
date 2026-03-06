@@ -4,6 +4,7 @@ using InternProj.Data;
 using InternProj.Models;
 using System.Collections.ObjectModel;
 using System.Globalization;
+using System.Text.RegularExpressions;
 
 namespace InternProj.PageModels
 {
@@ -73,10 +74,15 @@ namespace InternProj.PageModels
         {
             try
             {
+                if(SelectedSP is null)
+                {
+                    await Shell.Current.DisplayAlertAsync("Lỗi", "Chưa chọn sản phẩm", "OK");
+                    return;
+                }
 
                 if (!int.TryParse(SoLuongInput, out var soLuong) || soLuong <= 0)
                 {
-                    await Shell.Current.DisplayAlertAsync("Lỗi", "Số lượng phải lớn hơn 0.", "OK");
+                    await Shell.Current.DisplayAlertAsync("Lỗi", "Số lượng không hợp lệ.", "OK");
                     return;
                 }
 
@@ -89,7 +95,7 @@ namespace InternProj.PageModels
                 DanhSachDong.Add(new PhieuNhapKhoData
                 {
                     SanPhamId = SelectedSP.Id,
-                    TenSP = SelectedSP.Ten_SP,
+                    TenSP = Regex.Replace(SelectedSP.Ten_SP, @"\s+", " ").Trim(),
                     MaSP = SelectedSP.Ma_SP,
                     SoLuong = soLuong,
                     DonGia = donGia,
@@ -124,6 +130,18 @@ namespace InternProj.PageModels
                     return;
                 }
 
+                if (SelectedNCC is null)
+                {
+                    await Shell.Current.DisplayAlertAsync("Lỗi", "Chưa chọn nhà cung cấp", "OK");
+                    return;
+                }
+
+                if (SelectedKho is null)
+                {
+                    await Shell.Current.DisplayAlertAsync("Lỗi", "Chưa chọn kho", "OK");
+                    return;
+                }
+
                 if (DanhSachDong.Count == 0)
                 {
                     await Shell.Current.DisplayAlertAsync("Lỗi", "Phiếu nhập phải có ít nhất 1 dòng hàng.", "OK");
@@ -132,7 +150,7 @@ namespace InternProj.PageModels
 
                 var header = new PhieuNhapKhoHeader
                 {
-                    So_Phieu_Nhap_Kho = SoPhieuNhapKhoInput.Trim(),
+                    So_Phieu_Nhap_Kho = Regex.Replace(SoPhieuNhapKhoInput, @"\s+", " ").Trim(),
                     Ngay_Nhap_Kho = NgayNhapKhoInput,
                     NCC_ID = SelectedNCC.Id,
                     Kho_ID = SelectedKho.Id,
@@ -143,11 +161,7 @@ namespace InternProj.PageModels
 
                 await Shell.Current.DisplayAlertAsync("Thành công", "Đã lưu phiếu nhập kho.", "OK");
 
-                // Reset form
-                SoPhieuNhapKhoInput = string.Empty;
-                NgayNhapKhoInput = DateTime.Today;
-                GhiChuInput = string.Empty;
-                DanhSachDong.Clear();
+                await Shell.Current.GoToAsync("..");
             }
             catch (Exception ex)
             {

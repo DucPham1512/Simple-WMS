@@ -3,7 +3,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using InternProj;
 using InternProj.Models;
-
+using System.Text.RegularExpressions;
 
 //using Microsoft.UI.Xaml.Controls.Primitives;
 using System.Collections.ObjectModel;
@@ -47,7 +47,7 @@ namespace InternProj.PageModels
             {
                 var Kho = new Kho
                 {
-                    Ten_Kho = TenKhoInput,
+                    Ten_Kho = Regex.Replace(TenKhoInput, @"\s+", " ").Trim(),
                     Ghi_Chu = GhiChuInput
                 };
                 // Xác định xem đang Thêm hay Sửa
@@ -58,7 +58,6 @@ namespace InternProj.PageModels
                 // Gọi hàm Save mới
                 await _repository.SaveItemAsync(Kho, isEdit);
 
-                await LoadData();
 
                 // Reset form
                 TenKhoInput = string.Empty;
@@ -71,6 +70,7 @@ namespace InternProj.PageModels
             {
                 await Shell.Current.DisplayAlertAsync("Lỗi", ex.Message, "OK");
             }
+            await LoadData();
         }
 
         [RelayCommand]
@@ -83,7 +83,9 @@ namespace InternProj.PageModels
             try
             {
                 await _repository.DeleteItemAsync(item);
-            } catch (Exception ex) {
+            }
+            catch (Exception ex)
+            {
                 await Shell.Current.DisplayAlertAsync("Lỗi", $"Không thể xóa '{item.Ten_Kho}'", "OK");
                 return;
             }
@@ -98,7 +100,7 @@ namespace InternProj.PageModels
                 var donVi = new Kho
                 {
                     Id = item.Id,
-                    Ten_Kho = item.Ten_Kho,
+                    Ten_Kho = Regex.Replace(item.Ten_Kho, @"\s+", " ").Trim(),
                     Ghi_Chu = item.Ghi_Chu
                 };
 
@@ -106,22 +108,12 @@ namespace InternProj.PageModels
                 // Gọi hàm Save mới
                 await _repository.SaveItemAsync(donVi, true);
 
-                await LoadData();
             }
             catch (Exception ex)
             {
                 await Shell.Current.DisplayAlertAsync("Lỗi", ex.Message, "OK");
             }
-        }
-
-        // Hàm helper để điền dữ liệu vào ô input khi chọn một dòng để sửa
-        partial void OnSelectedItemChanged(Kho? value)
-        {
-            if (value != null)
-            {
-                TenKhoInput = value.Ten_Kho;
-                GhiChuInput = value.Ghi_Chu;
-            }
+            await LoadData();
         }
 
     }

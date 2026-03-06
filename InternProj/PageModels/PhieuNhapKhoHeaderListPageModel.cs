@@ -5,6 +5,7 @@ using InternProj.Models;
 using InternProj.Pages;
 using Microsoft.Maui.Controls;
 using System.Collections.ObjectModel;
+using System.Text.RegularExpressions;
 //using static Android.Preferences.PreferenceActivity;
 
 namespace InternProj.PageModels
@@ -66,7 +67,23 @@ namespace InternProj.PageModels
         [RelayCommand]
         private async Task Save(PhieuNhapKhoHeader item)
         {
-            await _pnkRepository.EditHeaderAsync(item);
+            var pnkHeader = new PhieuNhapKhoHeader
+            {
+                Id = item.Id,
+                So_Phieu_Nhap_Kho = Regex.Replace(item.So_Phieu_Nhap_Kho, @"\s+", " ").Trim(),
+                Kho_ID = item.Kho_ID,
+                NCC_ID = item.NCC_ID,
+                Ten_Kho = item.Ten_Kho,
+                Ten_NCC = item.Ten_NCC
+            };
+            try
+            {
+                await _pnkRepository.EditHeaderAsync(pnkHeader);
+            }
+            catch (Exception ex)
+            {
+                await Shell.Current.DisplayAlertAsync("Lỗi", "Không thể lưu phiếu nhập kho này", "OK");
+            }
             await LoadData();
         }
 
@@ -114,12 +131,6 @@ namespace InternProj.PageModels
             row.Ten_NCC = ncc?.Ten_Ncc ?? string.Empty;
         }
         public IReadOnlyList<string> ActionOptions { get; } =
-            new[] {"Lưu","Sửa", "Xóa","In" };
-
-
-        //// Placeholder, await for get method from Kho repository
-        //public IReadOnlyList<string> DanhSachKho { get;  } =
-        //    (IReadOnlyList<string>)KhoRepository.GetDanhSachKho();
-
+            new[] { "Lưu", "Sửa", "Xóa", "In" };
     }
 }

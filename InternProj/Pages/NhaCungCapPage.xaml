@@ -11,7 +11,6 @@
 
     <VerticalStackLayout Spacing="12" Padding="16">
         <ContentPage.Resources>
-            <!-- Header style -->
             <Style TargetType="sfgrid:DataGridHeaderCell">
                 <Setter Property="Background" Value="#F2F2F2" />
                 <Setter Property="TextColor" Value="#222222" />
@@ -25,15 +24,10 @@
             </Style>
 
 
-            <!-- Row style -->
             <Style TargetType="sfgrid:DataGridRow">
                 <Setter Property="Background" Value="#F2F2F2" />
             </Style>
         </ContentPage.Resources>
-        <Label Text="Danh mục nhà cung cấp"
-               FontAttributes="Bold"
-               TextColor="White" />
-        <!-- Inputs -->
         <Grid ColumnDefinitions="*,*,*"
               ColumnSpacing="12" RowSpacing="8">
             <VerticalStackLayout Spacing="8" Grid.Column="0">
@@ -48,10 +42,9 @@
 
             <VerticalStackLayout Spacing="8" Grid.Column="2">
                 <Label Text="Ghi chú" />
-                <Entry Text="{Binding GhiChuInput}" Placeholder="Ghi chú (nếu có)" />
+                <Entry Text="{Binding GhiChuInput}"/>
             </VerticalStackLayout>
         </Grid>
-        <!-- Buttons -->
         <HorizontalStackLayout Spacing="12">
             <Button Text="Load"
                     Command="{Binding LoadDataCommand}" />
@@ -91,7 +84,7 @@
 
                 <sfgrid:DataGridTextColumn MappingName="Ghi_Chu"
                                    HeaderText="Ghi chú" />
-                <sfgrid:DataGridTemplateColumn HeaderText="Xóa" Width="100" CellPadding="3">
+                <sfgrid:DataGridTemplateColumn MappingName="Dummy" HeaderText="Xóa" Width="100" CellPadding="3">
                     <sfgrid:DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <Grid>

@@ -156,7 +156,7 @@ namespace InternProj.Data
             }
             catch (SqliteException ex) when (ex.SqliteErrorCode == 19) // Constraint Violation
             {
-                throw new Exception($"Đã tồn tại mã đăng nhập này đã tồn tại cho kho này.");
+                throw new Exception($"Mã đăng nhập này đã tồn tại cho kho này.");
             }
         }
 

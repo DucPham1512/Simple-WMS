@@ -3,7 +3,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using InternProj;
 using InternProj.Models;
-
+using System.Text.RegularExpressions;
 
 //using Microsoft.UI.Xaml.Controls.Primitives;
 using System.Collections.ObjectModel;
@@ -79,8 +79,8 @@ namespace InternProj.PageModels
 
                 var item = new SanPham
                 {
-                    Ma_SP = MaSPInput,
-                    Ten_SP = TenSPInput,
+                    Ma_SP = Regex.Replace(MaSPInput, @"\s+", " ").Trim(),
+                    Ten_SP = Regex.Replace(TenSPInput, @"\s+", " ").Trim() ,
                     Id_LSP = SelectedLSP.Id,
                     Id_DVT = SelectedLSP.Id,
                     Ghi_Chu = GhiChuInput
@@ -95,8 +95,8 @@ namespace InternProj.PageModels
 
                 MaSPInput = string.Empty;
                 TenSPInput = string.Empty;
-                IdLSPInput = string.Empty;
-                IdDVTInput = string.Empty;
+                SelectedLSP = null;
+                SelectedDVT = null;
                 GhiChuInput = string.Empty;
                 SelectedItem = null;
 
@@ -128,10 +128,21 @@ namespace InternProj.PageModels
         [RelayCommand]
         private async Task Edit(SanPham item)
         {
+            var sp = new SanPham
+            {
+                Id = item.Id,
+                Ma_SP = Regex.Replace(item.Ma_SP, @"\s+", " ").Trim(),
+                Ten_SP = Regex.Replace(item.Ten_SP, @"\s+", " ").Trim(),
+                Id_LSP = item.Id_LSP,
+                Id_DVT = item.Id_DVT,
+                Ghi_Chu = item.Ghi_Chu
+            };
+
+
             try
             { 
 
-                await _spRepository.SaveItemAsync(item, true);
+                await _spRepository.SaveItemAsync(sp, true);
 
                 await LoadData();
 
@@ -141,19 +152,6 @@ namespace InternProj.PageModels
                 await Shell.Current.DisplayAlertAsync("Lỗi", ex.Message, "OK");
             }
         }
-        // Hàm helper để điền dữ liệu vào ô input khi chọn một dòng để sửa
-        partial void OnSelectedItemChanged(SanPham? value)
-        {
-            if (value != null)
-            {
-                MaSPInput = value.Ma_SP;
-                TenSPInput = value.Ten_SP;
-                IdLSPInput = value.Id_LSP.ToString();
-                IdDVTInput = value.Id_DVT.ToString();
-                GhiChuInput = value.Ghi_Chu;
-            }
-        }
-
         public void SyncTenDVTForRow(SanPham row)
         {
             var dvt = DanhSachDVT.FirstOrDefault(x => x.Id == row.Id_DVT);

@@ -57,8 +57,7 @@ namespace InternProj.Data
                         SL_Xuat      INTEGER NOT NULL CHECK (SL_Xuat > 0),
                         Don_Gia_Xuat REAL    NOT NULL CHECK (Don_Gia_Xuat >= 0),
                         FOREIGN KEY (Xuat_Kho_ID) REFERENCES tbl_DM_Xuat_Kho(ID) ON DELETE CASCADE,
-                        FOREIGN KEY (San_Pham_ID) REFERENCES tbl_DM_San_Pham(ID) ON DELETE RESTRICT,
-                        UNIQUE (Xuat_Kho_ID, San_Pham_ID)
+                        FOREIGN KEY (San_Pham_ID) REFERENCES tbl_DM_San_Pham(ID) ON DELETE RESTRICT
                     );
                     ";
                 await createTableCmd.ExecuteNonQueryAsync();

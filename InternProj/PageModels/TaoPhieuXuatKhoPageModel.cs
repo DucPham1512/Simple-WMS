@@ -79,6 +79,12 @@ namespace InternProj.PageModels
                     return;
                 }
 
+                if(SelectedSP is null)
+                {
+                    await Shell.Current.DisplayAlertAsync("Lỗi", "Chưa chọn sản phẩm", "OK");
+                    return;
+                }
+
                 DanhSachDong.Add(new PhieuXuatKhoData
                 {
                     SanPhamId = SelectedSP.Id,
@@ -124,6 +130,12 @@ namespace InternProj.PageModels
                     return;
                 }
 
+                if(SelectedKho is null)
+                {
+                    await Shell.Current.DisplayAlertAsync("Lỗi", "Chưa chọn kho", "OK");
+                    return;
+                }
+
                 var header = new PhieuXuatKhoHeader
                 {
                     So_Phieu_Xuat_Kho = SoPhieuXuatKhoInput.Trim(),
@@ -136,11 +148,7 @@ namespace InternProj.PageModels
 
                 await Shell.Current.DisplayAlertAsync("Thành công", "Đã lưu phiếu xuất kho.", "OK");
 
-                // Reset form
-                SoPhieuXuatKhoInput = string.Empty;
-                NgayXuatKhoInput = DateTime.Today;
-                GhiChuInput = string.Empty;
-                DanhSachDong.Clear();
+                await Shell.Current.GoToAsync("..");
             }
             catch (Exception ex)
             {

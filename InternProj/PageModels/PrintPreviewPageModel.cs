@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using InternProj.Services;
 using InternProj.Models;
 
 public partial class PrintPreviewPageModel : ObservableObject

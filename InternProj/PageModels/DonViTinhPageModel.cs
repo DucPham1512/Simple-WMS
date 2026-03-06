@@ -2,7 +2,7 @@
 using CommunityToolkit.Mvvm.Input;
 using InternProj.Data;
 using InternProj.Models;
-
+using System.Text.RegularExpressions;
 //using Microsoft.UI.Xaml.Controls.Primitives;
 using System.Collections.ObjectModel;
 
@@ -42,22 +42,19 @@ namespace InternProj.PageModels
         [RelayCommand]
         private async Task Save()
         {
-            try
+            var donVi = new DonViTinh
             {
-                var donVi = new DonViTinh
-                {
-                    Ten_Don_Vi_Tinh = TenDonViInput,
-                    Ghi_Chu = GhiChuInput
-                };
-                // Xác định xem đang Thêm hay Sửa
+                Ten_Don_Vi_Tinh = Regex.Replace(TenDonViInput, @"\s+", " ").Trim(),
+                Ghi_Chu = GhiChuInput
+            };
+            try
+            {  
                 bool isEdit = SelectedItem != null;
 
                 if (isEdit) donVi.Id = SelectedItem!.Id;
 
                 // Gọi hàm Save mới
                 await _repository.SaveItemAsync(donVi, isEdit);
-
-                await LoadData();
 
                 // Reset form
                 TenDonViInput = string.Empty;
@@ -69,7 +66,9 @@ namespace InternProj.PageModels
             catch (Exception ex)
             {
                 await Shell.Current.DisplayAlertAsync("Lỗi", ex.Message, "OK");
+                return;
             }
+            DanhSachDonVi.Add(donVi);
         }
 
         [RelayCommand]
@@ -87,6 +86,8 @@ namespace InternProj.PageModels
                 await Shell.Current.DisplayAlertAsync("Lỗi", $"Không thể xóa '{item.Ten_Don_Vi_Tinh}'", "OK");
                 return;
             }
+
+            DanhSachDonVi.Remove(item);
         }
 
         [RelayCommand]
@@ -97,7 +98,7 @@ namespace InternProj.PageModels
                 var donVi = new DonViTinh
                 {
                     Id = item.Id,
-                    Ten_Don_Vi_Tinh = item.Ten_Don_Vi_Tinh,
+                    Ten_Don_Vi_Tinh = Regex.Replace(item.Ten_Don_Vi_Tinh, @"\s+", " ").Trim(),
                     Ghi_Chu = item.Ghi_Chu
                 };
 
@@ -105,23 +106,13 @@ namespace InternProj.PageModels
                 // Gọi hàm Save mới
                 await _repository.SaveItemAsync(donVi, true);
 
-                await LoadData();
             }
             catch (Exception ex)
             {
                 await Shell.Current.DisplayAlertAsync("Lỗi", ex.Message, "OK");
             }
-        }
+                await LoadData();
 
-        // Hàm helper để điền dữ liệu vào ô input khi chọn một dòng để sửa
-        partial void OnSelectedItemChanged(DonViTinh? value)
-        {
-            if (value != null)
-            {
-                TenDonViInput = value.Ten_Don_Vi_Tinh;
-                GhiChuInput = value.Ghi_Chu;
-            }
         }
-
     }
 }

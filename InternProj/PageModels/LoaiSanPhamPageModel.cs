@@ -4,6 +4,8 @@ using InternProj.Data;
 using InternProj.Models;
 //using Microsoft.UI.Xaml.Controls.Primitives;
 using System.Collections.ObjectModel;
+using System.Text.RegularExpressions;
+//using static Android.Renderscripts.ScriptGroup;
 
 namespace InternProj.PageModels
 {
@@ -49,8 +51,8 @@ namespace InternProj.PageModels
 
                 var item = new LoaiSanPham
                 {
-                    Ma_LSP = MaLSPInput,
-                    Ten_LSP = TenLSPInput,
+                    Ma_LSP = Regex.Replace(MaLSPInput, @"\s+", " ").Trim(),
+                    Ten_LSP = Regex.Replace(TenLSPInput, @"\s+", " ").Trim(),
                     Ghi_Chu = GhiChuInput
                 };
 
@@ -82,8 +84,8 @@ namespace InternProj.PageModels
                 var donVi = new LoaiSanPham
                 {
                     Id = item.Id,
-                    Ma_LSP = item.Ma_LSP,
-                    Ten_LSP = item.Ten_LSP,
+                    Ma_LSP = Regex.Replace(item.Ma_LSP, @"\s+", " ").Trim(),
+                    Ten_LSP = Regex.Replace(item.Ten_LSP, @"\s+", " ").Trim(),
                     Ghi_Chu = item.Ghi_Chu
                 };
 
@@ -91,12 +93,12 @@ namespace InternProj.PageModels
                 // Gọi hàm Save mới
                 await _repository.SaveItemAsync(donVi, true);
 
-                await LoadData();
             }
             catch (Exception ex)
             {
                 await Shell.Current.DisplayAlertAsync("Lỗi", ex.Message, "OK");
             }
+                await LoadData();
         }
 
 
@@ -117,15 +119,6 @@ namespace InternProj.PageModels
             }
             DanhSachLSP.Remove(item);
         }
-        // Hàm helper để điền dữ liệu vào ô input khi chọn một dòng để sửa
-        partial void OnSelectedItemChanged(LoaiSanPham? value)
-        {
-            if (value != null)
-            {
-                MaLSPInput = value.Ma_LSP;
-                TenLSPInput = value.Ten_LSP;
-                GhiChuInput = value.Ghi_Chu;
-            }
-        }
+
     }
 }

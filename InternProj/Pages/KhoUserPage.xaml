@@ -32,25 +32,21 @@
             </Style>
         </ContentPage.Resources>
 
-        <Grid ColumnSpacing="16" RowSpacing="6"
-          RowDefinitions="Auto,Auto"
-          ColumnDefinitions="*,*">
+        <Grid ColumnDefinitions="*, *" ColumnSpacing="16">
 
-            <Label Grid.Row="0" Grid.Column="0"
-               Text="Mã đăng nhập"
-               LineBreakMode="TailTruncation"
-               MaximumWidthRequest="120" />
-                <Entry Grid.Row="1" Grid.Column="0"
-                   Text="{Binding MaDangNhapInput}" />
-
-            <!-- Column 1: Tên sản phẩm -->
-            <Label Grid.Row="0" Grid.Column="1"
-               Text="Kho"
+            <VerticalStackLayout Grid.Column="0" Spacing="4">
+                <Label Text="Mã đăng nhập" 
                LineBreakMode="TailTruncation" />
-            <Picker Grid.Row="1" Grid.Column="1"
-                ItemsSource="{Binding DanhSachKho}"
+                <Entry Text="{Binding MaDangNhapInput}"/>
+            </VerticalStackLayout>
+
+            <VerticalStackLayout Grid.Column="1" Spacing="4">
+                <Label Text="Kho" 
+               LineBreakMode="TailTruncation" />
+                <Picker ItemsSource="{Binding DanhSachKho}"
                 ItemDisplayBinding="{Binding Ten_Kho}"
-                SelectedItem="{Binding SelectedKho, Mode=TwoWay}" />
+                SelectedItem="{Binding SelectedKho, Mode=TwoWay}"/>
+            </VerticalStackLayout>
 
         </Grid>
         <!-- Buttons -->
@@ -112,12 +108,11 @@
                         IsEditable="True"
                         IsFilteringEnabled="True"
                         TextSearchMode="Contains"
-                        ShowSuggestionsOnFocus="True"
-                        Placeholder="Chọn kho" />
+                        ShowSuggestionsOnFocus="True"/>
                         </DataTemplate>
                     </sfgrid:DataGridTemplateColumn.EditTemplate>
                 </sfgrid:DataGridTemplateColumn>
-                <sfgrid:DataGridTemplateColumn HeaderText="Xóa" Width="100" CellPadding="3">
+                <sfgrid:DataGridTemplateColumn MappingName="Dummy" HeaderText="Xóa" Width="100" CellPadding="3">
                     <sfgrid:DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <Grid>

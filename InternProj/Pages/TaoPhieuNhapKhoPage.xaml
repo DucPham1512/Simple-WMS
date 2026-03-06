@@ -68,7 +68,7 @@
 
                 <VerticalStackLayout Grid.Column="4">
                     <Label Text="Ghi chú" />
-                    <Entry Text="{Binding GhiChuInput}" Placeholder="Ghi chú (nếu có)" />
+                    <Entry Text="{Binding GhiChuInput}" />
                 </VerticalStackLayout>
 
             </Grid>
@@ -152,7 +152,7 @@
                                                AllowEditing="False"
                                    HeaderText="Giá Trị" />
 
-                    <sfgrid:DataGridTemplateColumn HeaderText="Xóa" Width="100" CellPadding="3">
+                    <sfgrid:DataGridTemplateColumn MappingName="Dummy" HeaderText="Xóa" Width="100" CellPadding="3">
                         <sfgrid:DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <Grid>

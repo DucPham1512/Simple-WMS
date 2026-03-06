@@ -59,8 +59,7 @@ namespace InternProj.Data
                         SL_Nhap      INTEGER NOT NULL CHECK (SL_Nhap > 0),
                         Don_Gia_Nhap REAL    NOT NULL CHECK (Don_Gia_Nhap >= 0),
                         FOREIGN KEY (Nhap_Kho_ID) REFERENCES tbl_DM_Nhap_Kho(ID) ON DELETE CASCADE,
-                        FOREIGN KEY (San_Pham_ID) REFERENCES tbl_DM_San_Pham(ID) ON DELETE RESTRICT,
-                        UNIQUE (Nhap_Kho_ID, San_Pham_ID)
+                        FOREIGN KEY (San_Pham_ID) REFERENCES tbl_DM_San_Pham(ID) ON DELETE RESTRICT
                     );
                     ";
                 await createTableCmd.ExecuteNonQueryAsync();

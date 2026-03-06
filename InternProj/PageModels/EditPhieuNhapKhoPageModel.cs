@@ -90,6 +90,12 @@ namespace InternProj.PageModels
                     return;
                 }
 
+                if (SelectedSanPham is null)
+                {
+                    await Shell.Current.DisplayAlertAsync("Lỗi", "Chưa chọn sản phẩm", "OK");
+                    return;
+                }
+
                 PhieuNhapKhoData newLine = new PhieuNhapKhoData
                 {
                     NhapKhoId = Header.Id,
@@ -133,7 +139,7 @@ namespace InternProj.PageModels
             DanhSachDong = new ObservableCollection<PhieuNhapKhoRawData>(data);
         }
 
-    [RelayCommand]
+        [RelayCommand]
         private async Task Edit(PhieuNhapKhoData item)
         {
             try
