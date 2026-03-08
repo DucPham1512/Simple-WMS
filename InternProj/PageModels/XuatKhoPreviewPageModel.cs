@@ -10,10 +10,21 @@ public partial class XuatKhoPrintPreviewPageModel : ObservableObject
 
     public void Load(PhieuXuatKhoHeader header, IEnumerable<PhieuXuatKhoData> lines)
     {
-        PrintSource = new HtmlWebViewSource
+        // 1. Generate the HTML string
+        var htmlContent = PhieuXuatKhoPrintTemplate.Build(header, lines);
+
+        // 2. Force the update onto the Main UI Thread
+        MainThread.BeginInvokeOnMainThread(() =>
         {
-            Html = PhieuXuatKhoPrintTemplate.Build(header, lines)
-        };
+            // 3. Null it out first to force the UI to detach (optional but very safe)
+            PrintSource = null;
+
+            // 4. Assign a brand new object. The [ObservableProperty] will alert the UI automatically.
+            PrintSource = new HtmlWebViewSource
+            {
+                Html = htmlContent
+            };
+        });
     }
 
     [RelayCommand]
