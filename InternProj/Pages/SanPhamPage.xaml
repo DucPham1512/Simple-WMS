@@ -10,8 +10,7 @@
     Title="Danh mục sản phẩm">
 
     <VerticalStackLayout x:Name="RootLayout" Spacing="12" Padding="16">
-
-        <ContentPage.Resources>
+    <VerticalStackLayout.Resources>
             <!-- Header style -->
             <Style TargetType="sfgrid:DataGridHeaderCell">
                 <Setter Property="Background" Value="#F2F2F2" />
@@ -28,7 +27,7 @@
             <Style TargetType="sfgrid:DataGridRow">
                 <Setter Property="Background" Value="#F2F2F2" />
             </Style>
-        </ContentPage.Resources>
+        </VerticalStackLayout.Resources>
 
         <Grid ColumnSpacing="16" RowSpacing="6"
           RowDefinitions="Auto,Auto"

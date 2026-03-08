@@ -129,7 +129,14 @@ namespace InternProj.PageModels
             if (page?.BindingContext is XuatKhoPrintPreviewPageModel vm)
             {
                 vm.Load(item, lines);
-                await Shell.Current.Navigation.PushAsync(page);
+                if (InternProj.Pages.MainTabbedPage.Current != null)
+                {
+                    InternProj.Pages.MainTabbedPage.Current.LoadPageIntoActiveTab(page, "In Phiếu Xuất");
+                }
+                else
+                {
+                    await Shell.Current.Navigation.PushAsync(page);
+                }
             }
         }
 

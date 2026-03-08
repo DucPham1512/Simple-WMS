@@ -10,8 +10,7 @@
     Title="Phân quyền kho">
 
     <VerticalStackLayout x:Name="RootLayout" Spacing="12" Padding="16">
-
-        <ContentPage.Resources>
+    <VerticalStackLayout.Resources>
             <!-- Header style -->
             <Style TargetType="sfgrid:DataGridHeaderCell">
                 <Setter Property="Background" Value="#F2F2F2" />
@@ -30,17 +29,57 @@
             <Style TargetType="sfgrid:DataGridRow">
                 <Setter Property="Background" Value="#F2F2F2" />
             </Style>
-        </ContentPage.Resources>
+        </VerticalStackLayout.Resources>
 
         <Grid ColumnDefinitions="*, *" ColumnSpacing="16">
 
             <VerticalStackLayout Grid.Column="0" Spacing="4">
+    <VerticalStackLayout.Resources>
+            <!-- Header style -->
+            <Style TargetType="sfgrid:DataGridHeaderCell">
+                <Setter Property="Background" Value="#F2F2F2" />
+                <Setter Property="TextColor" Value="#222222" />
+                <Setter Property="FontAttributes" Value="Bold" />
+            </Style>
+
+            <Style TargetType="sfgrid:DataGridCell">
+                <Setter Property="FontSize" Value="15" />
+                <Setter Property="FontFamily" Value="Tahoma" />
+                <Setter Property="TextColor" Value="#222222" />
+            </Style>
+
+
+            <!-- Row style -->
+            <Style TargetType="sfgrid:DataGridRow">
+                <Setter Property="Background" Value="#F2F2F2" />
+            </Style>
+        </VerticalStackLayout.Resources>
                 <Label Text="Mã đăng nhập" 
                LineBreakMode="TailTruncation" />
                 <Entry Text="{Binding MaDangNhapInput}"/>
             </VerticalStackLayout>
 
             <VerticalStackLayout Grid.Column="1" Spacing="4">
+    <VerticalStackLayout.Resources>
+            <!-- Header style -->
+            <Style TargetType="sfgrid:DataGridHeaderCell">
+                <Setter Property="Background" Value="#F2F2F2" />
+                <Setter Property="TextColor" Value="#222222" />
+                <Setter Property="FontAttributes" Value="Bold" />
+            </Style>
+
+            <Style TargetType="sfgrid:DataGridCell">
+                <Setter Property="FontSize" Value="15" />
+                <Setter Property="FontFamily" Value="Tahoma" />
+                <Setter Property="TextColor" Value="#222222" />
+            </Style>
+
+
+            <!-- Row style -->
+            <Style TargetType="sfgrid:DataGridRow">
+                <Setter Property="Background" Value="#F2F2F2" />
+            </Style>
+        </VerticalStackLayout.Resources>
                 <Label Text="Kho" 
                LineBreakMode="TailTruncation" />
                 <Picker ItemsSource="{Binding DanhSachKho}"

@@ -11,8 +11,7 @@
 
     <ScrollView x:Name="RootLayout">
         <VerticalStackLayout Spacing="12" Padding="16">
-
-            <ContentPage.Resources>
+    <VerticalStackLayout.Resources>
                 <!-- Header style -->
                 <Style TargetType="sfgrid:DataGridHeaderCell">
                     <Setter Property="Background" Value="#F2F2F2" />
@@ -31,7 +30,7 @@
                 <Style TargetType="sfgrid:DataGridRow">
                     <Setter Property="Background" Value="#F2F2F2" />
                 </Style>
-            </ContentPage.Resources>
+            </VerticalStackLayout.Resources>
 
 
 
@@ -40,6 +39,26 @@
             <Grid ColumnDefinitions="*, *, *"
                       ColumnSpacing="12" RowSpacing="8">
                 <VerticalStackLayout Spacing="8" Grid.Column="0">
+    <VerticalStackLayout.Resources>
+                <!-- Header style -->
+                <Style TargetType="sfgrid:DataGridHeaderCell">
+                    <Setter Property="Background" Value="#F2F2F2" />
+                    <Setter Property="TextColor" Value="#222222" />
+                    <Setter Property="FontAttributes" Value="Bold" />
+                </Style>
+
+                <Style TargetType="sfgrid:DataGridCell">
+                    <Setter Property="FontSize" Value="15" />
+                    <Setter Property="FontFamily" Value="Tahoma" />
+                    <Setter Property="TextColor" Value="#222222" />
+                </Style>
+
+
+                <!-- Row style -->
+                <Style TargetType="sfgrid:DataGridRow">
+                    <Setter Property="Background" Value="#F2F2F2" />
+                </Style>
+            </VerticalStackLayout.Resources>
                     <Label Text="Sản phẩm" />
                     <Picker ItemDisplayBinding="{Binding Ten_SP}"
                         ItemsSource="{Binding DanhSachSP}"
@@ -47,6 +66,26 @@
                 </VerticalStackLayout>
 
                 <VerticalStackLayout Spacing="8" Grid.Column="1">
+    <VerticalStackLayout.Resources>
+                <!-- Header style -->
+                <Style TargetType="sfgrid:DataGridHeaderCell">
+                    <Setter Property="Background" Value="#F2F2F2" />
+                    <Setter Property="TextColor" Value="#222222" />
+                    <Setter Property="FontAttributes" Value="Bold" />
+                </Style>
+
+                <Style TargetType="sfgrid:DataGridCell">
+                    <Setter Property="FontSize" Value="15" />
+                    <Setter Property="FontFamily" Value="Tahoma" />
+                    <Setter Property="TextColor" Value="#222222" />
+                </Style>
+
+
+                <!-- Row style -->
+                <Style TargetType="sfgrid:DataGridRow">
+                    <Setter Property="Background" Value="#F2F2F2" />
+                </Style>
+            </VerticalStackLayout.Resources>
                     <Label Text="Số lượng" />
                     <Entry Text="{Binding SoLuongInput}"
                    Keyboard="Numeric" />
@@ -54,6 +93,26 @@
 
 
                 <VerticalStackLayout Spacing="8" Grid.Column="2">
+    <VerticalStackLayout.Resources>
+                <!-- Header style -->
+                <Style TargetType="sfgrid:DataGridHeaderCell">
+                    <Setter Property="Background" Value="#F2F2F2" />
+                    <Setter Property="TextColor" Value="#222222" />
+                    <Setter Property="FontAttributes" Value="Bold" />
+                </Style>
+
+                <Style TargetType="sfgrid:DataGridCell">
+                    <Setter Property="FontSize" Value="15" />
+                    <Setter Property="FontFamily" Value="Tahoma" />
+                    <Setter Property="TextColor" Value="#222222" />
+                </Style>
+
+
+                <!-- Row style -->
+                <Style TargetType="sfgrid:DataGridRow">
+                    <Setter Property="Background" Value="#F2F2F2" />
+                </Style>
+            </VerticalStackLayout.Resources>
                     <Label Text="Đơn giá" />
                     <Entry Text="{Binding DonGiaInput}"
                    Keyboard="Numeric" />

@@ -9,7 +9,8 @@
     Title="Phiếu xuất kho"
 >
 
-    <ContentPage.Resources>
+    <VerticalStackLayout x:Name="RootLayout" Spacing="12" Padding="16">
+    <VerticalStackLayout.Resources>
         <!-- Header style -->
         <Style TargetType="sfgrid:DataGridHeaderCell">
             <Setter Property="Background" Value="#F2F2F2" />
@@ -28,9 +29,7 @@
         <Style TargetType="sfgrid:DataGridRow">
             <Setter Property="Background" Value="#F2F2F2" />
         </Style>
-    </ContentPage.Resources>
-
-    <VerticalStackLayout x:Name="RootLayout" Spacing="12" Padding="16">
+    </VerticalStackLayout.Resources>
 
         <HorizontalStackLayout Spacing="12">
             <Button Text="Load"
