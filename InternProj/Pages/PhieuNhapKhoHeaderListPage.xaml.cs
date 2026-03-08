@@ -31,32 +31,52 @@ namespace InternProj.Pages
 
         private async void ActionPicker_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (sender is not Picker picker) return;
-            if (picker.BindingContext is not PhieuNhapKhoHeader item) return;
-            if (picker.SelectedItem is not string action) return;
-            if (BindingContext is not PhieuNhapKhoHeaderListPageModel vm) return;
+            System.Diagnostics.Debug.WriteLine("[DEBUG] ActionPicker_SelectedIndexChanged triggered");
+            
+            if (sender is not Picker picker) 
+            {
+                System.Diagnostics.Debug.WriteLine("[DEBUG] Sender is not a Picker");
+                return;
+            }
+            if (picker.BindingContext is not PhieuNhapKhoHeader item) 
+            {
+                System.Diagnostics.Debug.WriteLine($"[DEBUG] BindingContext is not PhieuNhapKhoHeader: {picker.BindingContext?.GetType().Name ?? "NULL"}");
+                return;
+            }
+            if (picker.SelectedItem is not string action) 
+            {
+                System.Diagnostics.Debug.WriteLine($"[DEBUG] SelectedItem is not string: {picker.SelectedItem?.GetType().Name ?? "NULL"}");
+                return;
+            }
+            if (_vm == null) 
+            {
+                System.Diagnostics.Debug.WriteLine("[DEBUG] _vm is NULL");
+                return;
+            }
+
+            System.Diagnostics.Debug.WriteLine($"[DEBUG] Action '{action}' picked for Item '{item.Id}'");
 
             try
             {
                 switch (action)
                 {
                     case "Lưu":
-                        await vm.SaveCommand.ExecuteAsync(item);
+                        await _vm.SaveCommand.ExecuteAsync(item);
                         break;
                     case "Sửa":
-                        await vm.OpenEditAsync(item);
+                        await _vm.OpenEditAsync(item);
                         break;
 
                     case "Xóa":
                         var confirm = await DisplayAlertAsync("Xác nhận", $"Bạn có chắc muốn xóa phiếu nhập kho '{item.So_Phieu_Nhap_Kho}'?", "Có", "Không");
                         if (confirm)
                         {
-                            await vm.DeleteCommand.ExecuteAsync(item);
+                            await _vm.DeleteCommand.ExecuteAsync(item);
                         }
                         break;
 
                     case "In":
-                        await vm.OpenPrintPreviewCommand.ExecuteAsync(item);
+                        await _vm.OpenPrintPreviewCommand.ExecuteAsync(item);
                         break;
                 }
             }
@@ -71,17 +91,17 @@ namespace InternProj.Pages
         {
             if (sender is not SfComboBox combo) return;
             if (combo.BindingContext is not PhieuNhapKhoHeader row) return;
-            if (BindingContext is not PhieuNhapKhoHeaderListPageModel vm) return;
+            if (_vm == null) return;
 
-            vm.SyncTenKhoForRow(row);
+            _vm.SyncTenKhoForRow(row);
         }
 
         private void NccCombo_SelectionChanged(object sender, EventArgs e)
         {
             if (sender is not SfComboBox combo) return;
             if (combo.BindingContext is not PhieuNhapKhoHeader row) return;
-            if (BindingContext is not PhieuNhapKhoHeaderListPageModel vm) return;
-            vm.SyncTenNCCForRow(row);
+            if (_vm == null) return;
+            _vm.SyncTenNCCForRow(row);
         }
     }
 }

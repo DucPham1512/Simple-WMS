@@ -24,6 +24,7 @@ namespace InternProj
             SyncfusionLicenseProvider.RegisterLicense("Ngo9BigBOggjHTQxAR8/V1JGaF1cXmhKYVppR2NbeU55flBBallXVBYiSV9jS3hTdUVhW35bd3FTQmNbV091XQ==");
 #if DEBUG
             builder.Logging.AddDebug();
+            builder.Services.AddSingleton<MainTabbedPage>();
             builder.Services.AddSingleton<DonViTinhRepository>();
             builder.Services.AddTransient<DonViTinhPageModel>();
             builder.Services.AddTransient<DonViTinhPage>();

@@ -50,6 +50,12 @@ namespace InternProj.PageModels
         [RelayCommand]
         private async Task Save()
         {
+            if(SelectedKho is null)
+            {
+                await Shell.Current.DisplayAlertAsync("Lỗi", "Vui lòng chọn kho", "OK");
+                return;
+            }
+
             try
             {
                 bool isEdit = SelectedItem != null;

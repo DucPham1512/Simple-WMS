@@ -9,7 +9,7 @@
     xmlns:editors="clr-namespace:Syncfusion.Maui.Inputs;assembly=Syncfusion.Maui.Inputs"
     Title="Danh mục nhà cung cấp">
 
-    <VerticalStackLayout Spacing="12" Padding="16">
+    <VerticalStackLayout x:Name="RootLayout" Spacing="12" Padding="16">
         <ContentPage.Resources>
             <Style TargetType="sfgrid:DataGridHeaderCell">
                 <Setter Property="Background" Value="#F2F2F2" />
@@ -90,7 +90,7 @@
                             <Grid>
                                 <Button
                                     Text="Xóa"
-                                    Command="{Binding Source={x:Reference Ncc}, Path=BindingContext.DeleteCommand}"
+                                    Command="{Binding Source={x:Reference RootLayout}, Path=BindingContext.DeleteCommand}"
                                     CommandParameter="{Binding .}"
                                     WidthRequest="60"
                                     HeightRequest="32"

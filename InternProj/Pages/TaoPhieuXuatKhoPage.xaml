@@ -27,7 +27,7 @@
         </Style>
     </ContentPage.Resources>
 
-    <ScrollView>
+    <ScrollView x:Name="RootLayout">
         <VerticalStackLayout Spacing="12" Padding="16">
 
             <Label Text="Thông tin phiếu xuất" FontAttributes="Bold" FontSize="16" />
@@ -139,7 +139,7 @@
                                 <Grid>
                                     <Button
                                         Text="Xóa"
-                                        Command="{Binding Source={x:Reference TaoPhieuXuatKho}, Path=BindingContext.RemoveLineCommand}"
+                                        Command="{Binding Source={x:Reference RootLayout}, Path=BindingContext.RemoveLineCommand}"
                                         CommandParameter="{Binding .}"
                                         WidthRequest="60"
                                         HeightRequest="32"

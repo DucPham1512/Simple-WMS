@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:syncfusion="clr-namespace:Syncfusion.Maui.TabView;assembly=Syncfusion.Maui.TabView"
+             x:Class="InternProj.Pages.MainTabbedPage"
+             Title="Workspace">
+
+    <Grid RowDefinitions="Auto,*">
+        <!-- Custom Tab Management Bar -->
+        <HorizontalStackLayout Grid.Row="0" Padding="10,5" Spacing="10" BackgroundColor="{AppThemeBinding Light=#f0f0f0, Dark=#1e1e1e}">
+            <Button Text="+ New Tab" Clicked="OnAddNewTabClicked" HeightRequest="35" Padding="10,0" />
+            <Button Text="Close Active Tab" Clicked="OnCloseActiveTabClicked" HeightRequest="35" Padding="10,0" BackgroundColor="IndianRed" TextColor="White" />
+        </HorizontalStackLayout>
+
+        <syncfusion:SfTabView Grid.Row="1" x:Name="MainTabView" EnableSwiping="False" SelectionChanged="MainTabView_SelectionChanged">
+            <syncfusion:SfTabView.Items>
+                <!-- Initial Welcome Tab -->
+                <syncfusion:SfTabItem Header="Home">
+                    <syncfusion:SfTabItem.Content>
+                        <Label Text="Welcome to Workspace! Please select a function from the sidebar." 
+                               HorizontalOptions="Center" 
+                               VerticalOptions="Center" 
+                               FontSize="18"/>
+                    </syncfusion:SfTabItem.Content>
+                </syncfusion:SfTabItem>
+            </syncfusion:SfTabView.Items>
+        </syncfusion:SfTabView>
+    </Grid>
+</ContentPage>

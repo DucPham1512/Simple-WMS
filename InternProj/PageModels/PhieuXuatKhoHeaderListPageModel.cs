@@ -88,12 +88,26 @@ namespace InternProj.PageModels
 
         public async Task OpenEditAsync(PhieuXuatKhoHeader item)
         {
-            await Shell.Current.GoToAsync(
-                nameof(EditPhieuXuatKhoPage),
-                new Dictionary<string, object>
+            var services = Application.Current?.MainPage?.Handler?.MauiContext?.Services;
+            if (services != null && InternProj.Pages.MainTabbedPage.Current != null)
+            {
+                var page = services.GetService(typeof(EditPhieuXuatKhoPage)) as EditPhieuXuatKhoPage;
+                if (page?.BindingContext is EditPhieuXuatKhoPageModel vm)
                 {
-                    ["Header"] = item
-                });
+                    vm.Header = item;
+                    _ = vm.InitializeAsync(item);
+                }
+                InternProj.Pages.MainTabbedPage.Current.LoadPageIntoActiveTab(page, "Sửa Phiếu Xuất");
+            }
+            else
+            {
+                await Shell.Current.GoToAsync(
+                    nameof(EditPhieuXuatKhoPage),
+                    new Dictionary<string, object>
+                    {
+                        ["Header"] = item
+                    });
+            }
             SelectedItem = null;
         }
 

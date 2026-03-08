@@ -9,7 +9,7 @@
     xmlns:editors="clr-namespace:Syncfusion.Maui.Inputs;assembly=Syncfusion.Maui.Inputs"
     Title="Phân quyền kho">
 
-    <VerticalStackLayout Spacing="12" Padding="16">
+    <VerticalStackLayout x:Name="RootLayout" Spacing="12" Padding="16">
 
         <ContentPage.Resources>
             <!-- Header style -->
@@ -100,7 +100,7 @@
                     <sfgrid:DataGridTemplateColumn.EditTemplate>
                         <DataTemplate>
                             <editors:SfComboBox
-                        ItemsSource="{Binding Source={x:Reference KhoUser}, Path=BindingContext.DanhSachKho}"
+                        ItemsSource="{Binding Source={x:Reference RootLayout}, Path=BindingContext.DanhSachKho}"
                         DisplayMemberPath="Ten_Kho"
                         SelectedValuePath="Id"
                         SelectedValue="{Binding KhoId, Mode=TwoWay}"
@@ -118,7 +118,7 @@
                             <Grid>
                                 <Button
                             Text="Xóa"
-                            Command="{Binding Source={x:Reference KhoUser}, Path=BindingContext.DeleteCommand}"
+                            Command="{Binding Source={x:Reference RootLayout}, Path=BindingContext.DeleteCommand}"
                             CommandParameter="{Binding .}"
                             WidthRequest="60"
                             HeightRequest="32"

@@ -73,6 +73,19 @@ namespace InternProj.PageModels
         [RelayCommand]
         private async Task Save()
         {
+
+            if (SelectedLSP is null)
+            {
+                await Shell.Current.DisplayAlertAsync("Lỗi", "Vui lòng chọn loại sản phẩm", "OK");
+                return;
+            }
+
+            if (SelectedDVT is null)
+            {
+                await Shell.Current.DisplayAlertAsync("Lỗi", "Vui lòng chọn đơn vị tính", "OK");
+                return;
+            }
+
             try
             {
                 bool isEdit = SelectedItem != null;

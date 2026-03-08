@@ -11,69 +11,20 @@
 
 
     <ShellContent
-        Title="Màn hình chính"
+        Title="Trang chủ (Tabs)"
+        ContentTemplate="{DataTemplate pages:MainTabbedPage}"
+        Route="maintabbedpage" />
 
-        ContentTemplate="{DataTemplate pages:MainPage}"
-        Route="mainpage" />
-
-    <ShellContent
-        Title="Đơn vị tính"
-
-        ContentTemplate="{DataTemplate pages:DonViTinhPage}"
-        Route="donvitinh" />
-    
-    <ShellContent    
-        Title="Loại Sản Phẩm"
-
-        ContentTemplate="{DataTemplate pages:LoaiSanPhamPage}"
-        Route="loaisanpham" />
-  
-    <ShellContent
-        Title="Sản Phẩm"
-
-        ContentTemplate="{DataTemplate pages:SanPhamPage}"
-        Route="sanpham" />
-
-    <ShellContent
-        Title="Nhà cung cấp"
-
-        ContentTemplate="{DataTemplate pages:NhaCungCapPage}"
-        Route="nhacungcap" />
-
-    <ShellContent
-        Title="Kho"
-        ContentTemplate="{DataTemplate pages:KhoPage}"
-        Route="kho" />
-    
-    <ShellContent    
-        Title="Phân quyền kho - user"
-        ContentTemplate="{DataTemplate pages:KhoUserPage}"
-        Route="khouser" />
-
-    <ShellContent    
-        Title="Phiếu nhập kho"
-
-        ContentTemplate="{DataTemplate pages:PhieuNhapKhoHeaderListPage}"
-        Route="phieunhapkho" />
-
-    <ShellContent    
-        Title="Phiếu xuất kho"
-
-        ContentTemplate="{DataTemplate pages:PhieuXuatKhoHeaderListPage}"
-        Route="phieuxuatkho" />
-
-    <ShellContent    
-        Title="Báo cáo hàng nhập"
-        ContentTemplate="{DataTemplate pages:HangNhapReportPage}"
-        Route="hangnhapreport" />
-
-    <ShellContent    
-        Title="Báo cáo hàng xuất"
-        ContentTemplate="{DataTemplate pages:HangXuatReportPage}"
-        Route="hangxuatreport" />
-
-    <ShellContent    
-        Title="Báo cáo xuất nhập tồn"
-        ContentTemplate="{DataTemplate pages:XuatNhapTonDataPage}"
-        Route="xuatnhaptonreport" />
+    <MenuItem Text="Màn hình chính" CommandParameter="mainpage" Clicked="OnSidebarMenuItemClicked" />
+    <MenuItem Text="Đơn vị tính" CommandParameter="donvitinh" Clicked="OnSidebarMenuItemClicked" />
+    <MenuItem Text="Loại Sản Phẩm" CommandParameter="loaisanpham" Clicked="OnSidebarMenuItemClicked" />
+    <MenuItem Text="Sản Phẩm" CommandParameter="sanpham" Clicked="OnSidebarMenuItemClicked" />
+    <MenuItem Text="Nhà cung cấp" CommandParameter="nhacungcap" Clicked="OnSidebarMenuItemClicked" />
+    <MenuItem Text="Kho" CommandParameter="kho" Clicked="OnSidebarMenuItemClicked" />
+    <MenuItem Text="Phân quyền kho - user" CommandParameter="khouser" Clicked="OnSidebarMenuItemClicked" />
+    <MenuItem Text="Phiếu nhập kho" CommandParameter="phieunhapkho" Clicked="OnSidebarMenuItemClicked" />
+    <MenuItem Text="Phiếu xuất kho" CommandParameter="phieuxuatkho" Clicked="OnSidebarMenuItemClicked" />
+    <MenuItem Text="Báo cáo hàng nhập" CommandParameter="hangnhapreport" Clicked="OnSidebarMenuItemClicked" />
+    <MenuItem Text="Báo cáo hàng xuất" CommandParameter="hangxuatreport" Clicked="OnSidebarMenuItemClicked" />
+    <MenuItem Text="Báo cáo xuất nhập tồn" CommandParameter="xuatnhaptonreport" Clicked="OnSidebarMenuItemClicked" />
 </Shell>

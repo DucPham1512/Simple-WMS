@@ -30,7 +30,7 @@
         </Style>
     </ContentPage.Resources>
 
-    <VerticalStackLayout Spacing="12" Padding="16">
+    <VerticalStackLayout x:Name="RootLayout" Spacing="12" Padding="16">
 
         <HorizontalStackLayout Spacing="12">
             <Button Text="Load"
@@ -84,7 +84,7 @@
                     <sfgrid:DataGridTemplateColumn.EditTemplate>
                         <DataTemplate>
                             <editors:SfComboBox
-                                ItemsSource="{Binding Source={x:Reference DanhSachPhieuXuatKho}, Path=BindingContext.DanhSachKho}"
+                                ItemsSource="{Binding Source={RelativeSource AncestorType={x:Type sfgrid:SfDataGrid}}, Path=BindingContext.DanhSachKho}"
                                 DisplayMemberPath="Ten_Kho"
                                 SelectedValuePath="Id"
                                 SelectedValue="{Binding Kho_ID, Mode=TwoWay}"
@@ -102,7 +102,7 @@
                     <sfgrid:DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <Picker 
-                            ItemsSource="{Binding Source={x:Reference DanhSachPhieuXuatKho}, Path=BindingContext.ActionOptions}"
+                            ItemsSource="{Binding Source={RelativeSource AncestorType={x:Type sfgrid:SfDataGrid}}, Path=BindingContext.ActionOptions}"
                             SelectedIndexChanged="ActionPicker_SelectedIndexChanged" />
                         </DataTemplate>
                     </sfgrid:DataGridTemplateColumn.CellTemplate>
