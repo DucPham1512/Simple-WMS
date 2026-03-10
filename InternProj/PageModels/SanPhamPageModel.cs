@@ -95,7 +95,7 @@ namespace InternProj.PageModels
                     Ma_SP = Regex.Replace(MaSPInput, @"\s+", " ").Trim(),
                     Ten_SP = Regex.Replace(TenSPInput, @"\s+", " ").Trim() ,
                     Id_LSP = SelectedLSP.Id,
-                    Id_DVT = SelectedLSP.Id,
+                    Id_DVT = SelectedDVT.Id,
                     Ghi_Chu = GhiChuInput
                 };
 

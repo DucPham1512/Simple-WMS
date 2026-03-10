@@ -11,7 +11,6 @@ namespace InternProj
         public AppShell()
         {
             InitializeComponent();
-            Routing.RegisterRoute("mainpage", typeof(MainPage));
             Routing.RegisterRoute("donvitinh", typeof(DonViTinhPage));
             Routing.RegisterRoute("loaisanpham", typeof(LoaiSanPhamPage));
             Routing.RegisterRoute("sanpham", typeof(SanPhamPage));
@@ -91,7 +90,6 @@ namespace InternProj
         {
             return route switch
             {
-                "mainpage" => typeof(MainPage),
                 "donvitinh" => typeof(DonViTinhPage),
                 "loaisanpham" => typeof(LoaiSanPhamPage),
                 "sanpham" => typeof(SanPhamPage),

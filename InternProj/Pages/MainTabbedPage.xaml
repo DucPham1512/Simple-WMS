@@ -8,19 +8,24 @@
     <Grid RowDefinitions="Auto,*">
         <!-- Custom Tab Management Bar -->
         <HorizontalStackLayout Grid.Row="0" Padding="10,5" Spacing="10" BackgroundColor="{AppThemeBinding Light=#f0f0f0, Dark=#1e1e1e}">
-            <Button Text="+ New Tab" Clicked="OnAddNewTabClicked" HeightRequest="35" Padding="10,0" />
-            <Button Text="Close Active Tab" Clicked="OnCloseActiveTabClicked" HeightRequest="35" Padding="10,0" BackgroundColor="IndianRed" TextColor="White" />
+            <Button Text="Đóng" Clicked="CloseTab" HeightRequest="35" Padding="10,0" BackgroundColor="IndianRed" TextColor="White" />
         </HorizontalStackLayout>
 
-        <syncfusion:SfTabView Grid.Row="1" x:Name="MainTabView" EnableSwiping="False" SelectionChanged="MainTabView_SelectionChanged">
-            <syncfusion:SfTabView.Items>
-                <!-- Initial Welcome Tab -->
+        
+        <syncfusion:SfTabView 
+            Grid.Row="1" 
+            x:Name="MainTabView" 
+            EnableSwiping="False" 
+            SelectionChanged="MainTabView_SelectionChanged"
+            IndicatorPlacement="Bottom">
+
+                <syncfusion:SfTabView.Items>
                 <syncfusion:SfTabItem Header="Home">
                     <syncfusion:SfTabItem.Content>
-                        <Label Text="Welcome to Workspace! Please select a function from the sidebar." 
-                               HorizontalOptions="Center" 
-                               VerticalOptions="Center" 
-                               FontSize="18"/>
+                        <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="Center" Spacing="10">
+                            <Label Text="Welcome to Workspace!" FontSize="20" FontAttributes="Bold" HorizontalTextAlignment="Center"/>
+                            <Label Text="Select a function from the sidebar to begin." HorizontalTextAlignment="Center" TextColor="Gray"/>
+                        </VerticalStackLayout>
                     </syncfusion:SfTabItem.Content>
                 </syncfusion:SfTabItem>
             </syncfusion:SfTabView.Items>

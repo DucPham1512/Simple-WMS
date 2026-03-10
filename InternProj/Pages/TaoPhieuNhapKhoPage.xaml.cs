@@ -18,8 +18,7 @@ namespace InternProj.Pages
 
             try
             {
-                // Load whenever you enter/return to this screen
-                await _vm.LoadCommand.ExecuteAsync(null);
+                await _vm.LoadDataCommand.ExecuteAsync(null);
             }
             catch (Exception ex)
             {

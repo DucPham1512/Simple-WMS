@@ -32,12 +32,12 @@ namespace InternProj.Pages
             MainTabView.SelectedIndex = (int)(MainTabView.Items.Count - 1);
         }
 
-        public void OnAddNewTabClicked(object sender, EventArgs e)
+        public void NewTab(object sender, EventArgs e)
         {
             AddNewTab();
         }
 
-        public void OnCloseActiveTabClicked(object sender, EventArgs e)
+        public void CloseTab(object sender, EventArgs e)
         {
             if (MainTabView.Items.Count > 1)
             {
@@ -111,18 +111,17 @@ namespace InternProj.Pages
                         targetTab.Content = pageContent;
                         targetTab.BindingContext = contentPage.BindingContext;
 
-                        // Try to execute LoadDataCommand on the BindingContext directly
                         ExecuteLoadDataCommand(contentPage.BindingContext);
                     }
                 }
                 else
                 {
-                    await DisplayAlert("Error", $"Could not resolve route: {routeName}", "OK");
+                    await DisplayAlertAsync("Error", $"Could not resolve route: {routeName}", "OK");
                 }
             }
             catch (Exception ex)
             {
-                await DisplayAlert("Navigation Error", ex.Message, "OK");
+                await DisplayAlertAsync("Navigation Error", ex.Message, "OK");
             }
         }
 

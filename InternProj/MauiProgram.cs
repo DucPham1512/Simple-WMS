@@ -21,7 +21,7 @@ namespace InternProj
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
                 });
-            SyncfusionLicenseProvider.RegisterLicense("Ngo9BigBOggjHTQxAR8/V1JGaF1cXmhKYVppR2NbeU55flBBallXVBYiSV9jS3hTdUVhW35bd3FTQmNbV091XQ==");
+            SyncfusionLicenseProvider.RegisterLicense("Ngo9BigBOggjHTQxAR8/V1JGaF1cVWhIfEx1RHxQdld5ZFRHallYTnNWUj0eQnxTdENjWn9XcnRQTmBYUkdzXkleYQ==");
 #if DEBUG
             builder.Logging.AddDebug();
             builder.Services.AddSingleton<MainTabbedPage>();

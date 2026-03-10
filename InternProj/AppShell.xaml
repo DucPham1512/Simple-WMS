@@ -15,7 +15,6 @@
         ContentTemplate="{DataTemplate pages:MainTabbedPage}"
         Route="maintabbedpage" />
 
-    <MenuItem Text="Màn hình chính" CommandParameter="mainpage" Clicked="OnSidebarMenuItemClicked" />
     <MenuItem Text="Đơn vị tính" CommandParameter="donvitinh" Clicked="OnSidebarMenuItemClicked" />
     <MenuItem Text="Loại Sản Phẩm" CommandParameter="loaisanpham" Clicked="OnSidebarMenuItemClicked" />
     <MenuItem Text="Sản Phẩm" CommandParameter="sanpham" Clicked="OnSidebarMenuItemClicked" />

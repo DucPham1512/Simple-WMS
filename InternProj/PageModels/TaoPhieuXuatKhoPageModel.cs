@@ -52,7 +52,7 @@ namespace InternProj.PageModels
         }
 
         [RelayCommand]
-        private async Task Load()
+        private async Task LoadData()
         {
             var listKho = await _khoRepository.ListAsync();
             DanhSachKho = new ObservableCollection<Kho>(listKho);
