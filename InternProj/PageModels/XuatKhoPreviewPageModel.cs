@@ -2,6 +2,7 @@
 using CommunityToolkit.Mvvm.Input;
 using InternProj.Services;
 using InternProj.Models;
+using Microsoft.UI.Xaml.Controls;
 
 public partial class XuatKhoPrintPreviewPageModel : ObservableObject
 {
@@ -28,10 +29,21 @@ public partial class XuatKhoPrintPreviewPageModel : ObservableObject
     }
 
     [RelayCommand]
-    private async Task Print()
+    private async Task Print(WebView webView) // Accept the control as a parameter
     {
+        if (webView == null) return;
 #if WINDOWS
-        await Shell.Current.DisplayAlertAsync("Thông báo", "Phần render đã xong. Bước tiếp theo là gọi Windows print API.", "OK");
+        var nativeWebView = webView.Handler?.PlatformView as Microsoft.UI.Xaml.Controls.WebView2;
+
+        if (nativeWebView != null)
+        {
+            await nativeWebView.EnsureCoreWebView2Async();
+
+            var printSettings = nativeWebView.CoreWebView2.Environment.CreatePrintSettings();
+            printSettings.ShouldPrintBackgrounds = true;
+
+            var printStatus = await nativeWebView.CoreWebView2.PrintAsync(printSettings);
+        }
 #elif ANDROID
         await Shell.Current.DisplayAlertAsync("Thông báo", "Phần render đã xong. Bước tiếp theo là gọi Android print API.", "OK");
 #else

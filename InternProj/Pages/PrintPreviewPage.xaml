@@ -6,9 +6,11 @@
 
     <VerticalStackLayout Padding="12" Spacing="12">
         <Button Text="In"
-                Command="{Binding PrintCommand}" />
+                Command="{Binding PrintCommand}"
+                CommandParameter="{x:Reference MyWebView}" />
 
-        <WebView Source="{Binding PrintSource}"
+        <WebView x:Name="MyWebView" 
+                 Source="{Binding PrintSource}"
                  HeightRequest="900" />
     </VerticalStackLayout>
 </ContentPage>
