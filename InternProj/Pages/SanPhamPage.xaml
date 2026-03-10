@@ -10,7 +10,7 @@
     Title="Danh mục sản phẩm">
 
     <VerticalStackLayout x:Name="RootLayout" Spacing="12" Padding="16">
-    <VerticalStackLayout.Resources>
+        <VerticalStackLayout.Resources>
             <!-- Header style -->
             <Style TargetType="sfgrid:DataGridHeaderCell">
                 <Setter Property="Background" Value="#F2F2F2" />
@@ -53,21 +53,39 @@
                Text="Loại sản phẩm"
                LineBreakMode="TailTruncation"
                MaximumWidthRequest="200" />
-            <Picker
-                    Grid.Row="1" Grid.Column="2"
-                    ItemsSource="{Binding DanhSachLSP}"
-                    ItemDisplayBinding="{Binding Ten_LSP}"
-                    SelectedItem ="{Binding SelectedLSP}"
-                />
+            <editors:SfComboBox
+                Grid.Row="1" Grid.Column="2"
+                ItemsSource="{Binding DanhSachLSP}"
+                DisplayMemberPath="Ten_LSP"
+                SelectedItem="{Binding SelectedLSP}"
+                IsEditable="True"
+                IsFilteringEnabled="True"
+                TextSearchMode="Contains" 
+                BackgroundColor="Transparent"
+                TextColor="White"
+                DropDownIconColor="White"
+                SelectionTextHighlightColor="DodgerBlue"
+                ClearButtonIconColor="White"/>
 
             <Label Grid.Row="0" Grid.Column="3"
-               Text="Đơn vị đo"
+               Text="Đơn vị tính"
                LineBreakMode="TailTruncation"
                MaximumWidthRequest="120" />
-            <Picker Grid.Row ="1" Grid.Column="3"
-                    ItemsSource="{Binding DanhSachDVT}"
-                    ItemDisplayBinding="{Binding Ten_Don_Vi_Tinh}"
-                    SelectedItem="{Binding SelectedDVT}" />
+            <editors:SfComboBox
+                Grid.Row="1" Grid.Column="3"
+                ItemsSource="{Binding DanhSachDVT}"
+                DisplayMemberPath="Ten_Don_Vi_Tinh"
+                SelectedItem="{Binding SelectedDVT}"
+                IsEditable="True"
+                IsFilteringEnabled="True"
+                TextSearchMode="Contains"
+                Placeholder="Tìm đơn vị tính..."
+                MaxDropDownHeight="200" 
+                BackgroundColor="Transparent"
+                TextColor="White"
+                DropDownIconColor="White"
+                SelectionTextHighlightColor="DodgerBlue"
+                ClearButtonIconColor="White"/>
 
             <Label Grid.Row="0" Grid.Column="4"
                Text="Ghi chú"

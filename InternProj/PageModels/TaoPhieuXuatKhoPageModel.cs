@@ -148,7 +148,12 @@ namespace InternProj.PageModels
 
                 await Shell.Current.DisplayAlertAsync("Thành công", "Đã lưu phiếu xuất kho.", "OK");
 
-                await Shell.Current.GoToAsync("..");
+                SoPhieuXuatKhoInput = string.Empty;
+                NgayXuatKhoInput = DateTime.Today;
+                GhiChuInput = string.Empty;
+                SelectedKho = null;
+                SelectedSP = null;
+                DanhSachDong.Clear();
             }
             catch (Exception ex)
             {

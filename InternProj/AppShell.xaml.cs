@@ -54,10 +54,10 @@ namespace InternProj
                 Type pageType = ResolveTypeFromRoute(targetRoute);
                 if (pageType != null)
                 {
-                    var services = this.Handler?.MauiContext?.Services ?? Application.Current?.MainPage?.Handler?.MauiContext?.Services;
+                    var services = this.Handler?.MauiContext?.Services;
                     if (services != null)
                     {
-                        var page = (Page)services.GetService(pageType);
+                        var page = (Page)services.GetService(pageType)!;
                         MainTabbedPage.Current.LoadPageIntoActiveTab(page, targetRoute);
                     }
                 }

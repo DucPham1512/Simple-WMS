@@ -73,7 +73,7 @@ namespace InternProj.PageModels
             }
             catch (Exception ex)
             {
-                await Shell.Current.DisplayAlertAsync("Lỗi", ex.Message, "OK");
+                await Shell.Current.DisplayAlertAsync("Lỗi", $"Nhà cung cấp '{TenNccInput}' đã tồn tại.", "OK");
             }
             await LoadData();
         }
@@ -116,7 +116,7 @@ namespace InternProj.PageModels
             }
             catch (Exception ex)
             {
-                await Shell.Current.DisplayAlertAsync("Lỗi", ex.Message, "OK");
+                await Shell.Current.DisplayAlertAsync("Lỗi", "Nhà cung cấp đã tồn tại", "OK");
             }
             await LoadData();
         }

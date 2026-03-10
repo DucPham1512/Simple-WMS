@@ -151,7 +151,7 @@ namespace InternProj.Data
             }
             catch (SqliteException ex) when (ex.SqliteErrorCode == 19) // Constraint Violation
             {
-                throw new Exception($"Measurement unit '{item.Ten_Kho}' already exist.");
+                throw new Exception($"Kho '{item.Ten_Kho}' đã tồn tại.");
             }
         }
 

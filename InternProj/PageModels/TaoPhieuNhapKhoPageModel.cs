@@ -160,8 +160,14 @@ namespace InternProj.PageModels
                 await _repository.SaveAsync(header, DanhSachDong.ToList());
 
                 await Shell.Current.DisplayAlertAsync("Thành công", "Đã lưu phiếu nhập kho.", "OK");
-
-                await Shell.Current.GoToAsync("..");
+                
+                SoPhieuNhapKhoInput = string.Empty;
+                NgayNhapKhoInput = DateTime.Today;
+                SelectedNCC = null;
+                SelectedKho = null;
+                SelectedSP = null;
+                GhiChuInput = string.Empty;
+                DanhSachDong.Clear();
             }
             catch (Exception ex)
             {

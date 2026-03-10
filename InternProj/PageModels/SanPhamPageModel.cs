@@ -93,7 +93,7 @@ namespace InternProj.PageModels
                 var item = new SanPham
                 {
                     Ma_SP = Regex.Replace(MaSPInput, @"\s+", " ").Trim(),
-                    Ten_SP = Regex.Replace(TenSPInput, @"\s+", " ").Trim() ,
+                    Ten_SP = Regex.Replace(TenSPInput, @"\s+", " ").Trim(),
                     Id_LSP = SelectedLSP.Id,
                     Id_DVT = SelectedDVT.Id,
                     Ghi_Chu = GhiChuInput
@@ -104,7 +104,6 @@ namespace InternProj.PageModels
 
                 await _spRepository.SaveItemAsync(item, isEdit);
 
-                await LoadData();
 
                 MaSPInput = string.Empty;
                 TenSPInput = string.Empty;
@@ -114,6 +113,7 @@ namespace InternProj.PageModels
                 SelectedItem = null;
 
                 await Shell.Current.DisplayAlertAsync("Thông báo", "Đã lưu thành công", "OK");
+                await LoadData();
             }
             catch (Exception ex)
             {
@@ -131,7 +131,9 @@ namespace InternProj.PageModels
             try
             {
                 await _spRepository.DeleteItemAsync(item);
-            } catch (Exception ex) {
+            }
+            catch (Exception ex)
+            {
                 await Shell.Current.DisplayAlertAsync("Lỗi", $"Không thể xóa '{item.Ten_SP}'", "OK");
                 return;
             }
@@ -151,19 +153,15 @@ namespace InternProj.PageModels
                 Ghi_Chu = item.Ghi_Chu
             };
 
-
             try
-            { 
-
+            {
                 await _spRepository.SaveItemAsync(sp, true);
-
-                await LoadData();
-
             }
             catch (Exception ex)
             {
                 await Shell.Current.DisplayAlertAsync("Lỗi", ex.Message, "OK");
             }
+            await LoadData();
         }
         public void SyncTenDVTForRow(SanPham row)
         {

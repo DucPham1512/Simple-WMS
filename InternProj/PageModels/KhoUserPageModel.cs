@@ -90,16 +90,13 @@ namespace InternProj.PageModels
         {
             try
             {
-
                 await _kuRepository.SaveItemAsync(item, true);
-
-                await LoadData();
-
             }
             catch (Exception ex)
             {
                 await Shell.Current.DisplayAlertAsync("Lỗi", ex.Message, "OK");
             }
+                await LoadData();
         }
 
         [RelayCommand]

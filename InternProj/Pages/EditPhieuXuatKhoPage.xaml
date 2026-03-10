@@ -60,9 +60,21 @@
                 </Style>
             </VerticalStackLayout.Resources>
                     <Label Text="Sản phẩm" />
-                    <Picker ItemDisplayBinding="{Binding Ten_SP}"
+                    <editors:SfComboBox
                         ItemsSource="{Binding DanhSachSP}"
-                        SelectedItem="{Binding SelectedSP, Mode=TwoWay}" />
+                        DisplayMemberPath="Ten_SP"
+                        SelectedItem="{Binding SelectedSP, Mode=TwoWay}"
+                        IsEditable="True"
+                        IsFilteringEnabled="True"
+                        TextSearchMode="Contains"
+                        Background="Transparent"                
+                        BackgroundColor="Transparent"
+                        TextColor="White"
+                        DropDownIconColor="White"
+                        SelectionTextHighlightColor="DodgerBlue"
+                        ClearButtonIconColor="White"
+                        ShowBorder="True"
+                        HeightRequest="44"/>
                 </VerticalStackLayout>
 
                 <VerticalStackLayout Spacing="8" Grid.Column="1">

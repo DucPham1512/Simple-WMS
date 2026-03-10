@@ -193,7 +193,7 @@ namespace InternProj.Data
             }
             catch (SqliteException ex) when (ex.SqliteExtendedErrorCode == 2067) // SQLITE_CONSTRAINT_UNIQUE
             {
-                throw new Exception($"Loại sản phẩm '{item.Ma_SP}' đã tồn tại.");
+                throw new Exception($"Sản phẩm '{item.Ma_SP}' đã tồn tại.");
             }
         }
 
