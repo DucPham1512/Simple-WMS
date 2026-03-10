@@ -65,6 +65,7 @@ namespace InternProj.PageModels
                 {
                     Id = item.Id,
                     So_Phieu_Xuat_Kho = Regex.Replace(item.So_Phieu_Xuat_Kho, @"\s+", " ").Trim(),
+                    Ngay_Xuat_Kho = item.Ngay_Xuat_Kho,
                     Kho_ID = item.Kho_ID,
                     Ten_Kho = item.Ten_Kho,
                 };
