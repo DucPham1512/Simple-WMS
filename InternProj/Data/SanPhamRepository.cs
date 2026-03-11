@@ -146,12 +146,6 @@ namespace InternProj.Data
                 _ when string.IsNullOrWhiteSpace(item.Ma_SP)
                     => "Mã sản phẩm không được để trống.",
 
-                _ when item.Id_LSP <= 0
-                    => "Vui lòng chọn loại sản phẩm.",
-
-                _ when item.Id_DVT <= 0
-                    => "Vui lòng chọn đơn vị tính.",
-
                 _ => null
             };
 
@@ -187,13 +181,13 @@ namespace InternProj.Data
             {
                 await saveCmd.ExecuteNonQueryAsync();
             }
-            catch (SqliteException ex) when (ex.SqliteExtendedErrorCode == 787) // SQLITE_CONSTRAINT_FOREIGNKEY
+            catch (SqliteException ex) when (ex.SqliteExtendedErrorCode == 787)
             {
                 throw new Exception("Không tồn tại Loại sản phẩm hoặc Đơn vị tính không hợp lệ.");
             }
-            catch (SqliteException ex) when (ex.SqliteExtendedErrorCode == 2067) // SQLITE_CONSTRAINT_UNIQUE
+            catch (SqliteException ex) when (ex.SqliteExtendedErrorCode == 2067) 
             {
-                throw new Exception($"Sản phẩm '{item.Ma_SP}' đã tồn tại.");
+                throw new Exception($"Sản phẩm đã tồn tại.");
             }
         }
 

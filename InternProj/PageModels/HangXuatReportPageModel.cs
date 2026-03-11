@@ -9,7 +9,7 @@ using System.Collections.ObjectModel;
 
 namespace InternProj.PageModels
 {
-    public partial class HangXuatReportPageModel : ObservableObject
+    public partial class HangXuatReportPageModel : BasePageModel
     {
         private readonly PhieuXuatKhoRepository _repository;
 
@@ -23,13 +23,14 @@ namespace InternProj.PageModels
         private ObservableCollection<XuatKhoReportData> _danhSachHang = new();
 
         
-        public HangXuatReportPageModel(PhieuXuatKhoRepository repository)
+        public HangXuatReportPageModel  (PhieuXuatKhoRepository repository, 
+                                        DatabaseWatcherService databaseWatcherService) : base(databaseWatcherService)
         {
             _repository = repository;
         }
 
         [RelayCommand]
-        private async Task Search()
+        public override async Task LoadData()
         {
             var data = await _repository.GetByDateRangeAsync(StartDate, EndDate);
             DanhSachHang = new ObservableCollection<XuatKhoReportData>(data);

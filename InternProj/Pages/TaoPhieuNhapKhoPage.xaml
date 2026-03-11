@@ -214,7 +214,7 @@
                     ItemsSource="{Binding DanhSachDong}"
                     AutoGenerateColumnsMode="None"
                     SelectionMode="Single"
-
+                    CurrentCellEndEdit="ReCalcThanhTien"
                     GridLinesVisibility="Both"
                     HeaderGridLinesVisibility="Both"
                     ColumnWidthMode="Fill"
@@ -239,7 +239,7 @@
                                                AllowEditing = "False"
                                    HeaderText="Tên sản phẩm" />
                     <sfgrid:DataGridTextColumn MappingName="SoLuong"
-                                   HeaderText="Số lượng" />
+                                   HeaderText="Số lượng"/>
                     <sfgrid:DataGridTextColumn MappingName="DonGia"
                                    HeaderText="Đơn giá" />
                     <sfgrid:DataGridTextColumn MappingName="ThanhTien"

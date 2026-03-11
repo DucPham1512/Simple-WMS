@@ -11,7 +11,7 @@ using InternProj.Data;
 
 namespace InternProj.PageModels
 {
-    public partial class KhoPageModel : ObservableObject
+    public partial class KhoPageModel : BasePageModel
     {
         private readonly KhoRepository _repository;
 
@@ -28,13 +28,14 @@ namespace InternProj.PageModels
         [ObservableProperty]
         private string _ghiChuInput;
 
-        public KhoPageModel(KhoRepository repository)
+        public KhoPageModel (KhoRepository repository, 
+                            DatabaseWatcherService databaseWatcherService) : base(databaseWatcherService)
         {
             _repository = repository;
         }
 
         [RelayCommand]
-        private async Task LoadData()
+        public override async Task LoadData()
         {
             var data = await _repository.ListAsync();
             DanhSachKho = new ObservableCollection<Kho>(data);
@@ -43,6 +44,13 @@ namespace InternProj.PageModels
         [RelayCommand]
         private async Task Save()
         {
+            if (string.IsNullOrEmpty(TenKhoInput))
+            {
+                await Shell.Current.DisplayAlertAsync("Lỗi", "Tên kho không được để trống", "OK");
+                await LoadData();
+                return;
+            }
+
             try
             {
                 var Kho = new Kho
@@ -69,8 +77,8 @@ namespace InternProj.PageModels
             catch (Exception ex)
             {
                 await Shell.Current.DisplayAlertAsync("Lỗi", ex.Message, "OK");
+                await LoadData();
             }
-            await LoadData();
         }
 
         [RelayCommand]
@@ -95,6 +103,13 @@ namespace InternProj.PageModels
         [RelayCommand]
         private async Task Edit(Kho item)
         {
+            if(string.IsNullOrEmpty(item.Ten_Kho))
+            {
+                await Shell.Current.DisplayAlertAsync("Lỗi", "Tên kho không được để trống", "OK");
+                await LoadData();
+                return;
+            }
+
             try
             {
                 var donVi = new Kho

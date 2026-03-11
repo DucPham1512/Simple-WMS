@@ -11,7 +11,7 @@ using InternProj.Data;
 
 namespace InternProj.PageModels
 {
-    public partial class SanPhamPageModel : ObservableObject
+    public partial class SanPhamPageModel : BasePageModel
     {
         private readonly SanPhamRepository _spRepository;
         private readonly LoaiSanPhamRepository _lspRepository;
@@ -52,7 +52,10 @@ namespace InternProj.PageModels
         [ObservableProperty]
         private string _ghiChuInput;
 
-        public SanPhamPageModel(SanPhamRepository spRepository, LoaiSanPhamRepository lspRepository, DonViTinhRepository dvtRepository)
+        public SanPhamPageModel (SanPhamRepository spRepository, 
+                                LoaiSanPhamRepository lspRepository, 
+                                DonViTinhRepository dvtRepository,
+                                DatabaseWatcherService databaseWatcherService) : base(databaseWatcherService)
         {
             _spRepository = spRepository;
             _lspRepository = lspRepository;
@@ -60,7 +63,7 @@ namespace InternProj.PageModels
         }
 
         [RelayCommand]
-        private async Task LoadData()
+        public override async Task LoadData()
         {
             var data = await _spRepository.ListAsync();
             DanhSachSP = new ObservableCollection<SanPham>(data);
@@ -73,18 +76,18 @@ namespace InternProj.PageModels
         [RelayCommand]
         private async Task Save()
         {
-
+            
             if (SelectedLSP is null)
             {
-                await Shell.Current.DisplayAlertAsync("Lỗi", "Vui lòng chọn loại sản phẩm", "OK");
+                await Shell.Current.DisplayAlertAsync("Lỗi", "Loại sản phẩm không được để trống", "OK");
                 return;
             }
 
             if (SelectedDVT is null)
             {
-                await Shell.Current.DisplayAlertAsync("Lỗi", "Vui lòng chọn đơn vị tính", "OK");
+                await Shell.Current.DisplayAlertAsync("Lỗi", "Đơn vị tính không được để trống", "OK");
                 return;
-            }
+            }    
 
             try
             {
@@ -113,21 +116,20 @@ namespace InternProj.PageModels
                 SelectedItem = null;
 
                 await Shell.Current.DisplayAlertAsync("Thông báo", "Đã lưu thành công", "OK");
-                await LoadData();
             }
             catch (Exception ex)
             {
                 await Shell.Current.DisplayAlertAsync("Lỗi", ex.Message, "OK");
+                await LoadData();
             }
         }
 
         [RelayCommand]
         private async Task Delete(SanPham item)
         {
-            bool answer = await Shell.Current.DisplayAlertAsync("Xác nhận", $"Bạn muốn xóa '{item.Ma_SP}'?", "Có", "Không");
+            bool answer = await Shell.Current.DisplayAlertAsync("Xác nhận", $"Bạn muốn xóa '{item.Ten_SP}'?", "Có", "Không");
             if (!answer) return;
 
-            // Truyền string Key vào hàm xóa
             try
             {
                 await _spRepository.DeleteItemAsync(item);
@@ -137,12 +139,12 @@ namespace InternProj.PageModels
                 await Shell.Current.DisplayAlertAsync("Lỗi", $"Không thể xóa '{item.Ten_SP}'", "OK");
                 return;
             }
-            DanhSachSP.Remove(item);
         }
 
         [RelayCommand]
         private async Task Edit(SanPham item)
         {
+
             var sp = new SanPham
             {
                 Id = item.Id,
@@ -160,8 +162,8 @@ namespace InternProj.PageModels
             catch (Exception ex)
             {
                 await Shell.Current.DisplayAlertAsync("Lỗi", ex.Message, "OK");
+                await LoadData();
             }
-            await LoadData();
         }
         public void SyncTenDVTForRow(SanPham row)
         {

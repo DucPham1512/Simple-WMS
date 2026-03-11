@@ -7,7 +7,7 @@ using System.Collections.ObjectModel;
 
 namespace InternProj.PageModels
 {
-    public partial class KhoUserPageModel : ObservableObject
+    public partial class KhoUserPageModel : BasePageModel
     {
         private readonly KhoUserRepository _kuRepository;
 
@@ -32,14 +32,16 @@ namespace InternProj.PageModels
         [ObservableProperty]
         private string _khoIdInput;
 
-        public KhoUserPageModel(KhoUserRepository kuRepository, KhoRepository khoRepository)
+        public KhoUserPageModel (KhoUserRepository kuRepository, 
+                                KhoRepository khoRepository, 
+                                DatabaseWatcherService databaseWatcherService) : base(databaseWatcherService)
         {
             _kuRepository = kuRepository;
             _khoRepository = khoRepository;
         }
 
         [RelayCommand]
-        private async Task LoadData()
+        public override async Task LoadData()
         {
             var data = await _kuRepository.ListAsync();
             DanhSachKhoUser = new ObservableCollection<KhoUser>(data);
@@ -50,11 +52,20 @@ namespace InternProj.PageModels
         [RelayCommand]
         private async Task Save()
         {
-            if(SelectedKho is null)
+            if(string.IsNullOrEmpty(MaDangNhapInput))
             {
-                await Shell.Current.DisplayAlertAsync("Lỗi", "Vui lòng chọn kho", "OK");
+                await Shell.Current.DisplayAlertAsync("Lỗi", "Mã đăng nhập không được để trống", "OK");
+                await LoadData();
                 return;
             }
+
+            if (SelectedKho is null)
+            {
+                await Shell.Current.DisplayAlertAsync("Lỗi", "Kho không được để trống", "OK");
+                await LoadData();
+                return;
+            }
+
 
             try
             {
@@ -71,8 +82,6 @@ namespace InternProj.PageModels
 
                 await _kuRepository.SaveItemAsync(item, isEdit);
 
-                await LoadData();
-
                 MaDangNhapInput = string.Empty;
                 KhoIdInput = SelectedKho.Id.ToString();
                 SelectedItem = null;
@@ -82,12 +91,21 @@ namespace InternProj.PageModels
             catch (Exception ex)
             {
                 await Shell.Current.DisplayAlertAsync("Lỗi", ex.Message, "OK");
+                await LoadData();
             }
         }
 
         [RelayCommand]
         private async Task Edit(KhoUser item)
         {
+
+            if(string.IsNullOrEmpty(item.MaDangNhap))
+            {
+                await Shell.Current.DisplayAlertAsync("Lỗi", "Mã đăng nhập không được để trống", "OK");
+                await LoadData();
+                return;
+            }
+
             try
             {
                 await _kuRepository.SaveItemAsync(item, true);
@@ -95,8 +113,8 @@ namespace InternProj.PageModels
             catch (Exception ex)
             {
                 await Shell.Current.DisplayAlertAsync("Lỗi", ex.Message, "OK");
-            }
                 await LoadData();
+            }
         }
 
         [RelayCommand]
@@ -108,15 +126,6 @@ namespace InternProj.PageModels
             // Truyền string Key vào hàm xóa
             await _kuRepository.DeleteItemAsync(item);
             DanhSachKhoUser.Remove(item);
-        }
-        // Hàm helper để điền dữ liệu vào ô input khi chọn một dòng để sửa
-        partial void OnSelectedItemChanged(KhoUser? value)
-        {
-            if (value != null)
-            {
-                MaDangNhapInput = value.MaDangNhap;
-                KhoIdInput = value.KhoId.ToString();
-            }
         }
 
         public void SyncTenKhoForRow(KhoUser row)

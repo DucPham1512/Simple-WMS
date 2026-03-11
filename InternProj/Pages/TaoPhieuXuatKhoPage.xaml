@@ -163,7 +163,8 @@
                     HeaderGridLinesVisibility="Both"
                     ColumnWidthMode="Fill"
                     HeaderRowHeight="44"
-                    RowHeight="52">
+                    RowHeight="52"
+                    CurrentCellEndEdit="ReCalcThanhTien">
 
                 <sfgrid:SfDataGrid.DefaultStyle>
                     <sfgrid:DataGridStyle

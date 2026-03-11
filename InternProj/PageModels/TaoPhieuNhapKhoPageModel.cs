@@ -8,7 +8,7 @@ using System.Text.RegularExpressions;
 
 namespace InternProj.PageModels
 {
-    public partial class TaoPhieuNhapKhoPageModel : ObservableObject
+    public partial class TaoPhieuNhapKhoPageModel : BasePageModel
     {
         private readonly PhieuNhapKhoRepository _repository;
 
@@ -18,17 +18,17 @@ namespace InternProj.PageModels
 
         private readonly SanPhamRepository _spRepository;
 
-        [ObservableProperty] 
+        [ObservableProperty]
         private string _soPhieuNhapKhoInput;
-        [ObservableProperty] 
+        [ObservableProperty]
         private DateTime _ngayNhapKhoInput = DateTime.Today;
-        [ObservableProperty] 
+        [ObservableProperty]
         private string _ghiChuInput;
 
         // Current line inputs
-        [ObservableProperty] 
+        [ObservableProperty]
         private string _soLuongInput;
-        [ObservableProperty] 
+        [ObservableProperty]
         private string _donGiaInput;
         [ObservableProperty]
         private Kho? _selectedKho;
@@ -50,7 +50,11 @@ namespace InternProj.PageModels
         [ObservableProperty]
         private ObservableCollection<SanPham> _danhSachSP = [];
 
-        public TaoPhieuNhapKhoPageModel(PhieuNhapKhoRepository repository, KhoRepository khoRepository, NhaCungCapRepository nccRepository, SanPhamRepository spRepository)
+        public TaoPhieuNhapKhoPageModel(PhieuNhapKhoRepository repository,
+                                        KhoRepository khoRepository,
+                                        NhaCungCapRepository nccRepository,
+                                        SanPhamRepository spRepository,
+                                        DatabaseWatcherService databaseWatcherService) : base(databaseWatcherService)
         {
             _repository = repository;
             _khoRepository = khoRepository;
@@ -59,7 +63,7 @@ namespace InternProj.PageModels
         }
 
         [RelayCommand]
-        private async Task LoadData()
+        public override async Task LoadData()
         {
             var listKho = await _khoRepository.ListAsync();
             DanhSachKho = new ObservableCollection<Kho>(listKho);
@@ -74,13 +78,13 @@ namespace InternProj.PageModels
         {
             try
             {
-                if(SelectedSP is null)
+                if (SelectedSP is null)
                 {
                     await Shell.Current.DisplayAlertAsync("Lỗi", "Chưa chọn sản phẩm", "OK");
                     return;
                 }
 
-                if (!int.TryParse(SoLuongInput, out var soLuong) || soLuong <= 0)
+                if (!float.TryParse(SoLuongInput, out var soLuong) || soLuong <= 0)
                 {
                     await Shell.Current.DisplayAlertAsync("Lỗi", "Số lượng không hợp lệ.", "OK");
                     return;
@@ -130,17 +134,18 @@ namespace InternProj.PageModels
                     return;
                 }
 
+                if (SelectedKho is null)
+                {
+                    await Shell.Current.DisplayAlertAsync("Lỗi", "Chưa chọn kho", "OK");
+                    return;
+                }
+
                 if (SelectedNCC is null)
                 {
                     await Shell.Current.DisplayAlertAsync("Lỗi", "Chưa chọn nhà cung cấp", "OK");
                     return;
                 }
 
-                if (SelectedKho is null)
-                {
-                    await Shell.Current.DisplayAlertAsync("Lỗi", "Chưa chọn kho", "OK");
-                    return;
-                }
 
                 if (DanhSachDong.Count == 0)
                 {
@@ -160,7 +165,7 @@ namespace InternProj.PageModels
                 await _repository.SaveAsync(header, DanhSachDong.ToList());
 
                 await Shell.Current.DisplayAlertAsync("Thành công", "Đã lưu phiếu nhập kho.", "OK");
-                
+
                 SoPhieuNhapKhoInput = string.Empty;
                 NgayNhapKhoInput = DateTime.Today;
                 SelectedNCC = null;
@@ -168,6 +173,20 @@ namespace InternProj.PageModels
                 SelectedSP = null;
                 GhiChuInput = string.Empty;
                 DanhSachDong.Clear();
+            }
+            catch (Exception ex)
+            {
+                await Shell.Current.DisplayAlertAsync("Lỗi", "Phiếu nhập kho đã tồn tại", "OK");
+                await LoadData();
+            }
+        }
+
+        [RelayCommand]
+        private async Task EditLine(PhieuNhapKhoData line)
+        {
+            try
+            {
+                line.ThanhTien = line.SoLuong * line.DonGia;
             }
             catch (Exception ex)
             {

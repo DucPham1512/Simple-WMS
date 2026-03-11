@@ -10,7 +10,7 @@ using System.Text.RegularExpressions;
 
 namespace InternProj.PageModels
 {
-    public partial class PhieuNhapKhoHeaderListPageModel : ObservableObject
+    public partial class PhieuNhapKhoHeaderListPageModel : BasePageModel
     {
         private readonly PhieuNhapKhoRepository _pnkRepository;
 
@@ -30,7 +30,10 @@ namespace InternProj.PageModels
         [ObservableProperty]
         private PhieuNhapKhoHeader? _selectedItem;
 
-        public PhieuNhapKhoHeaderListPageModel(PhieuNhapKhoRepository pnkRepository, KhoRepository khoRepository, NhaCungCapRepository nccRepository)
+        public PhieuNhapKhoHeaderListPageModel  (PhieuNhapKhoRepository pnkRepository, 
+                                                KhoRepository khoRepository, 
+                                                NhaCungCapRepository nccRepository,
+                                                DatabaseWatcherService databaseWatcherService) : base(databaseWatcherService)
         {
             _pnkRepository = pnkRepository;
             _khoRepository = khoRepository;
@@ -48,7 +51,7 @@ namespace InternProj.PageModels
 
 
         [RelayCommand]
-        private async Task LoadData()
+        public override async Task LoadData()
         {
             var data = await _pnkRepository.ListAsync();
             DanhSachPhieu = new ObservableCollection<PhieuNhapKhoHeader>(data);
@@ -67,6 +70,13 @@ namespace InternProj.PageModels
         [RelayCommand]
         private async Task Save(PhieuNhapKhoHeader item)
         {
+            if (string.IsNullOrWhiteSpace(item.So_Phieu_Nhap_Kho))
+            {
+                await Shell.Current.DisplayAlertAsync("Lỗi", "Số phiếu nhập kho không được để trống", "OK");
+                await LoadData();
+                return;
+            }
+
             var pnkHeader = new PhieuNhapKhoHeader
             {
                 Id = item.Id,
@@ -83,16 +93,15 @@ namespace InternProj.PageModels
             }
             catch (Exception ex)
             {
-                await Shell.Current.DisplayAlertAsync("Lỗi", "Không thể lưu phiếu nhập kho này", "OK");
+                await Shell.Current.DisplayAlertAsync("Lỗi", "Phiếu nhập kho đã tồn tại", "OK");
+                await LoadData();
             }
-            await LoadData();
         }
 
         [RelayCommand]
         private async Task Delete(PhieuNhapKhoHeader item)
         {
             await _pnkRepository.DeleteItemAsync(item);
-            await LoadData();
         }
 
 

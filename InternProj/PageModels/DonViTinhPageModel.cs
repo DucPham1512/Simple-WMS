@@ -8,7 +8,7 @@ using System.Collections.ObjectModel;
 
 namespace InternProj.PageModels
 {
-    public partial class DonViTinhPageModel : ObservableObject
+    public partial class DonViTinhPageModel : BasePageModel
     {
         private readonly DonViTinhRepository _repository;
 
@@ -25,7 +25,8 @@ namespace InternProj.PageModels
         [ObservableProperty]
         private string _ghiChuInput;
 
-        public DonViTinhPageModel(DonViTinhRepository repository)
+        public DonViTinhPageModel   (DonViTinhRepository repository, 
+                                    DatabaseWatcherService watcherService) : base(watcherService)
         {
             _repository = repository;
         }
@@ -33,7 +34,7 @@ namespace InternProj.PageModels
 
 
         [RelayCommand]
-        private async Task LoadData()
+        public override async Task LoadData()
         {
             var data = await _repository.ListAsync();
             DanhSachDonVi = new ObservableCollection<DonViTinh>(data);
@@ -42,6 +43,13 @@ namespace InternProj.PageModels
         [RelayCommand]
         private async Task Save()
         {
+            if (string.IsNullOrWhiteSpace(TenDonViInput))
+            {
+                await Shell.Current.DisplayAlertAsync("Lỗi", "Tên đơn vị tính không được để trống.", "OK");
+                await LoadData();
+                return;
+            }
+
             var donVi = new DonViTinh
             {
                 Ten_Don_Vi_Tinh = Regex.Replace(TenDonViInput, @"\s+", " ").Trim(),
@@ -66,9 +74,8 @@ namespace InternProj.PageModels
             catch (Exception ex)
             {
                 await Shell.Current.DisplayAlertAsync("Lỗi", ex.Message, "OK");
-                return;
+                await LoadData();
             }
-            DanhSachDonVi.Add(donVi);
         }
 
         [RelayCommand]
@@ -86,13 +93,19 @@ namespace InternProj.PageModels
                 await Shell.Current.DisplayAlertAsync("Lỗi", $"Không thể xóa '{item.Ten_Don_Vi_Tinh}'", "OK");
                 return;
             }
-
-            DanhSachDonVi.Remove(item);
         }
 
         [RelayCommand]
         private async Task Edit(DonViTinh item)
         {
+
+            if (string.IsNullOrWhiteSpace(item.Ten_Don_Vi_Tinh))
+            {
+                await Shell.Current.DisplayAlertAsync("Lỗi", "Tên đơn vị tính không được để trống.", "OK");
+                await LoadData();
+                return;
+            }
+
             try
             {
                 var donVi = new DonViTinh
@@ -110,8 +123,9 @@ namespace InternProj.PageModels
             catch (Exception ex)
             {
                 await Shell.Current.DisplayAlertAsync("Lỗi", ex.Message, "OK");
-            }
                 await LoadData();
+            }
+
 
         }
     }

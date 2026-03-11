@@ -42,7 +42,7 @@
         </HorizontalStackLayout>
 
         <Button Text="Search"
-                    Command="{Binding SearchCommand}" />
+                    Command="{Binding LoadDataCommand}" />
 
         <Label Text="Danh sách hàng nhập"
                FontAttributes="Bold"

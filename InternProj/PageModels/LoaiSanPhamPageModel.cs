@@ -9,7 +9,7 @@ using System.Text.RegularExpressions;
 
 namespace InternProj.PageModels
 {
-    public partial class LoaiSanPhamPageModel : ObservableObject
+    public partial class LoaiSanPhamPageModel : BasePageModel
     {
         private readonly LoaiSanPhamRepository _repository;
 
@@ -30,13 +30,14 @@ namespace InternProj.PageModels
         [ObservableProperty]
         private string _ghiChuInput;
 
-        public LoaiSanPhamPageModel(LoaiSanPhamRepository repository)
+        public LoaiSanPhamPageModel (LoaiSanPhamRepository repository, 
+                                    DatabaseWatcherService databaseWatcherService) : base(databaseWatcherService)
         {
             _repository = repository;
         }
 
         [RelayCommand]
-        private async Task LoadData()
+        public override async Task LoadData()
         {
             var data = await _repository.ListAsync();
             DanhSachLSP = new ObservableCollection<LoaiSanPham>(data);
@@ -45,6 +46,21 @@ namespace InternProj.PageModels
         [RelayCommand]
         private async Task Save()
         {
+
+            if (string.IsNullOrWhiteSpace(MaLSPInput))
+            {
+                await Shell.Current.DisplayAlertAsync("Lỗi", "Mã loại sản phẩm không được để trống.", "OK");
+                await LoadData();
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(TenLSPInput))
+            {
+                await Shell.Current.DisplayAlertAsync("Lỗi", "Tên loại sản phẩm không được để trống.", "OK");
+                await LoadData();
+                return;
+            }
+
             try
             {
                 bool isEdit = SelectedItem != null;
@@ -61,8 +77,6 @@ namespace InternProj.PageModels
 
                 await _repository.SaveItemAsync(item, isEdit);
 
-                await LoadData();
-
                 MaLSPInput = string.Empty;
                 TenLSPInput = string.Empty;
                 GhiChuInput = string.Empty;
@@ -73,12 +87,26 @@ namespace InternProj.PageModels
             catch (Exception ex)
             {
                 await Shell.Current.DisplayAlertAsync("Lỗi", ex.Message, "OK");
+                await LoadData();
             }
         }
 
         [RelayCommand]
         private async Task Edit(LoaiSanPham item)
         {
+            if (string.IsNullOrEmpty(item.Ma_LSP))
+            {
+                await Shell.Current.DisplayAlertAsync("Lỗi", "Mã loại sản phẩm không được để trống.", "OK");
+                await LoadData();
+                return;
+            }
+
+            if (string.IsNullOrEmpty(item.Ten_LSP))
+            {
+                await Shell.Current.DisplayAlertAsync("Lỗi", "Tên loại sản phẩm không được để trống.", "OK");
+                await LoadData();
+                return;
+            }
             try
             {
                 var donVi = new LoaiSanPham
@@ -97,8 +125,8 @@ namespace InternProj.PageModels
             catch (Exception ex)
             {
                 await Shell.Current.DisplayAlertAsync("Lỗi", ex.Message, "OK");
-            }
                 await LoadData();
+            }
         }
 
 
@@ -109,15 +137,15 @@ namespace InternProj.PageModels
             if (!answer) return;
 
             // Truyền string Key vào hàm xóa
-            try { 
-            await _repository.DeleteItemAsync(item);
-                }
+            try
+            {
+                await _repository.DeleteItemAsync(item);
+            }
             catch (Exception ex)
             {
                 await Shell.Current.DisplayAlertAsync("Lỗi", $"Không thể xóa '{item.Ten_LSP}'", "OK");
                 return;
             }
-            DanhSachLSP.Remove(item);
         }
 
     }

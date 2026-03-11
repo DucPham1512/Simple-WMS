@@ -10,7 +10,7 @@ using System.Text.RegularExpressions;
 
 namespace InternProj.PageModels
 {
-    public partial class PhieuXuatKhoHeaderListPageModel : ObservableObject
+    public partial class PhieuXuatKhoHeaderListPageModel : BasePageModel
     {
         private readonly PhieuXuatKhoRepository _pnkRepository;
 
@@ -25,7 +25,9 @@ namespace InternProj.PageModels
         [ObservableProperty]
         private PhieuXuatKhoHeader? _selectedItem;
 
-        public PhieuXuatKhoHeaderListPageModel(PhieuXuatKhoRepository pnkRepository, KhoRepository khoRepository)
+        public PhieuXuatKhoHeaderListPageModel  (PhieuXuatKhoRepository pnkRepository, 
+                                                KhoRepository khoRepository,
+                                                DatabaseWatcherService databaseWatcherService) : base(databaseWatcherService)
         {
             _pnkRepository = pnkRepository;
             _khoRepository = khoRepository;
@@ -42,7 +44,7 @@ namespace InternProj.PageModels
 
 
         [RelayCommand]
-        private async Task LoadData()
+        public override async Task LoadData()
         {
             var data = await _pnkRepository.ListAsync();
             DanhSachPhieu = new ObservableCollection<PhieuXuatKhoHeader>(data);
@@ -59,6 +61,12 @@ namespace InternProj.PageModels
         [RelayCommand]
         private async Task Save(PhieuXuatKhoHeader item)
         {
+            if (string.IsNullOrWhiteSpace(item.So_Phieu_Xuat_Kho))
+            {
+                await Shell.Current.DisplayAlertAsync("Validation Error", "Số phiếu xuất kho không được để trống", "OK");
+                await LoadData();
+                return;
+            }
             try
             {
                 var pxkHeader = new PhieuXuatKhoHeader
@@ -74,16 +82,15 @@ namespace InternProj.PageModels
             } catch (Exception ex)
             {
                 await Shell.Current.DisplayAlertAsync("Error", "Không thể lưu phiếu xuất kho", "OK");
+                await LoadData();
             }
 
-            await LoadData();
         }
 
         [RelayCommand]
         private async Task Delete(PhieuXuatKhoHeader item)
         {
             await _pnkRepository.DeleteItemAsync(item);
-            await LoadData();
         }
 
 

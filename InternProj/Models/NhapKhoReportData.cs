@@ -16,7 +16,7 @@ namespace InternProj.Models
 
         public string TenSP { get ; set; } = string.Empty;
                     
-        public int SoLuong { get; set; }
+        public float SoLuong { get; set; }
 
         public float DonGia { get; set; }
 

@@ -68,7 +68,7 @@ namespace InternProj.Pages
                         break;
 
                     case "Xóa":
-                        var confirm = await Application.Current.MainPage.DisplayAlert("Xác nhận", $"Bạn có chắc muốn xóa phiếu nhập kho '{item.So_Phieu_Nhap_Kho}'?", "Có", "Không");
+                        var confirm = await Application.Current.MainPage.DisplayAlertAsync("Xác nhận", $"Bạn có chắc muốn xóa phiếu nhập kho '{item.So_Phieu_Nhap_Kho}'?", "Có", "Không");
                         if (confirm)
                         {
                             await _vm.DeleteCommand.ExecuteAsync(item);

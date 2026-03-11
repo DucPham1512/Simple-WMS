@@ -56,7 +56,7 @@ namespace InternProj.Data
                         ID           INTEGER PRIMARY KEY AUTOINCREMENT,
                         Nhap_Kho_ID  INTEGER NOT NULL,
                         San_Pham_ID  INTEGER NOT NULL,
-                        SL_Nhap      INTEGER NOT NULL CHECK (SL_Nhap > 0),
+                        SL_Nhap      REAL NOT NULL CHECK (SL_Nhap > 0),
                         Don_Gia_Nhap REAL    NOT NULL CHECK (Don_Gia_Nhap >= 0),
                         FOREIGN KEY (Nhap_Kho_ID) REFERENCES tbl_DM_Nhap_Kho(ID) ON DELETE CASCADE,
                         FOREIGN KEY (San_Pham_ID) REFERENCES tbl_DM_San_Pham(ID) ON DELETE RESTRICT
@@ -166,7 +166,7 @@ namespace InternProj.Data
                     MaSP = reader.GetString(3),
                     TenDonViTinh = reader.GetString(4),
 
-                    SoLuong = reader.GetInt32(5),
+                    SoLuong = reader.GetFloat(5),
                     DonGia = reader.GetFloat(6),
                     ThanhTien = reader.GetFloat(7),
                     Id = reader.GetInt32(8),
@@ -369,7 +369,7 @@ namespace InternProj.Data
                     TenNCC = reader.GetString(4),
 
 
-                    SoLuong = reader.GetInt32(5),
+                    SoLuong = reader.GetFloat(5),
                     DonGia = reader.GetFloat(6),
                     ThanhTien = reader.GetFloat(7),
                 });

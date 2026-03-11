@@ -11,7 +11,7 @@ using InternProj.Data;
 
 namespace InternProj.PageModels
 {
-    public partial class NhaCungCapPageModel : ObservableObject
+    public partial class NhaCungCapPageModel : BasePageModel
     {
         private readonly NhaCungCapRepository _repository;
 
@@ -31,13 +31,14 @@ namespace InternProj.PageModels
         [ObservableProperty]
         private string _ghiChuInput;
 
-        public NhaCungCapPageModel(NhaCungCapRepository repository)
+        public NhaCungCapPageModel(NhaCungCapRepository repository,
+                                    DatabaseWatcherService databaseWatcherService) : base(databaseWatcherService)
         {
             _repository = repository;
         }
 
         [RelayCommand]
-        private async Task LoadData()
+        public override async Task LoadData()
         {
             var data = await _repository.ListAsync();
             DanhSachNcc = new ObservableCollection<NhaCungCap>(data);
@@ -46,6 +47,18 @@ namespace InternProj.PageModels
         [RelayCommand]
         private async Task Save()
         {
+            if (string.IsNullOrEmpty(MaNccInput))
+            {
+                await Shell.Current.DisplayAlertAsync("Lỗi", "Mã nhà cung cấp không được để trống.", "OK");
+                return;
+            }
+
+            if (string.IsNullOrEmpty(TenNccInput))
+            {
+                await Shell.Current.DisplayAlertAsync("Lỗi", "Tên nhà cung cấp không được để trống.", "OK");
+                return;
+            }
+
             try
             {
                 var donVi = new NhaCungCap
@@ -73,9 +86,9 @@ namespace InternProj.PageModels
             }
             catch (Exception ex)
             {
-                await Shell.Current.DisplayAlertAsync("Lỗi", $"Nhà cung cấp '{TenNccInput}' đã tồn tại.", "OK");
+                await Shell.Current.DisplayAlertAsync("Lỗi", $"Nhà cung cấp đã tồn tại.", "OK");
+                await LoadData();
             }
-            await LoadData();
         }
 
         [RelayCommand]
@@ -84,7 +97,6 @@ namespace InternProj.PageModels
             bool answer = await Shell.Current.DisplayAlertAsync("Xác nhận", $"Bạn muốn xóa '{item.Ten_Ncc}'?", "Có", "Không");
             if (!answer) return;
 
-            // Truyền string Key vào hàm xóa
             try
             {
                 await _repository.DeleteItemAsync(item);
@@ -94,12 +106,23 @@ namespace InternProj.PageModels
                 await Shell.Current.DisplayAlertAsync("Lỗi", $"Không thể xóa '{item.Ten_Ncc}'", "OK");
                 return;
             }
-            DanhSachNcc.Remove(item);
         }
 
         [RelayCommand]
         private async Task Edit(NhaCungCap item)
         {
+            if (string.IsNullOrEmpty(item.Ma_Ncc))
+            {
+                await Shell.Current.DisplayAlertAsync("Lỗi", "Mã nhà cung cấp không được để trống.", "OK");
+                return;
+            }
+
+            if (string.IsNullOrEmpty(item.Ten_Ncc))
+            {
+                await Shell.Current.DisplayAlertAsync("Lỗi", "Tên nhà cung cấp không được để trống.", "OK");
+                return;
+            }
+
             try
             {
                 var donVi = new NhaCungCap
@@ -110,15 +133,14 @@ namespace InternProj.PageModels
                     Ghi_Chu = item.Ghi_Chu
                 };
 
-                // Gọi hàm Save mới
                 await _repository.SaveItemAsync(donVi, true);
 
             }
             catch (Exception ex)
             {
                 await Shell.Current.DisplayAlertAsync("Lỗi", "Nhà cung cấp đã tồn tại", "OK");
+                await LoadData();
             }
-            await LoadData();
         }
     }
 }

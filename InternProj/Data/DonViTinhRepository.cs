@@ -119,9 +119,6 @@ namespace InternProj.Data
         {
             await Init();
 
-            if (string.IsNullOrWhiteSpace(item.Ten_Don_Vi_Tinh))
-                throw new Exception("Measurement name cannot be left blank!");
-
             await using var connection = new SqliteConnection(Constants.DatabasePath);
             await connection.OpenAsync();
 

@@ -122,10 +122,6 @@ namespace InternProj.Data
         {
             await Init();
 
-
-            if (string.IsNullOrWhiteSpace(item.Ten_LSP) || string.IsNullOrWhiteSpace(item.Ma_LSP))
-                throw new Exception("Tên và mã loại sản phầm không được để trống!");
-
             await using var connection = new SqliteConnection(Constants.DatabasePath);
             await connection.OpenAsync();
 
@@ -155,15 +151,10 @@ namespace InternProj.Data
             }
             catch (SqliteException ex) when (ex.SqliteErrorCode == 19) // Constraint Violation
             {
-                throw new Exception($"Loại sản phẩm '{item.Ten_LSP}' đã tồn tại.");
+                throw new Exception($"Loại sản phẩm đã tồn tại.");
             }
         }
 
-        /// <summary>
-        /// Deletes a DonViTinh from the database.
-        /// </summary>
-        /// <param name="item">The DonViTinh to delete.</param>
-        /// <returns>The number of rows affected.</returns>
         public async Task<int> DeleteItemAsync(LoaiSanPham item)
         {
             await Init();
@@ -177,9 +168,6 @@ namespace InternProj.Data
             return await deleteCmd.ExecuteNonQueryAsync();
         }
 
-        /// <summary>
-        /// Drops the DonViTinh table from the database.
-        /// </summary>
         public async Task DropTableAsync()
         {
             await Init();

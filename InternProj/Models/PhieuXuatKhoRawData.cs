@@ -12,7 +12,7 @@ namespace InternProj.Models
 
         public int SanPhamId { get; set; }
 
-        public int SoLuong { get; set; }
+        public float SoLuong { get; set; }
 
         public float DonGia { get; set; }
 

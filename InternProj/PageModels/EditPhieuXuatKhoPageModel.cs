@@ -8,7 +8,7 @@ using System.Globalization;
 namespace InternProj.PageModels
 {
     [QueryProperty(nameof(Header), "Header")]
-    public partial class EditPhieuXuatKhoPageModel : ObservableObject
+    public partial class EditPhieuXuatKhoPageModel : BasePageModel
     {
         private readonly PhieuXuatKhoRepository _repository;
         private readonly SanPhamRepository _spRepository;
@@ -41,7 +41,9 @@ namespace InternProj.PageModels
         [ObservableProperty]
         private ObservableCollection<SanPham> _danhSachSP = new();
 
-        public EditPhieuXuatKhoPageModel(PhieuXuatKhoRepository repository, SanPhamRepository spRepository)
+        public EditPhieuXuatKhoPageModel    (PhieuXuatKhoRepository repository, 
+                                            SanPhamRepository spRepository, 
+                                            DatabaseWatcherService databaseWatcherService) : base(databaseWatcherService)
         {
             _repository = repository;
             _spRepository = spRepository;
@@ -74,10 +76,15 @@ namespace InternProj.PageModels
         {
             try
             {
-
-                if (!int.TryParse(SoLuongInput, out var soLuong) || soLuong <= 0)
+                if (SelectedSP is null)
                 {
-                    await Shell.Current.DisplayAlertAsync("Lỗi", "Số lượng phải lớn hơn 0.", "OK");
+                    await Shell.Current.DisplayAlertAsync("Lỗi", "Chưa chọn sản phẩm", "OK");
+                    return;
+                }
+
+                if (!float.TryParse(SoLuongInput, out var soLuong) || soLuong <= 0)
+                {
+                    await Shell.Current.DisplayAlertAsync("Lỗi", "Số lượng không hợp lệ.", "OK");
                     return;
                 }
 
@@ -87,11 +94,6 @@ namespace InternProj.PageModels
                     return;
                 }
 
-                if (SelectedSP is null)
-                {
-                    await Shell.Current.DisplayAlertAsync("Lỗi", "Chưa chọn sản phẩm", "OK");
-                    return;
-                }
 
                 PhieuXuatKhoData newLine = new PhieuXuatKhoData
                 {
@@ -105,9 +107,6 @@ namespace InternProj.PageModels
                 };
 
                 await _repository.EditDataAsync(newLine);
-                DanhSachDong.Add(newLine);
-
-                await LoadData();
 
                 // Clear current line inputs after adding
                 SanPhamIdInput = string.Empty;
@@ -126,11 +125,10 @@ namespace InternProj.PageModels
         {
             if (item == null) return;
             await _repository.DeleteDataAsync(item);
-            DanhSachDong.Remove(item);
         }
 
         [RelayCommand]
-        private async Task LoadData()
+        public override async Task LoadData()
         {
             var data = await _repository.GetAsync(Header.Id);
             DanhSachDong = new ObservableCollection<PhieuXuatKhoRawData>(data);
@@ -141,11 +139,7 @@ namespace InternProj.PageModels
         {
             try
             {
-
                 await _repository.EditDataAsync(item);
-
-                await LoadData();
-
             }
             catch (Exception ex)
             {

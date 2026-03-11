@@ -7,7 +7,7 @@ using System.Globalization;
 
 namespace InternProj.PageModels
 {
-    public partial class TaoPhieuXuatKhoPageModel : ObservableObject
+    public partial class TaoPhieuXuatKhoPageModel : BasePageModel
     {
         private readonly PhieuXuatKhoRepository _repository;
         private readonly KhoRepository _khoRepository;
@@ -44,7 +44,10 @@ namespace InternProj.PageModels
         [ObservableProperty]
         private ObservableCollection<SanPham> _danhSachSP = [];
 
-        public TaoPhieuXuatKhoPageModel(PhieuXuatKhoRepository repository, KhoRepository khoRepository, SanPhamRepository spRepository)
+        public TaoPhieuXuatKhoPageModel (PhieuXuatKhoRepository repository, 
+                                        KhoRepository khoRepository, 
+                                        SanPhamRepository spRepository,
+                                        DatabaseWatcherService databaseWatcherService) : base(databaseWatcherService)
         {
             _repository = repository;
             _khoRepository = khoRepository;
@@ -52,7 +55,7 @@ namespace InternProj.PageModels
         }
 
         [RelayCommand]
-        private async Task LoadData()
+        public override async Task LoadData()
         {
             var listKho = await _khoRepository.ListAsync();
             DanhSachKho = new ObservableCollection<Kho>(listKho);
@@ -67,9 +70,9 @@ namespace InternProj.PageModels
             try
             { 
 
-                if (!int.TryParse(SoLuongInput, out var soLuong) || soLuong <= 0)
+                if (!float.TryParse(SoLuongInput, out var soLuong) || soLuong <= 0)
                 {
-                    await Shell.Current.DisplayAlertAsync("Lỗi", "Số lượng phải lớn hơn 0.", "OK");
+                    await Shell.Current.DisplayAlertAsync("Lỗi", "Số lượng không hợp lệ.", "OK");
                     return;
                 }
 
@@ -154,6 +157,20 @@ namespace InternProj.PageModels
                 SelectedKho = null;
                 SelectedSP = null;
                 DanhSachDong.Clear();
+            }
+            catch (Exception ex)
+            {
+                await Shell.Current.DisplayAlertAsync("Lỗi", "Phiếu xuất kho đã tồn tại", "OK");
+                await LoadData();
+            }
+        }
+
+        [RelayCommand]
+        private async Task EditLine(PhieuXuatKhoData line)
+        {
+            try
+            {
+                line.ThanhTien = line.SoLuong * line.DonGia;
             }
             catch (Exception ex)
             {
