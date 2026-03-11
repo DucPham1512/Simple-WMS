@@ -44,7 +44,7 @@
         <Button Text="Search"
                     Command="{Binding LoadDataCommand}" />
 
-        <Label Text="Danh sách hàng nhập"
+        <Label Text="Danh sách hàng Xuất"
                FontAttributes="Bold"
                TextColor="White" />
 
@@ -71,7 +71,7 @@
 
             <sfgrid:SfDataGrid.Columns>
                 <sfgrid:DataGridDateColumn MappingName="NgayXuat"
-                                   HeaderText="Ngày nhập" 
+                                   HeaderText="Ngày Xuất" 
                                    Format="dd-MM-yyyy"/>
                 <sfgrid:DataGridTextColumn MappingName="SoPhieu"
                                    HeaderText="Số phiếu" />

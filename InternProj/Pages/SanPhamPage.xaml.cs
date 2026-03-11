@@ -88,7 +88,7 @@ public partial class SanPhamPage : ContentPage
             return;
 
         var mapping = dataGrid.Columns[columnIndex].MappingName;
-        if (mapping is not ("Ma_SP" or "Ten_SP" or "Id_LSP" or "Ten_LSP" or "Id_DVT" or "Ten_DVT" or "Ghi_Chu"))
+        if (mapping is not ("Ma_SP" or "Ten_SP" or "Id_LSP" or "Ten_LSP" or "Don_Vi_Tinh_ID" or "Ten_DVT" or "Ghi_Chu"))
             return;
 
         if (dataGrid.CurrentRow is not SanPham row)
