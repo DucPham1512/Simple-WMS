@@ -14,10 +14,10 @@ namespace InternProj.Models
 
         public string TenSP { get ; set; } = string.Empty;
                     
-        public float SoLuong { get; set; }
-        public float DonGia { get; set; }
+        public decimal SoLuong { get; set; }
+        public decimal DonGia { get; set; }
 
-        public float ThanhTien { get; set; }
+        public decimal ThanhTien { get; set; }
         public override string ToString() => $"{SoPhieu}";
     }
 }

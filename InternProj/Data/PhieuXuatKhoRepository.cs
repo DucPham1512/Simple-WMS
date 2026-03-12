@@ -215,9 +215,9 @@ namespace InternProj.Data
                     TenSP = reader.GetString(2),
                     MaSP = reader.GetString(3),
 
-                    SoLuong = reader.GetFloat(4),
-                    DonGia = reader.GetFloat(5),
-                    ThanhTien = reader.GetFloat(6)
+                    SoLuong = reader.GetDecimal(4),
+                    DonGia = reader.GetDecimal(5),
+                    ThanhTien = reader.GetDecimal(6)
                 });
             }
 

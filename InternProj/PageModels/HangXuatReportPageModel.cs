@@ -22,7 +22,13 @@ namespace InternProj.PageModels
         [ObservableProperty]
         private ObservableCollection<XuatKhoReportData> _danhSachHang = new();
 
-        
+        [ObservableProperty]
+        private decimal _tongSoLuong;
+
+        [ObservableProperty]
+        private decimal _tongThanhTien;
+
+
         public HangXuatReportPageModel  (PhieuXuatKhoRepository repository, 
                                         DatabaseWatcherService databaseWatcherService) : base(databaseWatcherService)
         {
@@ -34,6 +40,8 @@ namespace InternProj.PageModels
         {
             var data = await _repository.GetByDateRangeAsync(StartDate, EndDate);
             DanhSachHang = new ObservableCollection<XuatKhoReportData>(data);
+            TongSoLuong = DanhSachHang.Sum(h => h.SoLuong);
+            TongThanhTien = DanhSachHang.Sum(h => h.ThanhTien);
         }
     }
 }

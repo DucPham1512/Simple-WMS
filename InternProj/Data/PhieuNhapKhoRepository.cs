@@ -369,9 +369,9 @@ namespace InternProj.Data
                     TenNCC = reader.GetString(4),
 
 
-                    SoLuong = reader.GetFloat(5),
-                    DonGia = reader.GetFloat(6),
-                    ThanhTien = reader.GetFloat(7),
+                    SoLuong = reader.GetDecimal(5),
+                    DonGia = reader.GetDecimal(6),
+                    ThanhTien = reader.GetDecimal(7),
                 });
             }
 
