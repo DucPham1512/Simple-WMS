@@ -1,4 +1,5 @@
 ﻿using InternProj.Models;
+using InternProj.Services;
 using System.Globalization;
 using System.Text;
 
@@ -30,6 +31,7 @@ public static class PhieuXuatKhoPrintTemplate
                 """);
         }
 
+        string tongTienChu = NumberToViet.Convert(tongTien);
         return $$"""
             <!DOCTYPE html>
             <html>
@@ -170,7 +172,7 @@ public static class PhieuXuatKhoPrintTemplate
             <div class="section-title">III. Kết luận</div>
 
             <div>1. Tổng số lượng thực xuất (viết bằng số): <b>{{lines.Sum(x => x.SoLuong)}}</b></div>
-            <div>2. Tổng số lượng thực xuất (viết bằng chữ): </div>
+            <div>2. Tổng số lượng thực xuất (viết bằng chữ): {{NumberToViet.Convert(lines.Sum(x=>x.SoLuong))}}</div>
             <div>3. Mô tả khác biệt:</div>
 
             <div style="border:1px solid #000; height:80px; margin-top:5px;"></div>

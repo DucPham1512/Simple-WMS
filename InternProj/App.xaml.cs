@@ -1,4 +1,5 @@
-﻿namespace InternProj
+﻿
+namespace InternProj
 {
     public partial class App : Application
     {

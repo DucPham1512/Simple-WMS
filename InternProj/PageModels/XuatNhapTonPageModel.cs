@@ -21,6 +21,14 @@ namespace InternProj.PageModels
         [ObservableProperty]
         private ObservableCollection<XuatNhapTonData> _danhSachHang = new();
 
+        [ObservableProperty]
+        private decimal _tongSoLuongDauKy;
+        [ObservableProperty]
+        private decimal _tongSoLuongNhap;
+        [ObservableProperty]
+        private decimal _tongSoLuongXuat;
+        [ObservableProperty]
+        private decimal _tongSoLuongCuoiKy;
         public XuatNhapTonDataPageModel(XuatNhapTonDataRepository repository)
         {
             _repository = repository;
@@ -32,6 +40,10 @@ namespace InternProj.PageModels
         {
             var data = await _repository.GetByDateRangeAsync(StartDate, EndDate);
             DanhSachHang = new ObservableCollection<XuatNhapTonData>(data);
+            TongSoLuongNhap = DanhSachHang.Sum(x => x.SoLuongNhap);
+            TongSoLuongXuat = DanhSachHang.Sum(x => x.SoLuongXuat);
+            TongSoLuongDauKy = DanhSachHang.Sum(x => x.SoLuongDauKy);
+            TongSoLuongCuoiKy = DanhSachHang.Sum(x => x.SoLuongCuoiKy);
         }
     }
 }

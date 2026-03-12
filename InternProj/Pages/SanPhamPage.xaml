@@ -29,30 +29,25 @@
             </Style>
         </VerticalStackLayout.Resources>
 
-        <Grid ColumnSpacing="16" RowSpacing="6"
+        <Grid ColumnSpacing="8" RowSpacing="8"
           RowDefinitions="Auto,Auto"
-          ColumnDefinitions="Auto,*,*,*,*">
+          ColumnDefinitions="*,*,*,*,*">
 
             <Label Grid.Row="0" Grid.Column="0"
                Text="Mã sản phẩm"
-               LineBreakMode="TailTruncation"
-               MaximumWidthRequest="120" />
+               LineBreakMode="TailTruncation"/>
             <Entry Grid.Row="1" Grid.Column="0"
-               WidthRequest="200"
                Text="{Binding MaSPInput}" />
 
             <Label Grid.Row="0" Grid.Column="1"
                Text="Tên sản phẩm"
-               LineBreakMode="TailTruncation"
-               MaximumWidthRequest="120" />
+               LineBreakMode="TailTruncation"/>
             <Entry Grid.Row="1" Grid.Column="1"
-               WidthRequest="260"
                Text="{Binding TenSPInput}"/>
 
             <Label Grid.Row="0" Grid.Column="2"
                Text="Loại sản phẩm"
-               LineBreakMode="TailTruncation"
-               MaximumWidthRequest="200" />
+               LineBreakMode="TailTruncation"/>
             <editors:SfComboBox
                 Grid.Row="1" Grid.Column="2"
                 ItemsSource="{Binding DanhSachLSP}"
@@ -69,8 +64,7 @@
 
             <Label Grid.Row="0" Grid.Column="3"
                Text="Đơn vị tính"
-               LineBreakMode="TailTruncation"
-               MaximumWidthRequest="120" />
+               LineBreakMode="TailTruncation"/>
             <editors:SfComboBox
                 Grid.Row="1" Grid.Column="3"
                 ItemsSource="{Binding DanhSachDVT}"
@@ -89,10 +83,8 @@
 
             <Label Grid.Row="0" Grid.Column="4"
                Text="Ghi chú"
-               LineBreakMode="TailTruncation"
-               MaximumWidthRequest="100" />
+               LineBreakMode="TailTruncation"/>
             <Entry Grid.Row="1" Grid.Column="4"
-               WidthRequest="260"
                Text="{Binding GhiChuInput}"/>
 
         </Grid>

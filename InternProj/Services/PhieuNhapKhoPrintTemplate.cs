@@ -1,7 +1,8 @@
 ﻿using InternProj.Models;
+using InternProj.Services;
 using System.Globalization;
 using System.Text;
-
+using VietnamNumber;
 public static class PhieuNhapKhoPrintTemplate
 {
     public static string Build(PhieuNhapKhoHeader header, IEnumerable<PhieuNhapKhoData> lines)
@@ -9,12 +10,12 @@ public static class PhieuNhapKhoPrintTemplate
         var rows = new StringBuilder();
         int stt = 1;
         decimal tongTien = 0;
+        string tongTienChu = string.Empty;
 
         foreach (var line in lines)
         {
             var thanhTien = (decimal)line.SoLuong * (decimal)line.DonGia;
             tongTien += thanhTien;
-
             rows.Append($$"""
                 <tr>
                     <td class="center">{{stt++}}</td>
@@ -22,11 +23,12 @@ public static class PhieuNhapKhoPrintTemplate
                     <td>{{line.MaSP}}</td>
                     <td class="center">{{line.TenDonViTinh}}</td>
                     <td class="right">{{line.SoLuong}}</td>
-                    <td class="right">{{line.DonGia.ToString("N2", CultureInfo.InvariantCulture)}}</td>
-                    <td class="right">{{thanhTien.ToString("N2", CultureInfo.InvariantCulture)}}</td>
+                    <td class="right">{{line.DonGia.ToString("N4", CultureInfo.InvariantCulture)}}</td>
+                    <td class="right">{{thanhTien.ToString("N4", CultureInfo.InvariantCulture)}}</td>
                 </tr>
             """);
         }
+        tongTienChu = NumberToViet.Convert(tongTien);
 
         return $$"""
         <!DOCTYPE html>
@@ -105,13 +107,14 @@ public static class PhieuNhapKhoPrintTemplate
                     {{rows}}
                     <tr>
                         <td colspan="6" class="right"><b>Tổng</b></td>
-                        <td class="right"><b>{{tongTien.ToString("N2", CultureInfo.InvariantCulture)}}</b></td>
+                        <td class="right"><b>{{tongTien.ToString("N4", CultureInfo.InvariantCulture)}}</b></td>
                     </tr>
                 </tbody>
             </table>
 
             <div class="footer">
                 <div><b>Tổng số tiền:</b> {{tongTien.ToString("N2", CultureInfo.InvariantCulture)}}</div>
+                <div><b>Tổng số tiền (bằng chữ):</b> {{tongTienChu}}</div>
             </div>
 
             <div class="sign">

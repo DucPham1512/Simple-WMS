@@ -94,10 +94,10 @@ namespace InternProj.Data
                 {
                     MaSP = reader.GetString(0),
                     TenSP = reader.GetString(1),
-                    SoLuongDauKy = reader.GetInt32(2),
-                    SoLuongNhap = reader.GetInt32(3),
-                    SoLuongXuat = reader.GetInt32(4),
-                    SoLuongCuoiKy = reader.GetInt32(5)
+                    SoLuongDauKy = reader.GetDecimal(2),
+                    SoLuongNhap = reader.GetDecimal(3),
+                    SoLuongXuat = reader.GetDecimal(4),
+                    SoLuongCuoiKy = reader.GetDecimal(5)
                 });
             }
 

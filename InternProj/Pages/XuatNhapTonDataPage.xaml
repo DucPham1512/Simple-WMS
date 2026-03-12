@@ -84,6 +84,42 @@
                                    HeaderText="Số lượng cuối kỳ" />
             </sfgrid:SfDataGrid.Columns>
         </sfgrid:SfDataGrid>
+        <Grid ColumnDefinitions="*,*,*,*,*,*"
+          BackgroundColor="#D6D6D6"
+          Padding="8,6"
+          MinimumHeightRequest="36">
+            <Label Grid.Column="0" Text="" />
+            <Label Grid.Column="1"
+               Text="Tổng cộng"
+               FontAttributes="Bold"
+               HorizontalTextAlignment="Center"
+               VerticalTextAlignment="Center"
+               TextColor="Black"/>
+            <Label Grid.Column="2"
+               Text="{Binding TongSoLuongDauKy, StringFormat='{0:#,##0.####}'}"
+               FontAttributes="Bold"
+               HorizontalTextAlignment="Center"
+               VerticalTextAlignment="Center"
+               TextColor="Black"/>
+            <Label Grid.Column="3"
+               Text="{Binding TongSoLuongNhap, StringFormat='{0:#,##0.####}'}"
+               FontAttributes="Bold"
+               HorizontalTextAlignment="Center"
+               VerticalTextAlignment="Center"
+               TextColor="Black"/>
+            <Label Grid.Column="4"
+               Text="{Binding TongSoLuongXuat, StringFormat='{0:#,##0.####}'}"
+               FontAttributes="Bold"
+               HorizontalTextAlignment="Center"
+               VerticalTextAlignment="Center"
+               TextColor="Black"/>
+            <Label Grid.Column="5"
+               Text="{Binding TongSoLuongCuoiKy, StringFormat='{0:#,##0.####}'}"
+               FontAttributes="Bold"
+               HorizontalTextAlignment="Center"
+               VerticalTextAlignment="Center"
+               TextColor="Black"/>
+        </Grid>
 
     </VerticalStackLayout>
 </ContentPage>
