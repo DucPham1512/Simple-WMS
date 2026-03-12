@@ -266,6 +266,32 @@
                 </sfgrid:SfDataGrid.Columns>
             </sfgrid:SfDataGrid>
 
+            <Grid ColumnDefinitions="*,*,*,*,*,100"
+          BackgroundColor="#D6D6D6"
+          Padding="8,6"
+          MinimumHeightRequest="36">
+                <Label Grid.Column="0" Text="" />
+                <Label Grid.Column="1"
+               Text="Tổng cộng"
+               FontAttributes="Bold"
+               HorizontalTextAlignment="Center"
+               VerticalTextAlignment="Center"
+               TextColor="Black"/>
+                <Label Grid.Column="2"
+               Text="{Binding TongSoLuong, StringFormat='{0:#,##0.####}'}"
+               FontAttributes="Bold"
+               HorizontalTextAlignment="Center"
+               VerticalTextAlignment="Center"
+               TextColor="Black"/>
+                <Label Grid.Column="3" Text="" />
+                <Label Grid.Column="4"
+               Text="{Binding TongThanhTien, StringFormat='{0:#,##0.####}'}"
+               FontAttributes="Bold"
+               HorizontalTextAlignment="Center"
+               VerticalTextAlignment="Center"
+               TextColor="Black"/>
+                <Label Grid.Column="5" Text="" />
+            </Grid>
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>

@@ -205,14 +205,14 @@
                VerticalTextAlignment="Center"
                TextColor="Black"/>
                     <Label Grid.Column="2"
-               Text="{Binding TongSoLuong, StringFormat='{0:0.####}'}"
+               Text="{Binding TongSoLuong, StringFormat='{0:#,##0.####}'}"
                FontAttributes="Bold"
                HorizontalTextAlignment="Center"
                VerticalTextAlignment="Center"
                TextColor="Black"/>
                     <Label Grid.Column="3" Text="" />
                     <Label Grid.Column="4"
-               Text="{Binding TongThanhTien, StringFormat='{0:0.####}'}"
+               Text="{Binding TongThanhTien, StringFormat='{0:#,##0.####}'}"
                FontAttributes="Bold"
                HorizontalTextAlignment="Center"
                VerticalTextAlignment="Center"

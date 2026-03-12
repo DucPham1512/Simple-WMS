@@ -36,6 +36,10 @@ namespace InternProj.PageModels
         private NhaCungCap? _selectedNCC;
         [ObservableProperty]
         private SanPham? _selectedSP;
+        [ObservableProperty]
+        private decimal _tongSoLuong;
+        [ObservableProperty]
+        private decimal _tongThanhTien;
 
         // Temporary lines shown on screen before saving
         [ObservableProperty]
@@ -105,6 +109,8 @@ namespace InternProj.PageModels
                     DonGia = donGia,
                     ThanhTien = soLuong * donGia,
                 });
+                TongSoLuong = DanhSachDong.Sum(x => x.SoLuong);
+                TongThanhTien = DanhSachDong.Sum(x => (x.SoLuong * x.DonGia));
 
                 // Clear current line inputs after adding
                 SoLuongInput = string.Empty;
@@ -121,6 +127,8 @@ namespace InternProj.PageModels
         {
             if (item == null) return;
             DanhSachDong.Remove(item);
+            TongSoLuong = DanhSachDong.Sum(x => x.SoLuong);
+            TongThanhTien = DanhSachDong.Sum(x => (x.SoLuong * x.DonGia));
         }
 
         [RelayCommand]
@@ -187,6 +195,8 @@ namespace InternProj.PageModels
             try
             {
                 line.ThanhTien = line.SoLuong * line.DonGia;
+                TongSoLuong = DanhSachDong.Sum(x => x.SoLuong);
+                TongThanhTien = DanhSachDong.Sum(x => (x.SoLuong * x.DonGia));
             }
             catch (Exception ex)
             {
