@@ -80,8 +80,6 @@
                                    HeaderText="Tên sản phẩm" />
                 <sfgrid:DataGridTextColumn MappingName="TenNCC"
                                    HeaderText="Tên nhà cung cấp" />
-                <sfgrid:DataGridTextColumn MappingName="TenSP"
-                                   HeaderText="Tên sản phẩm" />
                 <sfgrid:DataGridTextColumn MappingName="SoLuong"
                                    HeaderText="Số lượng" />
                 <sfgrid:DataGridTextColumn MappingName="DonGia"

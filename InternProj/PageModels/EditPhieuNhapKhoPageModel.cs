@@ -29,6 +29,10 @@ namespace InternProj.PageModels
         private string _nccInput;
         [ObservableProperty]
         private string _ghiChuInput;
+        [ObservableProperty]
+        private decimal _tongSoLuong;
+        [ObservableProperty]
+        private decimal _tongThanhTien;
 
         [ObservableProperty]
         private SanPham? _selectedSanPham;
@@ -44,8 +48,8 @@ namespace InternProj.PageModels
         [ObservableProperty]
         private ObservableCollection<SanPham> _danhSachSP = new();
 
-        public EditPhieuNhapKhoPageModel    (PhieuNhapKhoRepository repository, 
-                                            SanPhamRepository spRepository, 
+        public EditPhieuNhapKhoPageModel(PhieuNhapKhoRepository repository,
+                                            SanPhamRepository spRepository,
                                             DatabaseWatcherService databaseWatcherService) : base(databaseWatcherService)
         {
             _repository = repository;
@@ -72,6 +76,8 @@ namespace InternProj.PageModels
             DanhSachDong = new ObservableCollection<PhieuNhapKhoRawData>(data);
             var listSP = await _spRepository.ListAsync();
             DanhSachSP = new ObservableCollection<SanPham>(listSP);
+            TongSoLuong = (decimal)DanhSachDong.Sum(x => x.SoLuong);
+            TongThanhTien = (decimal)DanhSachDong.Sum(x => (x.SoLuong * x.DonGia));
         }
 
         [RelayCommand]
@@ -85,13 +91,13 @@ namespace InternProj.PageModels
                     return;
                 }
 
-                if (!float.TryParse(SoLuongInput, out var soLuong) || soLuong <= 0)
+                if (!decimal.TryParse(SoLuongInput, out var soLuong) || soLuong <= 0)
                 {
                     await Shell.Current.DisplayAlertAsync("Lỗi", "Số lượng không hợp lệ.", "OK");
                     return;
                 }
 
-                if (!float.TryParse(DonGiaInput, out var donGia) || donGia < 0)
+                if (!decimal.TryParse(DonGiaInput, out var donGia) || donGia < 0)
                 {
                     await Shell.Current.DisplayAlertAsync("Lỗi", "Đơn giá không hợp lệ.", "OK");
                     return;
@@ -110,6 +116,8 @@ namespace InternProj.PageModels
                 };
 
                 await _repository.EditDataAsync(newLine);
+                TongSoLuong += (decimal)newLine.SoLuong;
+                TongThanhTien += (decimal)newLine.ThanhTien;
 
                 // Clear current line inputs after adding
                 SanPhamIdInput = string.Empty;
@@ -127,7 +135,16 @@ namespace InternProj.PageModels
         private async Task RemoveLine(PhieuNhapKhoRawData? item)
         {
             if (item == null) return;
-            await _repository.DeleteDataAsync(item);
+            try
+            {
+                await _repository.DeleteDataAsync(item);
+                TongSoLuong -= (decimal)item.SoLuong;
+                TongThanhTien -= (decimal)(item.SoLuong * item.DonGia);
+            }
+            catch
+            {
+                await Shell.Current.DisplayAlertAsync("Lỗi", $"Xóa thất bại.", "OK");
+            }
         }
 
         [RelayCommand]
@@ -143,6 +160,9 @@ namespace InternProj.PageModels
             try
             {
                 await _repository.EditDataAsync(item);
+                item.ThanhTien = item.SoLuong * item.DonGia;
+                TongSoLuong = (decimal)DanhSachDong.Sum(x => x.SoLuong);
+                TongThanhTien = (decimal)DanhSachDong.Sum(x => (x.SoLuong * x.DonGia));
             }
             catch (Exception ex)
             {

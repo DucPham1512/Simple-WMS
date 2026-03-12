@@ -84,13 +84,13 @@ namespace InternProj.PageModels
                     return;
                 }
 
-                if (!float.TryParse(SoLuongInput, out var soLuong) || soLuong <= 0)
+                if (!decimal.TryParse(SoLuongInput, out var soLuong) || soLuong <= 0)
                 {
                     await Shell.Current.DisplayAlertAsync("Lỗi", "Số lượng không hợp lệ.", "OK");
                     return;
                 }
 
-                if (!float.TryParse(DonGiaInput, out var donGia) || donGia < 0)
+                if (!decimal.TryParse(DonGiaInput, out var donGia) || donGia < 0)
                 {
                     await Shell.Current.DisplayAlertAsync("Lỗi", "Đơn giá không hợp lệ.", "OK");
                     return;

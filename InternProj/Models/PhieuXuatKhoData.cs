@@ -16,7 +16,7 @@ namespace InternProj.Models
 
         public string TenDonViTinh { get; set; } = string.Empty;
 
-        public float ThanhTien { get; set; }
+        public decimal ThanhTien { get; set; }
         public override string ToString() => $"{SoPhieu}";
     }
 }

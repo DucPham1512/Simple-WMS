@@ -11,7 +11,7 @@
 
     <ScrollView>
         <VerticalStackLayout Spacing="12" Padding="16">
-    <VerticalStackLayout.Resources>
+            <VerticalStackLayout.Resources>
                 <!-- Header style -->
                 <Style TargetType="sfgrid:DataGridHeaderCell">
                     <Setter Property="Background" Value="#F2F2F2" />
@@ -38,28 +38,28 @@
             <Label Text="Danh mục hàng nhập" FontAttributes="Bold" FontSize="16" />
             <Grid ColumnDefinitions="*, *, *"
                       ColumnSpacing="12" RowSpacing="8">
-                    <VerticalStackLayout Spacing="8" Grid.Column="0">
-    <VerticalStackLayout.Resources>
-                <!-- Header style -->
-                <Style TargetType="sfgrid:DataGridHeaderCell">
-                    <Setter Property="Background" Value="#F2F2F2" />
-                    <Setter Property="TextColor" Value="#222222" />
-                    <Setter Property="FontAttributes" Value="Bold" />
-                </Style>
+                <VerticalStackLayout Spacing="8" Grid.Column="0">
+                    <VerticalStackLayout.Resources>
+                        <!-- Header style -->
+                        <Style TargetType="sfgrid:DataGridHeaderCell">
+                            <Setter Property="Background" Value="#F2F2F2" />
+                            <Setter Property="TextColor" Value="#222222" />
+                            <Setter Property="FontAttributes" Value="Bold" />
+                        </Style>
 
-                <Style TargetType="sfgrid:DataGridCell">
-                    <Setter Property="FontSize" Value="15" />
-                    <Setter Property="FontFamily" Value="Tahoma" />
-                    <Setter Property="TextColor" Value="#222222" />
-                </Style>
+                        <Style TargetType="sfgrid:DataGridCell">
+                            <Setter Property="FontSize" Value="15" />
+                            <Setter Property="FontFamily" Value="Tahoma" />
+                            <Setter Property="TextColor" Value="#222222" />
+                        </Style>
 
 
-                <!-- Row style -->
-                <Style TargetType="sfgrid:DataGridRow">
-                    <Setter Property="Background" Value="#F2F2F2" />
-                </Style>
-            </VerticalStackLayout.Resources>
-                        <Label Text="Sản phẩm" />
+                        <!-- Row style -->
+                        <Style TargetType="sfgrid:DataGridRow">
+                            <Setter Property="Background" Value="#F2F2F2" />
+                        </Style>
+                    </VerticalStackLayout.Resources>
+                    <Label Text="Sản phẩm" />
                     <editors:SfComboBox
                         ItemsSource="{Binding DanhSachSP}"
                         DisplayMemberPath="Ten_SP"
@@ -77,60 +77,60 @@
                         HeightRequest="44"/>
                 </VerticalStackLayout>
 
-                    <VerticalStackLayout Spacing="8" Grid.Column="1">
-    <VerticalStackLayout.Resources>
-                <!-- Header style -->
-                <Style TargetType="sfgrid:DataGridHeaderCell">
-                    <Setter Property="Background" Value="#F2F2F2" />
-                    <Setter Property="TextColor" Value="#222222" />
-                    <Setter Property="FontAttributes" Value="Bold" />
-                </Style>
+                <VerticalStackLayout Spacing="8" Grid.Column="1">
+                    <VerticalStackLayout.Resources>
+                        <!-- Header style -->
+                        <Style TargetType="sfgrid:DataGridHeaderCell">
+                            <Setter Property="Background" Value="#F2F2F2" />
+                            <Setter Property="TextColor" Value="#222222" />
+                            <Setter Property="FontAttributes" Value="Bold" />
+                        </Style>
 
-                <Style TargetType="sfgrid:DataGridCell">
-                    <Setter Property="FontSize" Value="15" />
-                    <Setter Property="FontFamily" Value="Tahoma" />
-                    <Setter Property="TextColor" Value="#222222" />
-                </Style>
+                        <Style TargetType="sfgrid:DataGridCell">
+                            <Setter Property="FontSize" Value="15" />
+                            <Setter Property="FontFamily" Value="Tahoma" />
+                            <Setter Property="TextColor" Value="#222222" />
+                        </Style>
 
 
-                <!-- Row style -->
-                <Style TargetType="sfgrid:DataGridRow">
-                    <Setter Property="Background" Value="#F2F2F2" />
-                </Style>
-            </VerticalStackLayout.Resources>
-                        <Label Text="Số lượng" />
-                        <Entry Text="{Binding SoLuongInput}"
+                        <!-- Row style -->
+                        <Style TargetType="sfgrid:DataGridRow">
+                            <Setter Property="Background" Value="#F2F2F2" />
+                        </Style>
+                    </VerticalStackLayout.Resources>
+                    <Label Text="Số lượng" />
+                    <Entry Text="{Binding SoLuongInput}"
                    Keyboard="Numeric"/>
-                    </VerticalStackLayout>
+                </VerticalStackLayout>
 
 
-                    <VerticalStackLayout Spacing="8" Grid.Column="2">
-    <VerticalStackLayout.Resources>
-                <!-- Header style -->
-                <Style TargetType="sfgrid:DataGridHeaderCell">
-                    <Setter Property="Background" Value="#F2F2F2" />
-                    <Setter Property="TextColor" Value="#222222" />
-                    <Setter Property="FontAttributes" Value="Bold" />
-                </Style>
+                <VerticalStackLayout Spacing="8" Grid.Column="2">
+                    <VerticalStackLayout.Resources>
+                        <!-- Header style -->
+                        <Style TargetType="sfgrid:DataGridHeaderCell">
+                            <Setter Property="Background" Value="#F2F2F2" />
+                            <Setter Property="TextColor" Value="#222222" />
+                            <Setter Property="FontAttributes" Value="Bold" />
+                        </Style>
 
-                <Style TargetType="sfgrid:DataGridCell">
-                    <Setter Property="FontSize" Value="15" />
-                    <Setter Property="FontFamily" Value="Tahoma" />
-                    <Setter Property="TextColor" Value="#222222" />
-                </Style>
+                        <Style TargetType="sfgrid:DataGridCell">
+                            <Setter Property="FontSize" Value="15" />
+                            <Setter Property="FontFamily" Value="Tahoma" />
+                            <Setter Property="TextColor" Value="#222222" />
+                        </Style>
 
 
-                <!-- Row style -->
-                <Style TargetType="sfgrid:DataGridRow">
-                    <Setter Property="Background" Value="#F2F2F2" />
-                </Style>
-            </VerticalStackLayout.Resources>
-                        <Label Text="Đơn giá" />
-                        <Entry Text="{Binding DonGiaInput}"
+                        <!-- Row style -->
+                        <Style TargetType="sfgrid:DataGridRow">
+                            <Setter Property="Background" Value="#F2F2F2" />
+                        </Style>
+                    </VerticalStackLayout.Resources>
+                    <Label Text="Đơn giá" />
+                    <Entry Text="{Binding DonGiaInput}"
                    Keyboard="Numeric"/>
-                    </VerticalStackLayout>
-                </Grid>
-                <HorizontalStackLayout Spacing="12">
+                </VerticalStackLayout>
+            </Grid>
+            <HorizontalStackLayout Spacing="12">
                 <Button Text="Thêm dòng"
                         Command="{Binding AddLineCommand}" />
 
@@ -142,62 +142,84 @@
 
             <Label Text="Danh sách dòng hàng" FontAttributes="Bold" FontSize="16" />
 
-                    <sfgrid:SfDataGrid
-                    AllowEditing="true"
-                    ItemsSource="{Binding DanhSachDong}"
-                    AutoGenerateColumnsMode="None"
-                    SelectionMode="Single"
-                    CurrentCellEndEdit="EditPNK_CurrentCellEndEdit"
-                    GridLinesVisibility="Both"
-                    HeaderGridLinesVisibility="Both"
-                    ColumnWidthMode="Fill"
-                    HeaderRowHeight="44"
-                    RowHeight="52">
+            <!-- Replace your current <sfgrid:SfDataGrid ... /> and summary Grid with this -->
+            <VerticalStackLayout Spacing="0">
+                <sfgrid:SfDataGrid
+            AllowEditing="true"
+            ItemsSource="{Binding DanhSachDong}"
+            AutoGenerateColumnsMode="None"
+            SelectionMode="Single"
+            CurrentCellEndEdit="EditPNK_CurrentCellEndEdit"
+            GridLinesVisibility="Both"
+            HeaderGridLinesVisibility="Both"
+            ColumnWidthMode="Fill"
+            HeaderRowHeight="44"
+            RowHeight="52">
 
-                <sfgrid:SfDataGrid.DefaultStyle>
-                    <sfgrid:DataGridStyle
-                        HeaderRowBackground="#F2F2F2"
-                        HeaderRowTextColor="#222222"
-                        HeaderGridLineColor="#BDBDBD"
-                        HeaderGridLineStrokeThickness="1"
-                        GridLineColor="#BDBDBD"
-                        GridLineStrokeThickness="1" />
-                </sfgrid:SfDataGrid.DefaultStyle>
+                    <sfgrid:SfDataGrid.DefaultStyle>
+                        <sfgrid:DataGridStyle
+                HeaderRowBackground="#F2F2F2"
+                HeaderRowTextColor="#222222"
+                HeaderGridLineColor="#BDBDBD"
+                HeaderGridLineStrokeThickness="1"
+                GridLineColor="#BDBDBD"
+                GridLineStrokeThickness="1" />
+                    </sfgrid:SfDataGrid.DefaultStyle>
 
-                <sfgrid:SfDataGrid.Columns>
-                    <sfgrid:DataGridTextColumn MappingName="MaSP"
-                                               AllowEditing = "False"
-                                   HeaderText="Mã sản phẩm" />
-                    <sfgrid:DataGridTextColumn MappingName="TenSP"
-                                               AllowEditing = "False"
-                                   HeaderText="Tên sản phẩm" />
-                    <sfgrid:DataGridTextColumn MappingName="SoLuong"
-                                   HeaderText="Số lượng" />
-                    <sfgrid:DataGridTextColumn MappingName="DonGia"
-                                   HeaderText="Đơn giá" />
-                    <sfgrid:DataGridTextColumn MappingName="ThanhTien"
-                                               AllowEditing="False"
-                                   HeaderText="Giá Trị" />
+                    <sfgrid:SfDataGrid.Columns>
+                        <sfgrid:DataGridTextColumn MappingName="MaSP" AllowEditing="False" HeaderText="Mã sản phẩm" />
+                        <sfgrid:DataGridTextColumn MappingName="TenSP" AllowEditing="False" HeaderText="Tên sản phẩm" />
+                        <sfgrid:DataGridTextColumn MappingName="SoLuong" HeaderText="Số lượng" />
+                        <sfgrid:DataGridTextColumn MappingName="DonGia" HeaderText="Đơn giá" />
+                        <sfgrid:DataGridTextColumn MappingName="ThanhTien" AllowEditing="False" HeaderText="Giá Trị" />
+                        <sfgrid:DataGridTemplateColumn MappingName="Dummy" HeaderText="Xóa" Width="100" CellPadding="3">
+                            <sfgrid:DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <Button
+                                Text="Xóa"
+                                Command="{Binding Source={x:Reference EditPhieuNhapKho}, Path=BindingContext.RemoveLineCommand}"
+                                CommandParameter="{Binding .}"
+                                WidthRequest="60"
+                                HeightRequest="32"
+                                HorizontalOptions="Center"
+                                VerticalOptions="Center"
+                                Padding="6,2" />
+                                    </Grid>
+                                </DataTemplate>
+                            </sfgrid:DataGridTemplateColumn.CellTemplate>
+                        </sfgrid:DataGridTemplateColumn>
+                    </sfgrid:SfDataGrid.Columns>
+                </sfgrid:SfDataGrid>
 
-                    <sfgrid:DataGridTemplateColumn MappingName="Dummy" HeaderText="Xóa" Width="100" CellPadding="3">
-                        <sfgrid:DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <Grid>
-                                    <Button
-                                    Text="Xóa"
-                                    Command="{Binding Source={x:Reference EditPhieuNhapKho}, Path=BindingContext.RemoveLineCommand}"
-                                    CommandParameter="{Binding .}"
-                                    WidthRequest="60"
-                                    HeightRequest="32"
-                                    HorizontalOptions="Center"
-                                    VerticalOptions="Center"
-                                    Padding="6,2" />
-                                </Grid>
-                            </DataTemplate>
-                        </sfgrid:DataGridTemplateColumn.CellTemplate>
-                    </sfgrid:DataGridTemplateColumn>
-                </sfgrid:SfDataGrid.Columns>
-            </sfgrid:SfDataGrid>
+                <!-- Summary Row - flush to grid, scales with window -->
+                <Grid ColumnDefinitions="*,*,*,*,*,100"
+          BackgroundColor="#D6D6D6"
+          Padding="8,6"
+          MinimumHeightRequest="36">
+                    <Label Grid.Column="0" Text="" />
+                    <Label Grid.Column="1"
+               Text="Tổng cộng"
+               FontAttributes="Bold"
+               HorizontalTextAlignment="Center"
+               VerticalTextAlignment="Center"
+               TextColor="Black"/>
+                    <Label Grid.Column="2"
+               Text="{Binding TongSoLuong, StringFormat='{0:0.####}'}"
+               FontAttributes="Bold"
+               HorizontalTextAlignment="Center"
+               VerticalTextAlignment="Center"
+               TextColor="Black"/>
+                    <Label Grid.Column="3" Text="" />
+                    <Label Grid.Column="4"
+               Text="{Binding TongThanhTien, StringFormat='{0:0.####}'}"
+               FontAttributes="Bold"
+               HorizontalTextAlignment="Center"
+               VerticalTextAlignment="Center"
+               TextColor="Black"/>
+                    <Label Grid.Column="5" Text="" />
+                </Grid>
+            </VerticalStackLayout>
 
         </VerticalStackLayout>
     </ScrollView>

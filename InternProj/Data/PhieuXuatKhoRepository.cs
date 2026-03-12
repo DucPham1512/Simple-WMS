@@ -159,9 +159,9 @@ namespace InternProj.Data
                     MaSP = reader.GetString(3),
                     TenDonViTinh = reader.GetString(4),
 
-                    SoLuong = reader.GetFloat(5),
-                    DonGia = reader.GetFloat(6),
-                    ThanhTien = reader.GetFloat(7),
+                    SoLuong = reader.GetDecimal(5),
+                    DonGia = reader.GetDecimal(6),
+                    ThanhTien = reader.GetDecimal(7),
                     Id = reader.GetInt32(8),
                     SanPhamId = reader.GetInt32(9),
                 });

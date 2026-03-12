@@ -12,9 +12,9 @@ namespace InternProj.Models
 
         public int SanPhamId { get; set; }
 
-        public float SoLuong { get; set; }
+        public decimal SoLuong { get; set; }
 
-        public float DonGia { get; set; }
+        public decimal DonGia { get; set; }
 
         public override string ToString() => $"{NhapKhoId}";
     }
