@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="InternProj.Pages.KhoUserPage"
+    x:Name="KhoUser"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:models="clr-namespace:InternProj.Models"
+    xmlns:sfgrid="http://schemas.syncfusion.com/maui"
+    xmlns:editors="clr-namespace:Syncfusion.Maui.Inputs;assembly=Syncfusion.Maui.Inputs"
+    Title="Phân quyền kho">
+
+    <VerticalStackLayout x:Name="RootLayout" Spacing="12" Padding="16">
+        <VerticalStackLayout.Resources>
+            <!-- Header style -->
+            <Style TargetType="sfgrid:DataGridHeaderCell">
+                <Setter Property="Background" Value="#F2F2F2" />
+                <Setter Property="TextColor" Value="#222222" />
+                <Setter Property="FontAttributes" Value="Bold" />
+            </Style>
+
+            <Style TargetType="sfgrid:DataGridCell">
+                <Setter Property="FontSize" Value="15" />
+                <Setter Property="FontFamily" Value="Tahoma" />
+                <Setter Property="TextColor" Value="#222222" />
+            </Style>
+
+
+            <!-- Row style -->
+            <Style TargetType="sfgrid:DataGridRow">
+                <Setter Property="Background" Value="#F2F2F2" />
+            </Style>
+        </VerticalStackLayout.Resources>
+
+        <Grid ColumnDefinitions="*, *" ColumnSpacing="16">
+
+            <VerticalStackLayout Grid.Column="0" Spacing="4">
+                <VerticalStackLayout.Resources>
+                    <!-- Header style -->
+                    <Style TargetType="sfgrid:DataGridHeaderCell">
+                        <Setter Property="Background" Value="#F2F2F2" />
+                        <Setter Property="TextColor" Value="#222222" />
+                        <Setter Property="FontAttributes" Value="Bold" />
+                    </Style>
+
+                    <Style TargetType="sfgrid:DataGridCell">
+                        <Setter Property="FontSize" Value="15" />
+                        <Setter Property="FontFamily" Value="Tahoma" />
+                        <Setter Property="TextColor" Value="#222222" />
+                    </Style>
+
+
+                    <!-- Row style -->
+                    <Style TargetType="sfgrid:DataGridRow">
+                        <Setter Property="Background" Value="#F2F2F2" />
+                    </Style>
+                </VerticalStackLayout.Resources>
+                <Label Text="Mã đăng nhập" 
+               LineBreakMode="TailTruncation" />
+                <Entry Text="{Binding MaDangNhapInput}"/>
+            </VerticalStackLayout>
+
+            <VerticalStackLayout Grid.Column="1" Spacing="4">
+                <VerticalStackLayout.Resources>
+                    <!-- Header style -->
+                    <Style TargetType="sfgrid:DataGridHeaderCell">
+                        <Setter Property="Background" Value="#F2F2F2" />
+                        <Setter Property="TextColor" Value="#222222" />
+                        <Setter Property="FontAttributes" Value="Bold" />
+                    </Style>
+
+                    <Style TargetType="sfgrid:DataGridCell">
+                        <Setter Property="FontSize" Value="15" />
+                        <Setter Property="FontFamily" Value="Tahoma" />
+                        <Setter Property="TextColor" Value="#222222" />
+                    </Style>
+
+
+                    <!-- Row style -->
+                    <Style TargetType="sfgrid:DataGridRow">
+                        <Setter Property="Background" Value="#F2F2F2" />
+                    </Style>
+                </VerticalStackLayout.Resources>
+                <Label Text="Kho" 
+               LineBreakMode="TailTruncation" />
+                <editors:SfComboBox
+                    ItemsSource="{Binding DanhSachKho}"
+                    DisplayMemberPath="Ten_Kho"
+                    SelectedItem="{Binding SelectedKho, Mode=TwoWay}"
+                    IsEditable="True"
+                    IsFilteringEnabled="True"
+                    TextSearchMode="Contains"
+                    Placeholder="Chọn kho nhập..."
+                    MaxDropDownHeight="250" 
+                    HeightRequest ="44"
+                    BackgroundColor="Transparent"
+                    TextColor="White"
+                    DropDownIconColor="White"
+                    SelectionTextHighlightColor="DodgerBlue"
+                    ClearButtonIconColor="White"/>
+            </VerticalStackLayout>
+
+        </Grid>
+        <!-- Buttons -->
+        <HorizontalStackLayout Spacing="12">
+            <Button Text="Load"
+                    Command="{Binding LoadDataCommand}" />
+
+            <Button Text="Save"
+                    Command="{Binding SaveCommand}" />
+        </HorizontalStackLayout>
+
+        <!-- List -->
+        <Label Text="Danh mục phân quyền kho - user" FontAttributes="Bold" />
+        <sfgrid:SfDataGrid
+            AllowEditing="true"
+            ItemsSource="{Binding DanhSachKhoUser}"
+            AutoGenerateColumnsMode="None"
+            SelectionMode="Single"
+            CurrentCellEndEdit="KhoUser_CurrentCellEndEdit"
+            GridLinesVisibility="Both"
+            HeaderGridLinesVisibility="Both"
+            ColumnWidthMode="Fill"
+            HeaderRowHeight="44"
+            RowHeight="52">
+
+            <sfgrid:SfDataGrid.DefaultStyle>
+                <sfgrid:DataGridStyle
+                    HeaderRowBackground="#F2F2F2"
+                    HeaderRowTextColor="#222222"
+                    HeaderGridLineColor="#BDBDBD"
+                    HeaderGridLineStrokeThickness="1"
+                    GridLineColor="#BDBDBD"
+                    GridLineStrokeThickness="1" />
+            </sfgrid:SfDataGrid.DefaultStyle>
+
+            <sfgrid:SfDataGrid.Columns>
+                <sfgrid:DataGridTextColumn MappingName="MaDangNhap"
+                           HeaderText="Mã Đăng Nhập" />
+                <sfgrid:DataGridTemplateColumn MappingName="KhoId" HeaderText="Tên kho" Width="180">
+                    <!-- Normal display -->
+                    <sfgrid:DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Label Text="{Binding Ten_Kho}"
+                           TextColor="Black"
+                           VerticalTextAlignment="Center"
+                           Padding="8,0" />
+                        </DataTemplate>
+                    </sfgrid:DataGridTemplateColumn.CellTemplate>
+
+                    <!-- Edit mode -->
+                    <sfgrid:DataGridTemplateColumn.EditTemplate>
+                        <DataTemplate>
+                            <editors:SfComboBox
+                        ItemsSource="{Binding Source={x:Reference RootLayout}, Path=BindingContext.DanhSachKho}"
+                        DisplayMemberPath="Ten_Kho"
+                        SelectedValuePath="Id"
+                        SelectedValue="{Binding KhoId, Mode=TwoWay}"
+                        SelectionChanged="KhoCombo_SelectionChanged"
+                        IsEditable="True"
+                        IsFilteringEnabled="True"
+                        TextSearchMode="Contains"
+                        ShowSuggestionsOnFocus="True"/>
+                        </DataTemplate>
+                    </sfgrid:DataGridTemplateColumn.EditTemplate>
+                </sfgrid:DataGridTemplateColumn>
+                <sfgrid:DataGridTemplateColumn MappingName="Dummy" HeaderText="Xóa" Width="100" CellPadding="3">
+                    <sfgrid:DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Button
+                            Text="Xóa"
+                            Command="{Binding Source={x:Reference RootLayout}, Path=BindingContext.DeleteCommand}"
+                            CommandParameter="{Binding .}"
+                            WidthRequest="60"
+                            HeightRequest="32"
+                            HorizontalOptions="Center"
+                            VerticalOptions="Center"
+                            Padding="6,2" />
+                            </Grid>
+                        </DataTemplate>
+                    </sfgrid:DataGridTemplateColumn.CellTemplate>
+                </sfgrid:DataGridTemplateColumn>
+            </sfgrid:SfDataGrid.Columns>
+        </sfgrid:SfDataGrid>
+
+    </VerticalStackLayout>
+</ContentPage>
+
+    
+ 

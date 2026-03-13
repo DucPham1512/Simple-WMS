@@ -6,15 +6,24 @@
     xmlns:sf="clr-namespace:Syncfusion.Maui.Toolkit.SegmentedControl;assembly=Syncfusion.Maui.Toolkit"
     xmlns:pages="clr-namespace:InternProj.Pages"
     Shell.FlyoutBehavior="Flyout"
-    Title="MauiApp1">
+    Title="InternProj">
 
 
 
     <ShellContent
-        Title="Đơn vị tính"
+        Title="Trang chủ (Tabs)"
+        ContentTemplate="{DataTemplate pages:MainTabbedPage}"
+        Route="maintabbedpage" />
 
-        ContentTemplate="{DataTemplate pages:DonViTinhPage}"
-        Route="donvitinh" />
-
-
+    <MenuItem Text="Đơn vị tính" CommandParameter="donvitinh" Clicked="OnSidebarMenuItemClicked" />
+    <MenuItem Text="Loại Sản Phẩm" CommandParameter="loaisanpham" Clicked="OnSidebarMenuItemClicked" />
+    <MenuItem Text="Sản Phẩm" CommandParameter="sanpham" Clicked="OnSidebarMenuItemClicked" />
+    <MenuItem Text="Nhà cung cấp" CommandParameter="nhacungcap" Clicked="OnSidebarMenuItemClicked" />
+    <MenuItem Text="Kho" CommandParameter="kho" Clicked="OnSidebarMenuItemClicked" />
+    <MenuItem Text="Phân quyền kho - user" CommandParameter="khouser" Clicked="OnSidebarMenuItemClicked" />
+    <MenuItem Text="Phiếu nhập kho" CommandParameter="phieunhapkho" Clicked="OnSidebarMenuItemClicked" />
+    <MenuItem Text="Phiếu xuất kho" CommandParameter="phieuxuatkho" Clicked="OnSidebarMenuItemClicked" />
+    <MenuItem Text="Báo cáo hàng nhập" CommandParameter="hangnhapreport" Clicked="OnSidebarMenuItemClicked" />
+    <MenuItem Text="Báo cáo hàng xuất" CommandParameter="hangxuatreport" Clicked="OnSidebarMenuItemClicked" />
+    <MenuItem Text="Báo cáo xuất nhập tồn" CommandParameter="xuatnhaptonreport" Clicked="OnSidebarMenuItemClicked" />
 </Shell>

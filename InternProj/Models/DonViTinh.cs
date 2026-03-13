@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace InternProj.Models
+﻿namespace InternProj.Models
 {
     public class DonViTinh
     {
+        public int Id { get; set; }
         public string Ten_Don_Vi_Tinh { get; set; } = string.Empty;
         public string Ghi_Chu { get; set; } = string.Empty;
 

@@ -1,20 +1,80 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage
     x:Class="InternProj.Pages.DonViTinhPage"
+    x:Name="DonViTinh"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:models="clr-namespace:InternProj.Models"
+    xmlns:sfgrid="http://schemas.syncfusion.com/maui"
+    xmlns:editors="clr-namespace:Syncfusion.Maui.Inputs;assembly=Syncfusion.Maui.Inputs"
     Title="Đơn vị tính">
 
-    <VerticalStackLayout Spacing="12" Padding="16">
+    <VerticalStackLayout x:Name="RootLayout" Spacing="12" Padding="16">
+    <VerticalStackLayout.Resources>
+            <Style TargetType="sfgrid:DataGridHeaderCell">
+                <Setter Property="Background" Value="#F2F2F2" />
+                <Setter Property="TextColor" Value="#222222" />
+                <Setter Property="FontAttributes" Value="Bold" />
+            </Style>
 
-        <!-- Inputs -->
-        <Label Text="Tên đơn vị" />
-        <Entry Text="{Binding TenDonViInput}" Placeholder="VD: Kg, Thùng, Cái..." />
+            <Style TargetType="sfgrid:DataGridCell">
+                <Setter Property="FontSize" Value="15" />
+                <Setter Property="FontFamily" Value="Tahoma" />
+                <Setter Property="TextColor" Value="#222222" />
+            </Style>
 
-        <Label Text="Ghi chú" />
-        <Entry Text="{Binding GhiChuInput}" Placeholder="Ghi chú (nếu có)" />
 
+            <Style TargetType="sfgrid:DataGridRow">
+                <Setter Property="Background" Value="#F2F2F2" />
+            </Style>
+        </VerticalStackLayout.Resources>
+        <Grid ColumnDefinitions="*,*" ColumnSpacing="8">
+            <VerticalStackLayout Spacing="8" Grid.Column="0">
+    <VerticalStackLayout.Resources>
+            <Style TargetType="sfgrid:DataGridHeaderCell">
+                <Setter Property="Background" Value="#F2F2F2" />
+                <Setter Property="TextColor" Value="#222222" />
+                <Setter Property="FontAttributes" Value="Bold" />
+            </Style>
+
+            <Style TargetType="sfgrid:DataGridCell">
+                <Setter Property="FontSize" Value="15" />
+                <Setter Property="FontFamily" Value="Tahoma" />
+                <Setter Property="TextColor" Value="#222222" />
+            </Style>
+
+
+            <Style TargetType="sfgrid:DataGridRow">
+                <Setter Property="Background" Value="#F2F2F2" />
+            </Style>
+        </VerticalStackLayout.Resources>
+                <Label Text="Tên đơn vị" />
+                <Entry Text="{Binding TenDonViInput}"/>
+            </VerticalStackLayout>
+
+                <VerticalStackLayout Spacing="8" Grid.Column="1">
+    <VerticalStackLayout.Resources>
+            <Style TargetType="sfgrid:DataGridHeaderCell">
+                <Setter Property="Background" Value="#F2F2F2" />
+                <Setter Property="TextColor" Value="#222222" />
+                <Setter Property="FontAttributes" Value="Bold" />
+            </Style>
+
+            <Style TargetType="sfgrid:DataGridCell">
+                <Setter Property="FontSize" Value="15" />
+                <Setter Property="FontFamily" Value="Tahoma" />
+                <Setter Property="TextColor" Value="#222222" />
+            </Style>
+
+
+            <Style TargetType="sfgrid:DataGridRow">
+                <Setter Property="Background" Value="#F2F2F2" />
+            </Style>
+        </VerticalStackLayout.Resources>
+                    <Label Text="Ghi chú" />
+                    <Entry Text="{Binding GhiChuInput}"/>
+                </VerticalStackLayout>
+        </Grid>
         <!-- Buttons -->
         <HorizontalStackLayout Spacing="12">
             <Button Text="Load"
@@ -23,29 +83,55 @@
             <Button Text="Save"
                     Command="{Binding SaveCommand}" />
         </HorizontalStackLayout>
+        <sfgrid:SfDataGrid
+            AllowEditing="true"
+            ItemsSource="{Binding DanhSachDonVi}"
+            AutoGenerateColumnsMode="None"
+            SelectionMode="Single"
+            CurrentCellEndEdit="DonViTinh_CurrentCellEndEdit"
+            GridLinesVisibility="Both"
+            HeaderGridLinesVisibility="Both"
+            ColumnWidthMode="Fill"
+            HeaderRowHeight="44"
+            RowHeight="52">
+            
 
-        <!-- List -->
-        <Label Text="Danh sách đơn vị tính" FontAttributes="Bold" />
+            <sfgrid:SfDataGrid.DefaultStyle>
+                <sfgrid:DataGridStyle
+            HeaderRowBackground="#F2F2F2"
+            HeaderRowTextColor="#222222"
+            HeaderGridLineColor="#BDBDBD"
+            HeaderGridLineStrokeThickness="1"
+            GridLineColor="#BDBDBD"
+            GridLineStrokeThickness="1" />
+            </sfgrid:SfDataGrid.DefaultStyle>
 
-        <CollectionView ItemsSource="{Binding DanhSachDonVi}"
-                        SelectionMode="Single"
-                        SelectedItem="{Binding SelectedItem, Mode=TwoWay}">
-            <CollectionView.ItemTemplate>
-                <DataTemplate x:DataType="models:DonViTinh">
-                    <Grid ColumnDefinitions="*,Auto" Padding="8">
-                        <VerticalStackLayout>
-                            <Label Text="{Binding Ten_Don_Vi_Tinh}" FontAttributes="Bold" />
-                            <Label Text="{Binding Ghi_Chu}" FontSize="12" Opacity="0.7" />
-                        </VerticalStackLayout>
+            <sfgrid:SfDataGrid.Columns >
 
-                        <Button Grid.Column="1"
-                                Text="Xóa"
-                                Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.DeleteCommand}"
-                                CommandParameter="{Binding .}" />
-                    </Grid>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
+                <sfgrid:DataGridTextColumn MappingName="Ten_Don_Vi_Tinh"
+                                   HeaderText="Tên đơn vị tính" />
 
+                <sfgrid:DataGridTextColumn MappingName="Ghi_Chu"
+                                   HeaderText="Ghi chú" />
+
+                <sfgrid:DataGridTemplateColumn MappingName="Dummy" HeaderText="Xóa" Width="100" CellPadding="3">
+                    <sfgrid:DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Button
+                                    Text="Xóa"
+                                    Command="{Binding Source={x:Reference RootLayout}, Path=BindingContext.DeleteCommand}"
+                                    CommandParameter="{Binding .}"
+                                    WidthRequest="60"
+                                    HeightRequest="32"
+                                    HorizontalOptions="Center"
+                                    VerticalOptions="Center"
+                                    Padding="6,2" />
+                            </Grid>
+                        </DataTemplate>
+                    </sfgrid:DataGridTemplateColumn.CellTemplate>
+                </sfgrid:DataGridTemplateColumn>
+            </sfgrid:SfDataGrid.Columns>
+        </sfgrid:SfDataGrid>
     </VerticalStackLayout>
 </ContentPage>

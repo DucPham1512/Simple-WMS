@@ -1,3 +1,5 @@
 <Solution>
-  <Project Path="InternProj/InternProj.csproj" />
+  <Project Path="InternProj/InternProj.csproj">
+    <Deploy />
+  </Project>
 </Solution>

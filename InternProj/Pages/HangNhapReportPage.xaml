@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="InternProj.Pages.HangNhapReportPage"
+    x:Name="HangNhapReport"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:sfgrid="http://schemas.syncfusion.com/maui"
+    xmlns:editors="clr-namespace:Syncfusion.Maui.Inputs;assembly=Syncfusion.Maui.Inputs"
+    Title="Báo cáo chi tiết hàng nhập"
+>
+
+    <VerticalStackLayout Spacing="12" Padding="16">
+    <VerticalStackLayout.Resources>
+        <!-- Header style -->
+        <Style TargetType="sfgrid:DataGridHeaderCell">
+            <Setter Property="Background" Value="#F2F2F2" />
+            <Setter Property="TextColor" Value="#222222" />
+            <Setter Property="FontAttributes" Value="Bold" />
+        </Style>
+
+        <Style TargetType="sfgrid:DataGridCell">
+            <Setter Property="FontSize" Value="15" />
+            <Setter Property="FontFamily" Value="Tahoma" />
+            <Setter Property="TextColor" Value="#222222" />
+        </Style>
+        
+        
+        <!-- Row style -->
+        <Style TargetType="sfgrid:DataGridRow">
+            <Setter Property="Background" Value="#F2F2F2" />
+        </Style>
+    </VerticalStackLayout.Resources>
+
+
+        <HorizontalStackLayout Spacing="12">
+            <DatePicker
+                Date="{Binding StartDate, Mode=TwoWay}"
+                Format="dd/MM/yyyy"/>
+            <DatePicker
+                Date="{Binding EndDate, Mode=TwoWay}"
+                Format="dd/MM/yyyy"/>
+        </HorizontalStackLayout>
+        
+        <Button Text="Search"
+                    Command="{Binding LoadDataCommand}" />
+
+            <Label Text="Danh sách hàng nhập"
+               FontAttributes="Bold"
+               TextColor="White" />
+
+        <sfgrid:SfDataGrid
+            AllowEditing="false"
+            ItemsSource="{Binding DanhSachHang}"
+            AutoGenerateColumnsMode="None"
+            SelectionMode="Single"
+            GridLinesVisibility="Both"
+            HeaderGridLinesVisibility="Both"
+            ColumnWidthMode="Fill"
+            HeaderRowHeight="44"
+            RowHeight="52">
+
+            <sfgrid:SfDataGrid.DefaultStyle>
+                <sfgrid:DataGridStyle
+            HeaderRowBackground="#F2F2F2"
+            HeaderRowTextColor="#222222"
+            HeaderGridLineColor="#BDBDBD"
+            HeaderGridLineStrokeThickness="1"
+            GridLineColor="#BDBDBD"
+            GridLineStrokeThickness="1" />
+            </sfgrid:SfDataGrid.DefaultStyle>
+
+            <sfgrid:SfDataGrid.Columns>
+                <sfgrid:DataGridDateColumn MappingName="NgayNhap"
+                                   HeaderText="Ngày nhập" />
+                <sfgrid:DataGridTextColumn MappingName="SoPhieu"
+                                   HeaderText="Số phiếu" />
+                <sfgrid:DataGridTextColumn MappingName="MaSP"
+                                   HeaderText="Mã sản phẩm" />
+                <sfgrid:DataGridTextColumn MappingName="TenSP"
+                                   HeaderText="Tên sản phẩm" />
+                <sfgrid:DataGridTextColumn MappingName="TenNCC"
+                                   HeaderText="Tên nhà cung cấp" />
+                <sfgrid:DataGridTextColumn MappingName="SoLuong"
+                                   HeaderText="Số lượng" />
+                <sfgrid:DataGridTextColumn MappingName="DonGia"
+                                   HeaderText="Đơn giá" />
+                <sfgrid:DataGridTextColumn MappingName="ThanhTien"
+                                   HeaderText="Thành tiền" />
+            </sfgrid:SfDataGrid.Columns>
+        </sfgrid:SfDataGrid>
+
+        <Grid ColumnDefinitions="*,*,*,*,*,*,*,*"
+          BackgroundColor="#D6D6D6"
+          Padding="8,6"
+          MinimumHeightRequest="36">
+            <Label Grid.Column="0" Text="" />
+            <Label Grid.Column="1" Text="" />
+            <Label Grid.Column="2" Text="" />
+            <Label Grid.Column="3" Text="" />
+            <Label Grid.Column="4"
+               Text="Tổng cộng"
+               FontAttributes="Bold"
+               HorizontalTextAlignment="Center"
+               VerticalTextAlignment="Center"
+               TextColor="Black"/>
+            <Label Grid.Column="5"
+               Text="{Binding TongSoLuong, StringFormat='{0:#,##0.####}'}"
+               FontAttributes="Bold"
+               HorizontalTextAlignment="Center"
+               VerticalTextAlignment="Center"
+               TextColor="Black"/>
+            <Label Grid.Column="6" Text="" />
+            <Label Grid.Column="7"
+               Text="{Binding TongThanhTien, StringFormat='{0:#,##0.####}'}"
+               FontAttributes="Bold"
+               HorizontalTextAlignment="Center"
+               VerticalTextAlignment="Center"
+               TextColor="Black"/>
+        </Grid>
+    </VerticalStackLayout>
+</ContentPage>

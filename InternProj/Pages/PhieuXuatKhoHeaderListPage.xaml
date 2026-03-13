@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="InternProj.Pages.PhieuXuatKhoHeaderListPage"
+    x:Name="DanhSachPhieuXuatKho"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:sfgrid="http://schemas.syncfusion.com/maui"
+    xmlns:editors="clr-namespace:Syncfusion.Maui.Inputs;assembly=Syncfusion.Maui.Inputs"
+    Title="Phiếu xuất kho"
+>
+
+    <VerticalStackLayout x:Name="RootLayout" Spacing="12" Padding="16">
+    <VerticalStackLayout.Resources>
+        <!-- Header style -->
+        <Style TargetType="sfgrid:DataGridHeaderCell">
+            <Setter Property="Background" Value="#F2F2F2" />
+            <Setter Property="TextColor" Value="#222222" />
+            <Setter Property="FontAttributes" Value="Bold" />
+        </Style>
+
+        <Style TargetType="sfgrid:DataGridCell">
+            <Setter Property="FontSize" Value="15" />
+            <Setter Property="FontFamily" Value="Tahoma" />
+            <Setter Property="TextColor" Value="#222222" />
+        </Style>
+        
+        
+        <!-- Row style -->
+        <Style TargetType="sfgrid:DataGridRow">
+            <Setter Property="Background" Value="#F2F2F2" />
+        </Style>
+    </VerticalStackLayout.Resources>
+
+        <HorizontalStackLayout Spacing="12">
+            <Button Text="Load"
+                    Command="{Binding LoadDataCommand}" />
+            <Button Text="New"
+                    Command="{Binding NewCommand}" />
+        </HorizontalStackLayout>
+
+        <Label Text="Danh sách phiếu xuất"
+               FontAttributes="Bold"
+               TextColor="White" />
+
+        <sfgrid:SfDataGrid
+            AllowEditing="true"
+            ItemsSource="{Binding DanhSachPhieu}"
+            AutoGenerateColumnsMode="None"
+            SelectionMode="Single"
+            GridLinesVisibility="Both"
+            HeaderGridLinesVisibility="Both"
+            ColumnWidthMode="Fill"
+            HeaderRowHeight="44"
+            RowHeight="52">
+
+            <sfgrid:SfDataGrid.DefaultStyle>
+                <sfgrid:DataGridStyle
+            HeaderRowBackground="#F2F2F2"
+            HeaderRowTextColor="#222222"
+            HeaderGridLineColor="#BDBDBD"
+            HeaderGridLineStrokeThickness="1"
+            GridLineColor="#BDBDBD"
+            GridLineStrokeThickness="1" />
+            </sfgrid:SfDataGrid.DefaultStyle>
+
+            <sfgrid:SfDataGrid.Columns>
+                <sfgrid:DataGridTextColumn MappingName="So_Phieu_Xuat_Kho"
+                                   HeaderText="Số phiếu" />
+                <sfgrid:DataGridDateColumn MappingName="Ngay_Xuat_Kho"
+                                   HeaderText="Ngày xuất" />
+                <sfgrid:DataGridTemplateColumn MappingName="Kho_ID" HeaderText="Kho" Width="180">
+                    <!-- Normal display -->
+                    <sfgrid:DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Label Text="{Binding Ten_Kho}"
+                                   TextColor="Black"
+                                   VerticalTextAlignment="Center"
+                                   Padding="8,0" />
+                        </DataTemplate>
+                    </sfgrid:DataGridTemplateColumn.CellTemplate>
+
+                    <!-- Edit mode -->
+                    <sfgrid:DataGridTemplateColumn.EditTemplate>
+                        <DataTemplate>
+                            <editors:SfComboBox
+                                ItemsSource="{Binding Source={RelativeSource AncestorType={x:Type sfgrid:SfDataGrid}}, Path=BindingContext.DanhSachKho}"
+                                DisplayMemberPath="Ten_Kho"
+                                SelectedValuePath="Id"
+                                SelectedValue="{Binding Kho_ID, Mode=TwoWay}"
+                                SelectionChanged="KhoCombo_SelectionChanged"
+                                IsEditable="True"
+                                IsFilteringEnabled="True"
+                                TextSearchMode="Contains"
+                                ShowSuggestionsOnFocus="True"/>
+                        </DataTemplate>
+                    </sfgrid:DataGridTemplateColumn.EditTemplate>
+                </sfgrid:DataGridTemplateColumn>
+                <sfgrid:DataGridTextColumn MappingName="Ghi_Chu"
+                                   HeaderText="Ghi chú" />
+                <sfgrid:DataGridTemplateColumn MappingName="Dummy" HeaderText="Thao tác" Width="170">
+                    <sfgrid:DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Picker 
+                            ItemsSource="{Binding Source={RelativeSource AncestorType={x:Type sfgrid:SfDataGrid}}, Path=BindingContext.ActionOptions}"
+                            SelectedIndexChanged="ActionPicker_SelectedIndexChanged" />
+                        </DataTemplate>
+                    </sfgrid:DataGridTemplateColumn.CellTemplate>
+                </sfgrid:DataGridTemplateColumn>
+            </sfgrid:SfDataGrid.Columns>
+        </sfgrid:SfDataGrid>
+
+    </VerticalStackLayout>
+</ContentPage>

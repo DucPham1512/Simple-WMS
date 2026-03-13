@@ -1,17 +1,14 @@
-﻿using __XamlGeneratedCode__;
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using InternProj;
+using InternProj.Data;
 using InternProj.Models;
-
-
+using System.Text.RegularExpressions;
 //using Microsoft.UI.Xaml.Controls.Primitives;
 using System.Collections.ObjectModel;
-using InternProj.Data;
 
 namespace InternProj.PageModels
 {
-    public partial class DonViTinhPageModel : ObservableObject
+    public partial class DonViTinhPageModel : BasePageModel
     {
         private readonly DonViTinhRepository _repository;
 
@@ -19,7 +16,7 @@ namespace InternProj.PageModels
         private ObservableCollection<DonViTinh> _danhSachDonVi = [];
 
         [ObservableProperty]
-        private DonViTinh _selectedItem;
+        private DonViTinh? _selectedItem;
 
         // Các trường để binding vào Entry nhập liệu
         [ObservableProperty]
@@ -28,13 +25,16 @@ namespace InternProj.PageModels
         [ObservableProperty]
         private string _ghiChuInput;
 
-        public DonViTinhPageModel(DonViTinhRepository repository)
+        public DonViTinhPageModel   (DonViTinhRepository repository, 
+                                    DatabaseWatcherService watcherService) : base(watcherService)
         {
             _repository = repository;
         }
 
+
+
         [RelayCommand]
-        private async Task LoadData()
+        public override async Task LoadData()
         {
             var data = await _repository.ListAsync();
             DanhSachDonVi = new ObservableCollection<DonViTinh>(data);
@@ -43,22 +43,26 @@ namespace InternProj.PageModels
         [RelayCommand]
         private async Task Save()
         {
-            try
+            if (string.IsNullOrWhiteSpace(TenDonViInput))
             {
-                var donVi = new DonViTinh
-                {
-                    Ten_Don_Vi_Tinh = TenDonViInput,
-                    Ghi_Chu = GhiChuInput
-                };
+                await Shell.Current.DisplayAlertAsync("Lỗi", "Tên đơn vị tính không được để trống.", "OK");
+                await LoadData();
+                return;
+            }
 
-                // Xác định xem đang Thêm hay Sửa
+            var donVi = new DonViTinh
+            {
+                Ten_Don_Vi_Tinh = Regex.Replace(TenDonViInput, @"\s+", " ").Trim(),
+                Ghi_Chu = GhiChuInput
+            };
+            try
+            {  
                 bool isEdit = SelectedItem != null;
-                string oldKey = isEdit ? SelectedItem.Ten_Don_Vi_Tinh : string.Empty;
+
+                if (isEdit) donVi.Id = SelectedItem!.Id;
 
                 // Gọi hàm Save mới
-                await _repository.SaveItemAsync(donVi, isEdit, oldKey);
-
-                await LoadData();
+                await _repository.SaveItemAsync(donVi, isEdit);
 
                 // Reset form
                 TenDonViInput = string.Empty;
@@ -70,6 +74,7 @@ namespace InternProj.PageModels
             catch (Exception ex)
             {
                 await Shell.Current.DisplayAlertAsync("Lỗi", ex.Message, "OK");
+                await LoadData();
             }
         }
 
@@ -80,17 +85,49 @@ namespace InternProj.PageModels
             if (!answer) return;
 
             // Truyền string Key vào hàm xóa
-            await _repository.DeleteItemAsync(item);
-            DanhSachDonVi.Remove(item);
-        }
-        // Hàm helper để điền dữ liệu vào ô input khi chọn một dòng để sửa
-        partial void OnSelectedItemChanged(DonViTinh value)
-        {
-            if (value != null)
+            try
             {
-                TenDonViInput = value.Ten_Don_Vi_Tinh;
-                GhiChuInput = value.Ghi_Chu;
+                await _repository.DeleteItemAsync(item);
             }
+            catch
+            {
+                await Shell.Current.DisplayAlertAsync("Lỗi", $"Không thể xóa '{item.Ten_Don_Vi_Tinh}'", "OK");
+                return;
+            }
+        }
+
+        [RelayCommand]
+        private async Task Edit(DonViTinh item)
+        {
+
+            if (string.IsNullOrWhiteSpace(item.Ten_Don_Vi_Tinh))
+            {
+                await Shell.Current.DisplayAlertAsync("Lỗi", "Tên đơn vị tính không được để trống.", "OK");
+                await LoadData();
+                return;
+            }
+
+            try
+            {
+                var donVi = new DonViTinh
+                {
+                    Id = item.Id,
+                    Ten_Don_Vi_Tinh = Regex.Replace(item.Ten_Don_Vi_Tinh, @"\s+", " ").Trim(),
+                    Ghi_Chu = item.Ghi_Chu
+                };
+
+
+                // Gọi hàm Save mới
+                await _repository.SaveItemAsync(donVi, true);
+
+            }
+            catch (Exception ex)
+            {
+                await Shell.Current.DisplayAlertAsync("Lỗi", ex.Message, "OK");
+                await LoadData();
+            }
+
+
         }
     }
 }

@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="InternProj.Pages.SanPhamPage"
+    x:Name="SanPham"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:models="clr-namespace:InternProj.Models"
+    xmlns:sfgrid="http://schemas.syncfusion.com/maui"
+    xmlns:editors="clr-namespace:Syncfusion.Maui.Inputs;assembly=Syncfusion.Maui.Inputs"
+    Title="Danh mục sản phẩm">
+
+    <VerticalStackLayout x:Name="RootLayout" Spacing="12" Padding="16">
+        <VerticalStackLayout.Resources>
+            <!-- Header style -->
+            <Style TargetType="sfgrid:DataGridHeaderCell">
+                <Setter Property="Background" Value="#F2F2F2" />
+                <Setter Property="TextColor" Value="#222222" />
+                <Setter Property="FontAttributes" Value="Bold" />
+            </Style>
+
+            <Style TargetType="sfgrid:DataGridCell">
+                <Setter Property="FontSize" Value="15" />
+                <Setter Property="FontFamily" Value="Tahoma" />
+                <Setter Property="TextColor" Value="#222222" />
+            </Style>
+
+            <Style TargetType="sfgrid:DataGridRow">
+                <Setter Property="Background" Value="#F2F2F2" />
+            </Style>
+        </VerticalStackLayout.Resources>
+
+        <Grid ColumnSpacing="8" RowSpacing="8"
+          RowDefinitions="Auto,Auto"
+          ColumnDefinitions="*,*,*,*,*">
+
+            <Label Grid.Row="0" Grid.Column="0"
+               Text="Mã sản phẩm"
+               LineBreakMode="TailTruncation"/>
+            <Entry Grid.Row="1" Grid.Column="0"
+               Text="{Binding MaSPInput}" />
+
+            <Label Grid.Row="0" Grid.Column="1"
+               Text="Tên sản phẩm"
+               LineBreakMode="TailTruncation"/>
+            <Entry Grid.Row="1" Grid.Column="1"
+               Text="{Binding TenSPInput}"/>
+
+            <Label Grid.Row="0" Grid.Column="2"
+               Text="Loại sản phẩm"
+               LineBreakMode="TailTruncation"/>
+            <editors:SfComboBox
+                Grid.Row="1" Grid.Column="2"
+                ItemsSource="{Binding DanhSachLSP}"
+                DisplayMemberPath="Ten_LSP"
+                SelectedItem="{Binding SelectedLSP}"
+                IsEditable="True"
+                IsFilteringEnabled="True"
+                TextSearchMode="Contains" 
+                BackgroundColor="Transparent"
+                TextColor="White"
+                DropDownIconColor="White"
+                SelectionTextHighlightColor="DodgerBlue"
+                ClearButtonIconColor="White"/>
+
+            <Label Grid.Row="0" Grid.Column="3"
+               Text="Đơn vị tính"
+               LineBreakMode="TailTruncation"/>
+            <editors:SfComboBox
+                Grid.Row="1" Grid.Column="3"
+                ItemsSource="{Binding DanhSachDVT}"
+                DisplayMemberPath="Ten_Don_Vi_Tinh"
+                SelectedItem="{Binding SelectedDVT}"
+                IsEditable="True"
+                IsFilteringEnabled="True"
+                TextSearchMode="Contains"
+                Placeholder="Tìm đơn vị tính..."
+                MaxDropDownHeight="200" 
+                BackgroundColor="Transparent"
+                TextColor="White"
+                DropDownIconColor="White"
+                SelectionTextHighlightColor="DodgerBlue"
+                ClearButtonIconColor="White"/>
+
+            <Label Grid.Row="0" Grid.Column="4"
+               Text="Ghi chú"
+               LineBreakMode="TailTruncation"/>
+            <Entry Grid.Row="1" Grid.Column="4"
+               Text="{Binding GhiChuInput}"/>
+
+        </Grid>
+        <HorizontalStackLayout Spacing="12">
+            <Button Text="Load"
+                    Command="{Binding LoadDataCommand}" />
+
+            <Button Text="Save"
+                    Command="{Binding SaveCommand}" />
+        </HorizontalStackLayout>
+
+        <sfgrid:SfDataGrid
+            AllowEditing="true"
+            ItemsSource="{Binding DanhSachSP}"
+            AutoGenerateColumnsMode="None"
+            SelectionMode="Single"
+            CurrentCellEndEdit="SP_CurrentCellEndEdit"
+            GridLinesVisibility="Both"
+            HeaderGridLinesVisibility="Both"
+            ColumnWidthMode="Fill"
+            HeaderRowHeight="44"
+            RowHeight="52">
+
+            <sfgrid:SfDataGrid.DefaultStyle>
+                <sfgrid:DataGridStyle
+            HeaderRowBackground="#F2F2F2"
+            HeaderRowTextColor="#222222"
+            HeaderGridLineColor="#BDBDBD"
+            HeaderGridLineStrokeThickness="1"
+            GridLineColor="#BDBDBD"
+            GridLineStrokeThickness="1" />
+            </sfgrid:SfDataGrid.DefaultStyle>
+
+            <sfgrid:SfDataGrid.Columns>
+                <sfgrid:DataGridTextColumn MappingName="Ma_SP"
+                                   HeaderText="Mã sản phẩm" />
+                <sfgrid:DataGridTextColumn MappingName="Ten_SP"
+                                   HeaderText="Tên sản phẩm" />
+                <sfgrid:DataGridTemplateColumn MappingName="Id_LSP" HeaderText="Loại sản phẩm" Width="180">
+                    <sfgrid:DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Label Text="{Binding Ten_LSP}"
+                                   TextColor="Black"
+                                   VerticalTextAlignment="Center"
+                                   Padding="8,0" />
+                        </DataTemplate>
+                    </sfgrid:DataGridTemplateColumn.CellTemplate>
+
+                    <sfgrid:DataGridTemplateColumn.EditTemplate>
+                        <DataTemplate>
+                            <editors:SfComboBox
+                                ItemsSource="{Binding Source={x:Reference RootLayout}, Path=BindingContext.DanhSachLSP}"
+                                DisplayMemberPath="Ten_LSP"
+                                SelectedValuePath="Id"
+                                SelectedValue="{Binding Id_LSP, Mode=TwoWay}"
+                                SelectionChanged="LSPCombo_SelectionChanged"
+                                IsEditable="True"
+                                IsFilteringEnabled="True"
+                                TextSearchMode="Contains"
+                                ShowSuggestionsOnFocus="True"/>
+                        </DataTemplate>
+                    </sfgrid:DataGridTemplateColumn.EditTemplate>
+                </sfgrid:DataGridTemplateColumn>
+                <sfgrid:DataGridTemplateColumn MappingName="Don_Vi_Tinh_ID" HeaderText="Đơn vị tính" Width="180">
+                    <sfgrid:DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Label Text="{Binding Ten_DVT}"
+                                   TextColor="Black"
+                                   VerticalTextAlignment="Center"
+                                   Padding="8,0" />
+                        </DataTemplate>
+                    </sfgrid:DataGridTemplateColumn.CellTemplate>
+
+                    <sfgrid:DataGridTemplateColumn.EditTemplate>
+                        <DataTemplate>
+                            <editors:SfComboBox
+                                ItemsSource="{Binding Source={x:Reference RootLayout}, Path=BindingContext.DanhSachDVT}"
+                                DisplayMemberPath="Ten_Don_Vi_Tinh"
+                                SelectedValuePath="Id"
+                                SelectedValue="{Binding Id_DVT, Mode=TwoWay}"
+                                SelectionChanged="DVTCombo_SelectionChanged"
+                                IsEditable="True"
+                                IsFilteringEnabled="True"
+                                TextSearchMode="Contains"
+                                ShowSuggestionsOnFocus="True"/>
+                        </DataTemplate>
+                    </sfgrid:DataGridTemplateColumn.EditTemplate>
+                </sfgrid:DataGridTemplateColumn>
+                <sfgrid:DataGridTextColumn MappingName="Ghi_Chu"
+                                   HeaderText="Ghi chú" />
+                <sfgrid:DataGridTemplateColumn MappingName="Dummy" HeaderText="Xóa" Width="100" CellPadding="3">
+                    <sfgrid:DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Button
+                                    Text="Xóa"
+                                    Command="{Binding Source={x:Reference RootLayout}, Path=BindingContext.DeleteCommand}"
+                                    CommandParameter="{Binding .}"
+                                    WidthRequest="60"
+                                    HeightRequest="32"
+                                    HorizontalOptions="Center"
+                                    VerticalOptions="Center"
+                                    Padding="6,2" />
+                            </Grid>
+                        </DataTemplate>
+                    </sfgrid:DataGridTemplateColumn.CellTemplate>
+                </sfgrid:DataGridTemplateColumn>
+            </sfgrid:SfDataGrid.Columns>
+        </sfgrid:SfDataGrid>
+
+    </VerticalStackLayout>
+</ContentPage>
+    
+    
+ 
