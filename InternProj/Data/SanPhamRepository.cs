@@ -136,16 +136,15 @@ namespace InternProj.Data
         {
             await Init();
 
+            if (item is null)
+                throw new Exception("Dữ liệu sản phẩm không hợp lệ.");
+
             string? error = item switch
             {
-                null => "Dữ liệu sản phẩm không hợp lệ.",
-
                 _ when string.IsNullOrWhiteSpace(item.Ten_SP)
                     => "Tên sản phẩm không được để trống.",
-
                 _ when string.IsNullOrWhiteSpace(item.Ma_SP)
                     => "Mã sản phẩm không được để trống.",
-
                 _ => null
             };
 

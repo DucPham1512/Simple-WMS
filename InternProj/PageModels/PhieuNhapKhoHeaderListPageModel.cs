@@ -91,7 +91,7 @@ namespace InternProj.PageModels
             {
                 await _pnkRepository.EditHeaderAsync(pnkHeader);
             }
-            catch (Exception ex)
+            catch
             {
                 await Shell.Current.DisplayAlertAsync("Lỗi", "Phiếu nhập kho đã tồn tại", "OK");
                 await LoadData();

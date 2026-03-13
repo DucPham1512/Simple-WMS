@@ -79,7 +79,7 @@ namespace InternProj.PageModels
                 };
 
                 await _pnkRepository.EditHeaderAsync(pxkHeader);
-            } catch (Exception ex)
+            } catch
             {
                 await Shell.Current.DisplayAlertAsync("Error", "Không thể lưu phiếu xuất kho", "OK");
                 await LoadData();

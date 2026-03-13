@@ -81,11 +81,6 @@ namespace InternProj.Data
             return DonViTinh;
         }
 
-        /// <summary>
-        /// Retrieves a specific DonViTinh by its name.
-        /// </summary>
-        /// <param name="Ten_Don_Vi_Tinh">The ID of the DonViTinh.</param>
-        /// <returns>A <see cref="DonViTinh"/> object if found; otherwise, null.</returns>
         public async Task<DonViTinh?> GetAsync(int ID)
         {
             await Init();

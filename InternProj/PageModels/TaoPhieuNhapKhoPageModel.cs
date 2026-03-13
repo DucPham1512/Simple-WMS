@@ -182,7 +182,7 @@ namespace InternProj.PageModels
                 GhiChuInput = string.Empty;
                 DanhSachDong.Clear();
             }
-            catch (Exception ex)
+            catch
             {
                 await Shell.Current.DisplayAlertAsync("Lỗi", "Phiếu nhập kho đã tồn tại", "OK");
                 await LoadData();

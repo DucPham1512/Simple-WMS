@@ -110,7 +110,7 @@ namespace InternProj.Data
                     NCC_ID = reader.GetInt32(4),
                     Ten_NCC = reader.GetString(5),
                     Ngay_Nhap_Kho = DateStringConverter.toDateTime(reader.GetString(6)),
-                    Ghi_Chu = reader.IsDBNull(7) ? null : reader.GetString(7)
+                    Ghi_Chu = reader.IsDBNull(7) ? string.Empty : reader.GetString(7)
                 }
                     );
             }
@@ -118,11 +118,6 @@ namespace InternProj.Data
             return item;
         }
 
-        /// <summary>
-        /// Retrieves a specific DonViTinh by its name.
-        /// </summary>
-        /// <param name="Ma_LSP">The ID of the DonViTinh.</param>
-        /// <returns>A <see cref="LoaiSanPham"/> object if found; otherwise, null.</returns>
         public async Task<List<PhieuNhapKhoData>> GetAsync(int nhapKhoId)
         {
             await Init();
@@ -177,11 +172,6 @@ namespace InternProj.Data
             return result;
         }
 
-        /// <summary>
-        /// Saves a DonViTinh to the database. If the DonViTinh hasn't existed in the database, a new DonViTinh is created; otherwise, the existing DonViTinh is updated.
-        /// </summary>
-        /// <param name="item">The DonViTinh to save.</param>
-        /// <returns>The ID of the saved DonViTinh.</returns>
         public async Task<int> SaveAsync(PhieuNhapKhoHeader header, IList<PhieuNhapKhoRawData> lines)
         {
             await Init();

@@ -166,7 +166,7 @@ namespace InternProj.PageModels
                 SelectedSP = null;
                 DanhSachDong.Clear();
             }
-            catch (Exception ex)
+            catch
             {
                 await Shell.Current.DisplayAlertAsync("Lỗi", "Phiếu xuất kho đã tồn tại", "OK");
                 await LoadData();

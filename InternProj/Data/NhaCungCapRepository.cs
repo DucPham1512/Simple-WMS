@@ -83,11 +83,6 @@ namespace InternProj.Data
             return NhaCungCap;
         }
 
-        /// <summary>
-        /// Retrieves a specific DonViTinh by its name.
-        /// </summary>
-        /// <param name="Ma_Ncc">The ID of the DonViTinh.</param>
-        /// <returns>A <see cref="NhaCungCap"/> object if found; otherwise, null.</returns>
         public async Task<NhaCungCap?> GetAsync(int Id)
         {
             await Init();
@@ -123,20 +118,19 @@ namespace InternProj.Data
             await Init();
 
 
+            if (item is null)
+                throw new Exception("Dữ liệu nhà cung cấp không hợp lệ.");
+
             string? error = item switch
             {
-                null => "Dữ liệu nhà cung cấp không hợp lệ.",
-
                 { Ma_Ncc: var s } when string.IsNullOrWhiteSpace(s)
                     => "Mã nhà cung cấp không được để trống.",
-
                 { Ten_Ncc: var s } when string.IsNullOrWhiteSpace(s)
                     => "Tên nhà cung cấp không được để trống.",
-
                 _ => null
             };
 
-            if(error is not null)
+            if (error is not null)
                 throw new Exception(error);
 
             await using var connection = new SqliteConnection(Constants.DatabasePath);

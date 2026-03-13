@@ -84,7 +84,7 @@ namespace InternProj.PageModels
 
                 await Shell.Current.DisplayAlertAsync("Thông báo", "Đã lưu thành công", "OK");
             }
-            catch (Exception ex)
+            catch
             {
                 await Shell.Current.DisplayAlertAsync("Lỗi", $"Nhà cung cấp đã tồn tại.", "OK");
                 await LoadData();
@@ -101,7 +101,7 @@ namespace InternProj.PageModels
             {
                 await _repository.DeleteItemAsync(item);
             }
-            catch (Exception ex)
+            catch
             {
                 await Shell.Current.DisplayAlertAsync("Lỗi", $"Không thể xóa '{item.Ten_Ncc}'", "OK");
                 return;
@@ -136,7 +136,7 @@ namespace InternProj.PageModels
                 await _repository.SaveItemAsync(donVi, true);
 
             }
-            catch (Exception ex)
+            catch
             {
                 await Shell.Current.DisplayAlertAsync("Lỗi", "Nhà cung cấp đã tồn tại", "OK");
                 await LoadData();

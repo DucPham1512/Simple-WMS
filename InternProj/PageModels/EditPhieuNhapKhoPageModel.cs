@@ -124,7 +124,7 @@ namespace InternProj.PageModels
                 SoLuongInput = string.Empty;
                 DonGiaInput = string.Empty;
             }
-            catch (Exception ex)
+            catch
             {
                 await Shell.Current.DisplayAlertAsync("Lỗi", $"Không thể thêm '{SelectedSanPham.Ten_SP}' ", "OK");
             }

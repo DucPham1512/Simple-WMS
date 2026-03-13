@@ -122,29 +122,20 @@ public static class PhieuXuatKhoPrintTemplate
                 Ngày {{header.Ngay_Xuat_Kho.Day}} tháng {{header.Ngay_Xuat_Kho.Month}} năm {{header.Ngay_Xuat_Kho.Year}}
             </div>
 
-            <div class="subtitle">
-                <b>Số: {{header.So_Phieu_Xuat_Kho}}</b>
-            </div>
-
             <div class="section-title">I. Thông tin chung</div>
 
             <div class="info-row">
-                <div class="label">1. Lệnh giao hàng:</div>
+                <div class="label">1. Số phiếu xuất kho:</div>
                 <div class="value"><b>{{header.So_Phieu_Xuat_Kho}}</b></div>
             </div>
 
             <div class="info-row">
-                <div class="label">2. Cửa hàng:</div>
-                <div class="value"><b>Khách lẻ</b></div>
-            </div>
-
-            <div class="info-row">
-                <div class="label">3. Kho:</div>
+                <div class="label">2. Kho:</div>
                 <div class="value"><b>{{header.Ten_Kho}}</b></div>
             </div>
 
             <div class="info-row">
-                <div class="label">4. Ghi chú:</div>
+                <div class="label">3. Ghi chú:</div>
                 <div class="value"><b>{{header.Ghi_Chu}}</b></div>
             </div>
 

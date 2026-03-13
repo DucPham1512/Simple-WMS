@@ -22,7 +22,7 @@ public class DatabaseWatcherService
         }
 
         // 3. Split it into Folder and Filename
-        string folderPath = Path.GetDirectoryName(fullPath);
+        string? folderPath = Path.GetDirectoryName(fullPath);
         string fileName = Path.GetFileName(fullPath);
 
         // 4. Initialize the watcher with the CLEAN folder path

@@ -111,11 +111,6 @@ namespace InternProj.Data
             return item;
         }
 
-        /// <summary>
-        /// Retrieves a specific DonViTinh by its name.
-        /// </summary>
-        /// <param name="Ma_LSP">The ID of the DonViTinh.</param>
-        /// <returns>A <see cref="LoaiSanPham"/> object if found; otherwise, null.</returns>
         public async Task<List<PhieuXuatKhoData>> GetAsync(int XuatKhoId)
         {
             await Init();

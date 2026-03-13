@@ -14,7 +14,6 @@ namespace InternProj.Data
     /// </summary>
     public class XuatNhapTonDataRepository
     {
-        private bool _hasBeenInitialized = false;
         private readonly ILogger _logger;
 
         /// <summary>

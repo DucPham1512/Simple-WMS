@@ -81,11 +81,6 @@ namespace InternProj.Data
             return Kho;
         }
 
-        /// <summary>
-        /// Retrieves a specific Kho by its name.
-        /// </summary>
-        /// <param name="Ten_Kho">The ID of the Kho.</param>
-        /// <returns>A <see cref="Kho"/> object if found; otherwise, null.</returns>
         public async Task<Kho?> GetAsync(int ID)
         {
             await Init();

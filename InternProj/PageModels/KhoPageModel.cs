@@ -92,7 +92,7 @@ namespace InternProj.PageModels
             {
                 await _repository.DeleteItemAsync(item);
             }
-            catch (Exception ex)
+            catch
             {
                 await Shell.Current.DisplayAlertAsync("Lỗi", $"Không thể xóa '{item.Ten_Kho}'", "OK");
                 return;

@@ -113,7 +113,7 @@ public static class PhieuNhapKhoPrintTemplate
             </table>
 
             <div class="footer">
-                <div><b>Tổng số tiền:</b> {{tongTien.ToString("N2", CultureInfo.InvariantCulture)}}</div>
+                <div><b>Tổng số tiền:</b> {{tongTien.ToString("N4", CultureInfo.InvariantCulture)}}</div>
                 <div><b>Tổng số tiền (bằng chữ):</b> {{tongTienChu}}</div>
             </div>
 

@@ -2,7 +2,9 @@
 using CommunityToolkit.Mvvm.Input;
 using InternProj.Services;
 using InternProj.Models;
+#if WINDOWS
 using Microsoft.UI.Xaml.Controls;
+#endif
 
 public partial class XuatKhoPrintPreviewPageModel : ObservableObject
 {
